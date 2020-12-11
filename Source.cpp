@@ -5,7 +5,6 @@
 
 int main()
 {
-
     std::vector<sf::VertexArray> vertices; // vector in wich all vertexArrays will be stored
     vertices.push_back(sf::VertexArray()); // The 1. Line
     vertices[0].setPrimitiveType(sf::LinesStrip); // The 1. Line's PrimitiveType: see https://www.sfml-dev.org/tutorials/2.4/graphics-vertex-array.php
@@ -59,7 +58,7 @@ int main()
                 vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x, sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y), curr_col));
                 
                 //printing coordinates
-                std::cout << "Pointed at " << sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x << ",  " << sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y << std::endl;
+                //std::cout << "Pointed at " << sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x << ",  " << sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y << std::endl;
 
                 last_Mouse_pos = sf::Mouse::getPosition();
             }
@@ -69,7 +68,7 @@ int main()
         //curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);
 
 
-        //std::cout << "vertices in line " << lines_number << ": " << vertices[lines_number].getVertexCount() << std::endl;
+        std::cout << "vertices in line " << lines_number << ": " << vertices[lines_number].getVertexCount() << std::endl;
 
         window.clear(sf::Color::White); //Clear the window with a specific color
 
