@@ -1,19 +1,19 @@
-#include "SFML\Graphics.hpp"
+ï»¿#include "SFML\Graphics.hpp"
 #include <iostream>
 #include <vector>
 
 int main()
 {
-	std::vector<sf::VertexArray> vertices; // vector in wich all vertexArrays will be stored
-	vertices.push_back(sf::VertexArray()); // The 1. Line
-	vertices[0].setPrimitiveType(sf::LinesStrip); // The 1. Line's PrimitiveType: see https://www.sfml-dev.org/tutorials/2.4/graphics-vertex-array.php
-	int lines_number = 0; // The index of the current_line
-	int locked = false; // When a mouse button is pressed this will change to true until a mouse button is released again
+    std::vector<sf::VertexArray> vertices; // vector in wich all vertexArrays will be stored
+    vertices.push_back(sf::VertexArray()); // The 1. Line
+    vertices[0].setPrimitiveType(sf::LinesStrip); // The 1. Line's PrimitiveType: see https://www.sfml-dev.org/tutorials/2.4/graphics-vertex-array.php
+    int lines_number = 0; // The index of the current_line
+    int locked = false; // When a mouse button is pressed this will change to true until a mouse button is released again
 
 	sf::Color curr_col = sf::Color::Black;
 	sf::Vector2i last_Mouse_pos(0, 0);
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "µPaint", sf::Style::Close, sf::ContextSettings(0, 0, 0)); // The window everything is rendered to
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "ï¿½Paint", sf::Style::Close, sf::ContextSettings(0, 0, 0)); // The window everything is rendered to
 	window.setFramerateLimit(60);
 
 	sf::Vector2f Border_Offset(-5, -25); // Compensate for the Window frame when calling window.getPosition()
@@ -46,15 +46,15 @@ int main()
 			}
 		}
 
-		if (locked) // See "locked" definition
-		{
-			if (last_Mouse_pos != sf::Mouse::getPosition()) // When the Mouse hasn't moved don't add any new Vertex (save memory)
-			{
-				//.append(Position, Color) : .append(MousePos - WindowPos + MouseOffset, curr_col)
-				vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x, sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y), curr_col));
+        if (locked) // See "locked" definition
+        {
+            if (last_Mouse_pos != sf::Mouse::getPosition()) // When the Mouse hasn't moved don't add any new Vertex (save memory)
+            {
+                //.append(Position, Color) : .append(MousePos - WindowPos + MouseOffset, curr_col)
+                vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x, sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y), curr_col));
 
-				//printing coordinates
-				std::cout << "Pointed at " << sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x << ",  " << sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y << std::endl;
+                //printing coordinates
+                //std::cout << "Pointed at " << sf::Mouse::getPosition().x - window.getPosition().x + Border_Offset.x << ",  " << sf::Mouse::getPosition().y - window.getPosition().y + Border_Offset.y << std::endl;
 
 				last_Mouse_pos = sf::Mouse::getPosition();
 			}
@@ -62,7 +62,7 @@ int main()
 
 		//curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);
 
-		//std::cout << "vertices in line " << lines_number << ": " << vertices[lines_number].getVertexCount() << std::endl;
+        std::cout << "vertices in line " << lines_number << ": " << vertices[lines_number].getVertexCount() << std::endl;
 
 		window.clear(sf::Color::White); //Clear the window with a specific color
 
