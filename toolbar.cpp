@@ -20,12 +20,11 @@ sf::RectangleShape btn_bg_circleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_polygonTool(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
-extern sf::RenderWindow toolbar(sf::VideoMode(120, 160), "Toolbar", sf::Style::Titlebar);
+sf::RenderWindow toolbar(sf::VideoMode(120, 160), "Toolbar", sf::Style::Titlebar);
 
-
-void init_toolbar()
+void init_toolbar(sf::Vector2i artBoardPos)
 {
-	toolbar.setPosition(sf::Vector2i(100,100));
+	toolbar.setPosition({ artBoardPos.x - 123, artBoardPos.y });
 
 	icon_tools.loadFromFile("tool_icons.png");
 
@@ -41,15 +40,12 @@ void init_toolbar()
 	sprt_icon_toolbar.setTexture(icon_tools);
 
 	sprt_icon_toolbar.setScale(0.2f, 0.2f);
-
 }
 
 void toolbar_action()
 {
 	sf::Event evnt;
 
-	//boardMouseX = sf::Mouse::getPosition(board).x;
-	//boardMouseY = sf::Mouse::getPosition(board).y;
 	toolbarMouseX = sf::Mouse::getPosition(toolbar).x;
 	toolbarMouseY = sf::Mouse::getPosition(toolbar).y;
 

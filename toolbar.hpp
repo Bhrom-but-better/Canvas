@@ -9,6 +9,6 @@ extern bool fillSelected;
 extern bool circleSelected;
 extern bool polygonSelected;
 
-void init_toolbar();
+void init_toolbar(sf::Vector2i drawBoardPos);
 
 void toolbar_action();
