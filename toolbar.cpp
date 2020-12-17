@@ -1,6 +1,4 @@
-#include "toolbar.hpp";
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include "toolbar.hpp"
 
 bool penSelected = false;
 bool brushSelected = false;

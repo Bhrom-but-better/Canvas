@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML\Graphics.hpp"
+#include <vector>
 
 extern bool penSelected;
 extern bool brushSelected;
