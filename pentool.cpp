@@ -1,7 +1,7 @@
 #include "pentool.hpp"
 
 
-void pentool_action() 
+void pentool_action(sf::RenderWindow &artBoard) 
 {
 	std::vector<sf::VertexArray> vertices;
 	vertices.push_back(sf::VertexArray(sf::LineStrip));
@@ -51,5 +51,5 @@ void pentool_action()
 		//if(vertices[i].getVertexCount() > 0)
 			//std::cout << "X Y : " << vertices[i][vertices[i].getVertexCount() - 1].position.x << " " << vertices[i][vertices[i].getVertexCount() - 1].position.y << std::endl;
 	}
-	artBoard.display();
+	//artBoard.display();
 }

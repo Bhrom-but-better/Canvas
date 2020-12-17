@@ -5,4 +5,4 @@
 
 //extern sf::RenderWindow artBoard;
 
-void pentool_action();
+void pentool_action(sf::RenderWindow &artBoard);

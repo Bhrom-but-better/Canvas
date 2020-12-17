@@ -1,14 +1,15 @@
 ﻿//#include "SFML/Graphics.hpp"
 #include "toolbar.hpp"
 //#include <iostream>
-//#include <vector>
-#include "pentool.hpp"
+#include <vector>
+#include "save.hpp"
+//#include "pentool.hpp"
 
 sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 
 int main()
 {
-	/*std::vector<sf::VertexArray> vertices;
+	std::vector<sf::VertexArray> vertices;
 	vertices.push_back(sf::VertexArray());
 	vertices[0].setPrimitiveType(sf::LineStrip); //The end vertex of one line is used as the start vertex of the next one
 	int lines_number = 0;
@@ -16,7 +17,7 @@ int main()
 
 	sf::Color curr_col = sf::Color::Black;
 	sf::Vector2i last_Mouse_pos(0, 0);
-	*/
+
 	init_toolbar(artBoard.getPosition());
 
 	artBoard.setFramerateLimit(60);
@@ -24,8 +25,9 @@ int main()
 
 	artBoard.clear(sf::Color::White);
 
-	sf::Texture tex;
-	sf::Image image;
+	//sf::Texture tex;
+	//tex.create(artBoard.getSize());
+	//sf::Image image;
 
 	while (artBoard.isOpen())
 	{
@@ -42,8 +44,8 @@ int main()
 
 			if (penSelected)
 			{
-				pentool_action();
-			}/*
+				//pentool_action(artBoard);
+			//}
 
 				if (evnt.type == sf::Event::MouseButtonPressed)
 				{
@@ -94,24 +96,26 @@ int main()
 				//std::cout << "X Y : " << vertices[i][vertices[i].getVertexCount() - 1].position.x << " " << vertices[i][vertices[i].getVertexCount() - 1].position.y << std::endl;
 		}
 
-				*/
-			//artBoard.clear(sf::Color::White);
-			//artBoard.display();
-
-
-			//tex.update(artBoard);
-			//image = tex.copyToImage();
-
-		}
 
 		//artBoard.clear(sf::Color::White);
+		artBoard.display();
+		update(artBoard);
+
+		//tex.update(artBoard);
+		//image = tex.copyToImage();
+
+	}
+
+
+	save();
+	//artBoard.clear(sf::Color::White);
 	//tex.update(artBoard);
 
 	//sf::Image image;
 	//image = tex.copyToImage();
-	}
-		//if (!image.saveToFile("yes.png"))
-			//return -1;
+
+	//if (!image.saveToFile("toto.png"))
+		//return -1;
 
 	return 0;
 }
