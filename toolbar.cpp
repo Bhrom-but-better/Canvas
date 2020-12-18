@@ -1,4 +1,4 @@
-#include "toolbar.hpp"
+#include "global.hpp"
 
 bool penSelected = false;
 bool brushSelected = false;
@@ -22,7 +22,7 @@ sf::RenderWindow toolbar(sf::VideoMode(120, 160), "Toolbar", sf::Style::Titlebar
 
 void init_toolbar(sf::Vector2i artBoardPos)
 {
-	toolbar.setPosition({ artBoardPos.x - 123, artBoardPos.y });
+	toolbar.setPosition({ artBoardPos.x - 180, artBoardPos.y });
 
 	icon_tools.loadFromFile("tool_icons.png");
 

@@ -1,7 +1,7 @@
-#include "save.hpp"
+#include "global.hpp"
 #include<iostream>
 
-int save(sf::RenderWindow &artBoard) {
+int save(sf::RenderWindow& artBoard) {
 	sf::Texture texture;
 	texture.create(artBoard.getSize().x, artBoard.getSize().y);
 	texture.update(artBoard);
