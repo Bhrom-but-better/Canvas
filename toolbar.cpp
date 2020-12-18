@@ -51,65 +51,68 @@ void toolbar_action()
 	{
 		if (evnt.type == sf::Event::MouseButtonPressed)
 		{
-			//pentool selection
-			if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+			if (evnt.mouseButton.button == sf::Mouse::Left)
 			{
-				penSelected = penSelected ? 0 : 1;
-				brushSelected = false;
-				eraserSelected = false;
-				fillSelected = false;
-				circleSelected = false;
-				polygonSelected = false;
-			}
-			//brushtool selection
-			else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
-			{
-				brushSelected = brushSelected ? 0 : 1;
-				penSelected = false;
-				eraserSelected = false;
-				fillSelected = false;
-				circleSelected = false;
-				polygonSelected = false;
-			}
-			//erasertool selection
-			else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
-			{
-				eraserSelected = eraserSelected ? 0 : 1;
-				penSelected = false;
-				brushSelected = false;
-				fillSelected = false;
-				circleSelected = false;
-				polygonSelected = false;
-			}
-			//filltool selection
-			else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
-			{
-				fillSelected = fillSelected ? 0 : 1;
-				penSelected = false;
-				brushSelected = false;
-				eraserSelected = false;
-				circleSelected = false;
-				polygonSelected = false;
-			}
-			//circletool selection
-			else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
-			{
-				circleSelected = circleSelected ? 0 : 1;
-				penSelected = false;
-				brushSelected = false;
-				eraserSelected = false;
-				fillSelected = false;
-				polygonSelected = false;
-			}
-			//polygontool selection
-			else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
-			{
-				polygonSelected = polygonSelected ? 0 : 1;
-				penSelected = false;
-				brushSelected = false;
-				eraserSelected = false;
-				fillSelected = false;
-				circleSelected = false;
+				//pentool selection
+				if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+				{
+					penSelected = penSelected ? 0 : 1;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+				}
+				//brushtool selection
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+				{
+					brushSelected = brushSelected ? 0 : 1;
+					penSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+				}
+				//erasertool selection
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+				{
+					eraserSelected = eraserSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+				}
+				//filltool selection
+				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
+				{
+					fillSelected = fillSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+				}
+				//circletool selection
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
+				{
+					circleSelected = circleSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					polygonSelected = false;
+				}
+				//polygontool selection
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
+				{
+					polygonSelected = polygonSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+				}
 			}
 		}
 	}

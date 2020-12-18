@@ -3,6 +3,4 @@
 
 //extern sf::RenderWindow artBoard;
 
-void update(sf::RenderWindow &artBoard);
-
-int save();
+int save(sf::RenderWindow &artBoard);

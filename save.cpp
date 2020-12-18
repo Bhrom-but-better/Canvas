@@ -1,19 +1,15 @@
 #include "save.hpp"
 #include<iostream>
 
-sf::Texture tex;
-
-void update(sf::RenderWindow &artBoard) {
-	//sf::Texture tex;
-	tex.create(1280, 720);
-	
-	//if(!tex.update(artBoard))
-		//std::cout << "Fuck" << std::endl;
-	
-}
-
-int save() {
-	sf::Image image;
-	if (!image.saveToFile("toto.png"))
-	return -1;
+int save(sf::RenderWindow &artBoard) {
+	sf::Texture texture;
+	texture.create(artBoard.getSize().x, artBoard.getSize().y);
+	texture.update(artBoard);
+	if (texture.copyToImage().saveToFile("../last drawing.png"))
+	{
+		std::cout << "Art saved to " << "last drawing.png" << std::endl;
+		return 0;
+	}
+	else
+		return -1;
 }
