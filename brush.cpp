@@ -1,10 +1,10 @@
-#include "pentool.hpp"
+#include "brush.hpp"
 
-std::vector<sf::VertexArray> vertices;
+//std::vector<sf::VertexArray> vertices;
 
-void pentool_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
-	vertices.push_back(sf::VertexArray(sf::LineStrip));
+	vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 	int line_number = 0;
 	bool mousePressed = false;
 
@@ -25,7 +25,7 @@ void pentool_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		if (evnt.mouseButton.button == sf::Mouse::Left)
 		{
 			line_number++;
-			vertices.push_back(sf::VertexArray(sf::LineStrip));
+			vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 
 			mousePressed = false;
 		}
@@ -45,12 +45,12 @@ void pentool_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 	//(*artBoard).display();
 }
 
-void pentool_draw(sf::RenderWindow& artBoard)
+void brush_draw(sf::RenderWindow& artBoard)
 {
 	(artBoard).clear(sf::Color::White);
 	for (auto i = 0; i < vertices.size(); i++)
 	{
-		///printf("%d\n", i);
+		//printf("%d\n", i);
 		(artBoard).draw(vertices[i]);
 		//if(vertices[i].getVertexCount() > 0)
 			//std::cout << "X Y : " << vertices[i][vertices[i].getVertexCount() - 1].position.x << " " << vertices[i][vertices[i].getVertexCount() - 1].position.y << std::endl;

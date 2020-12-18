@@ -27,6 +27,9 @@
     <ClCompile Include="save.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="brush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="toolbar.hpp">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="save.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="brush.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

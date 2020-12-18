@@ -1,9 +1,10 @@
 ﻿//#include "SFML/Graphics.hpp"
 #include "toolbar.hpp"
-#include <iostream>
-#include <vector>
+//#include <iostream>
+//#include <vector>
 #include "save.hpp"
 #include "pentool.hpp"
+#include "brush.hpp"
 
 sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 
@@ -81,23 +82,34 @@ int main()
 				}*/
 			}
 
+			if (brushSelected)
+			{
+				brush_action(artBoard, evnt);
+
+			}
 			//std::cout << "vertices in line " << lines_number << ": " << vertices[lines_number].getVertexCount() << std::endl;
 
 			//std::cout << "getPos : " << sf::Mouse::getPosition().x - window.getPosition().x - Border_Offset.x << " " << sf::Mouse::getPosition().y - window.getPosition().y - Border_Offset.y << std::endl;
+
+
+			pentool_draw(artBoard);
+
+			brush_draw(artBoard);
+			
+			//pentool_draw(artBoard);
+
+			/*artBoard.clear(sf::Color::White);
+			for (auto i = 0; i < vertices.size(); i++)
+			{
+				artBoard.draw(vertices[i]);
+				//if(vertices[i].getVertexCount() > 0)
+				//std::cout << "X Y : " << vertices[i][vertices[i].getVertexCount() - 1].position.x << " " << vertices[i][vertices[i].getVertexCount() - 1].position.y << std::endl;
+			}*/
+
+			artBoard.display();
 		}
 
-		pentool_draw(artBoard);
-
-		/*artBoard.clear(sf::Color::White);
-		for (auto i = 0; i < vertices.size(); i++)
-		{
-			artBoard.draw(vertices[i]);
-			//if(vertices[i].getVertexCount() > 0)
-				//std::cout << "X Y : " << vertices[i][vertices[i].getVertexCount() - 1].position.x << " " << vertices[i][vertices[i].getVertexCount() - 1].position.y << std::endl;
-		}*/
-
-		artBoard.display();
-	}
-
+	}	
+	
 	return 0;
 }
