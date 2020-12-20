@@ -1,5 +1,4 @@
 #include "global.hpp"
-#include<iostream>
 
 int save(sf::RenderWindow& artBoard) {
 	sf::Texture texture;

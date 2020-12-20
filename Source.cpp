@@ -39,7 +39,8 @@ int main()
 
 			if (penSelected)
 			{
-				pentool_action(artBoard, evnt);
+				vertices[lines_number].setPrimitiveType(sf::LineStrip);
+				pen_action(artBoard, evnt);
 			}
 
 			if (brushSelected)

@@ -20,10 +20,13 @@ extern std::vector<sf::VertexArray> vertices;
 void init_toolbar(sf::Vector2i artBoardPos);
 void toolbar_action();
 
-void pentool_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
+void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, int radius);
+
 void canvas_draw(sf::RenderWindow& artBoard);
+void mouseToggle(sf::Event& evnt);
 
 int save(sf::RenderWindow& artBoard);
 

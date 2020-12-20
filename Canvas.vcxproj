@@ -152,16 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="pentool.cpp" />
     <ClCompile Include="save.cpp" />
-    <ClCompile Include="brush.cpp" />
     <ClCompile Include="toolbar.cpp" />
+    <ClCompile Include="utility.cpp" />
+	<ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="brush.hpp" />
-    <ClInclude Include="save.hpp" />
-    <ClInclude Include="pentool.hpp" />
-    <ClInclude Include="toolbar.hpp" />
+    <ClInclude Include="global.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
