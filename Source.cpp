@@ -10,6 +10,7 @@ bool mousePressedDown = false; // When a mouse button is pressed this will chang
 
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::Black;
+sf::Color bg_col = sf::Color::White;
 sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
@@ -22,7 +23,7 @@ int main()
 	artBoard.setFramerateLimit(60);
 	artBoard.setVerticalSyncEnabled(false);
 
-	artBoard.clear(sf::Color::White);
+	artBoard.clear(bg_col);
 
 	while (artBoard.isOpen())
 	{
@@ -37,6 +38,21 @@ int main()
 				artBoard.close();
 			}
 
+			if (evnt.type == sf::Event::KeyPressed) // Handling the closure of the artBoard
+			{
+				if (evnt.key.code == sf::Keyboard::Key::Q)
+				{
+					save(artBoard);
+					artBoard.close();
+				}
+				if (evnt.key.code == sf::Keyboard::Key::C)
+				{
+					vertices.clear();
+					lines_number = 0;
+					vertices.push_back(sf::VertexArray());
+				}
+			}
+
 			if (penSelected)
 			{
 				vertices[lines_number].setPrimitiveType(sf::LineStrip);
@@ -49,11 +65,19 @@ int main()
 				brush_action(artBoard, evnt);
 			}
 
+			if (eraserSelected)
+			{
+				sf::Color prev_col = curr_col;
+				curr_col = bg_col;
+				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
+				brush_action(artBoard, evnt);
+				curr_col = prev_col;
+			}
+
 			canvas_draw(artBoard);
 			artBoard.display();
 		}
+	}
 
-	}	
-	
 	return 0;
 }

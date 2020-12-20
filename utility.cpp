@@ -2,8 +2,8 @@
 
 void canvas_draw(sf::RenderWindow& artBoard)
 {
-	artBoard.clear(sf::Color::White);
-	for (auto i = 0; i < vertices.size(); i++)
+	artBoard.clear(bg_col);
+	for (auto i = 0; i < (int)vertices.size(); i++)
 	{
 		artBoard.draw(vertices[i]);
 	}
@@ -34,23 +34,23 @@ void mouseToggle(sf::Event& evnt)
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, int radius)
 {
-    float m, mult;
+	float m, mult;
 
-    if (newPos.y != lastPos.y) {
-        m = - (float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
-        mult = sqrt((radius * radius) / (m * m + 1));
-    }
+	if (newPos.y != lastPos.y) {
+		m = -(float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
+		mult = sqrt((radius * radius) / (m * m + 1));
+	}
 
-    else {
-        m = 1; // m = 1/0
-        mult = (float)radius;
-    }
+	else {
+		m = 1; // m = 1/0
+		mult = (float)radius;
+	}
 
-    std::cout << "Old pos: " << lastPos.x << " " << lastPos.y << '\n';
-    std::cout << "New pos: " << newPos.x << " " << newPos.y << '\n';
-    std::cout << newPos.x - mult << " " << lastPos.y - m * mult << '\n';
-    std::cout << newPos.x + mult << " " << lastPos.y + m * mult << '\n';
+	std::cout << "Old pos: " << lastPos.x << " " << lastPos.y << '\n';
+	std::cout << "New pos: " << newPos.x << " " << newPos.y << '\n';
+	std::cout << newPos.x - mult << " " << lastPos.y - m * mult << '\n';
+	std::cout << newPos.x + mult << " " << lastPos.y + m * mult << '\n';
 
-    vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x - mult, newPos.y - m * mult), curr_col));
-    vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + mult, newPos.y + m * mult), curr_col));
+	vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x - mult, newPos.y - m * mult), curr_col));
+	vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + mult, newPos.y + m * mult), curr_col));
 }

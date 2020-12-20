@@ -14,6 +14,7 @@ extern bool mousePressedDown;
 extern int lines_number;
 
 extern sf::Color curr_col;
+extern sf::Color bg_col;
 extern sf::Vector2i last_Mouse_pos;
 extern std::vector<sf::VertexArray> vertices;
 
@@ -29,4 +30,3 @@ void canvas_draw(sf::RenderWindow& artBoard);
 void mouseToggle(sf::Event& evnt);
 
 int save(sf::RenderWindow& artBoard);
-
