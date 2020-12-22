@@ -9,12 +9,14 @@ int lines_number = 0;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
 
 std::vector<sf::VertexArray> vertices;
-sf::Color curr_col = sf::Color::Black;
-sf::Color bg_col = sf::Color::White;
+sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
+sf::Color bg_col = sf::Color::White; //temporary. untill prompting user for input
 sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
 {
+	artBoard.setPosition({ 143, 90 }); //temporary. untill prompting user for size
+
 	vertices.push_back(sf::VertexArray());
 	vertices[0].setPrimitiveType(sf::LineStrip);
 

@@ -8,6 +8,7 @@ extern bool eraserSelected;
 extern bool fillSelected;
 extern bool circleSelected;
 extern bool polygonSelected;
+extern bool colorPickSelected;
 
 extern bool mousePressedDown;
 
@@ -23,6 +24,7 @@ void toolbar_action();
 
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void colorPick_action(sf::Vector2i mouse_pos);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, int radius);
 

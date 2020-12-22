@@ -6,6 +6,7 @@ bool eraserSelected = false;
 bool fillSelected = false;
 bool circleSelected = false;
 bool polygonSelected = false;
+bool colorPickSelected = false;
 
 int toolbarMouseX, toolbarMouseY;
 
@@ -16,13 +17,14 @@ sf::RectangleShape btn_bg_eraserTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_fillTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_circleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_polygonTool(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
 sf::RenderWindow toolbar(sf::VideoMode(120, 160), "Toolbar", sf::Style::Titlebar);
 
 void init_toolbar(sf::Vector2i artBoardPos)
 {
-	toolbar.setPosition({ artBoardPos.x - 180, artBoardPos.y });
+	toolbar.setPosition({ 20, 90 }); //temporary. untill prompting user for size
 
 	icon_tools.loadFromFile("tool_icons.png");
 
@@ -34,6 +36,7 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	btn_bg_fillTool.setPosition(0.0f, 40.0f);
 	btn_bg_circleTool.setPosition(40.0f, 40.0f);
 	btn_bg_polygonTool.setPosition(80.0f, 40.0f);
+	btn_bg_colorPickTool.setPosition(0.0f, 80.0f);
 
 	sprt_icon_toolbar.setTexture(icon_tools);
 
@@ -112,6 +115,11 @@ void toolbar_action()
 					eraserSelected = false;
 					fillSelected = false;
 					circleSelected = false;
+				}
+				//colorPickTool selection
+				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					colorPickSelected = true;
 				}
 			}
 		}
@@ -195,6 +203,12 @@ void toolbar_action()
 	{
 		btn_bg_polygonTool.setFillColor(sf::Color(70, 70, 70));
 	}
+	//handling colorPickTool
+	btn_bg_colorPickTool.setFillColor(curr_col);
+	if (colorPickSelected)
+	{
+		colorPick_action(sf::Mouse::getPosition());
+	}
 
 	toolbar.clear(sf::Color(70, 70, 70));
 
@@ -204,6 +218,7 @@ void toolbar_action()
 	toolbar.draw(btn_bg_fillTool);
 	toolbar.draw(btn_bg_circleTool);
 	toolbar.draw(btn_bg_polygonTool);
+	toolbar.draw(btn_bg_colorPickTool);
 
 	toolbar.draw(sprt_icon_toolbar);
 	toolbar.display();

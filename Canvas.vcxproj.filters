@@ -21,27 +21,18 @@
     <ClCompile Include="toolbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pentool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="save.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="brush.cpp">
+    <ClCompile Include="utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="toolbar.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pentool.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="save.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="brush.hpp">
+    <ClInclude Include="global.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
