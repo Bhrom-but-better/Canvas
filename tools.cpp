@@ -33,7 +33,6 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		{
 			vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), curr_col));
 			last_Mouse_pos = sf::Mouse::getPosition();
-			std::cout << "X Y : " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.x << " " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.y << std::endl;
 		}
 
 		//curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);

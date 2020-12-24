@@ -6,7 +6,10 @@
 sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 
 int lines_number = 0;
+int undo_count = 0;
+bool last_cleared = false;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
+
 
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
@@ -15,7 +18,7 @@ sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
 {
-	artBoard.setPosition({ 143, 90 }); //temporary. untill prompting user for size
+	artBoard.setPosition({ 120, 90 }); //temporary. untill prompting user for size
 
 	vertices.push_back(sf::VertexArray());
 	vertices[0].setPrimitiveType(sf::LineStrip);
@@ -34,6 +37,7 @@ int main()
 		sf::Event evnt;
 		while (artBoard.pollEvent(evnt))
 		{
+			printf("Current undo_count %d Current vertices size %d\n", undo_count, vertices.size());
 			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
 			{
 				save(artBoard);
@@ -49,10 +53,23 @@ int main()
 				}
 				if (evnt.key.code == sf::Keyboard::Key::C)
 				{
-					vertices.clear();
-					lines_number = 0;
-					vertices.push_back(sf::VertexArray());
+					last_cleared = true;
 				}
+
+				if (evnt.key.code == sf::Keyboard::Key::Z) {
+					if (last_cleared) {
+						last_cleared = false;
+					}
+
+					else if(undo_count < (int)vertices.size())
+						++undo_count;
+
+				}
+				if (evnt.key.code == sf::Keyboard::Key::X) {
+					if(undo_count > 0)
+						--undo_count;
+				}
+
 			}
 
 			if (penSelected)
@@ -74,10 +91,11 @@ int main()
 				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
 				brush_action(artBoard, evnt);
 				curr_col = prev_col;
-			}
+			}	
 
 			canvas_draw(artBoard);
 			artBoard.display();
+			
 		}
 	}
 

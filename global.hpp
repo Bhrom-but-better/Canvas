@@ -10,9 +10,12 @@ extern bool circleSelected;
 extern bool polygonSelected;
 extern bool colorPickSelected;
 
-extern bool mousePressedDown;
 
+
+extern bool mousePressedDown;
+extern bool last_cleared;
 extern int lines_number;
+extern int undo_count;
 
 extern sf::Color curr_col;
 extern sf::Color bg_col;
