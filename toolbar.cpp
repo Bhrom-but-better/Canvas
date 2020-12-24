@@ -122,6 +122,40 @@ void toolbar_action()
 					colorPickSelected = true;
 				}
 			}
+
+			if (evnt.mouseButton.button == sf::Mouse::Right)
+			{
+				//handle brush size
+				if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+				{
+					//auto selecting brushtool
+					brushSelected = true;
+					penSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+
+					//changing size
+					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
+					std::cout << "brush size: " << brushSize * 2 << "\n";
+				}
+				//handle eraser aize
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
+				{
+					//auto selecting erasertool
+					eraserSelected = true;
+					penSelected = false;
+					brushSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					polygonSelected = false;
+
+					//changing size
+					eraserSize = brushSize_action(sf::Mouse::getPosition(), eraserSize);
+					std::cout << "eraser size: " << eraserSize * 2 << "\n";
+				}
+			}
 		}
 	}
 

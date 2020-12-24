@@ -81,7 +81,7 @@ int main()
 			if (brushSelected)
 			{
 				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
-				brush_action(artBoard, evnt);
+				brush_action(artBoard, evnt, brushSize);
 			}
 
 			if (eraserSelected)
@@ -89,7 +89,7 @@ int main()
 				sf::Color prev_col = curr_col;
 				curr_col = bg_col;
 				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
-				brush_action(artBoard, evnt);
+				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
 			}	
 
