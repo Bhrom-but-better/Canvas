@@ -34,7 +34,7 @@ void mouseToggle(sf::Event& evnt)
 				last_cleared = false;
 			}
 			if(penSelected || brushSelected){
-				vertices.push_back(sf::VertexArray);
+				vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 				lines_number++;
 			}
 

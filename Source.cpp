@@ -10,6 +10,8 @@ int undo_count = 0;
 bool last_cleared = false;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
 
+float brushSize = 2.0;
+float eraserSize = 2.0;
 
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
