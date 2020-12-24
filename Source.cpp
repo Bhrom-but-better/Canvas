@@ -8,6 +8,9 @@ sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, 
 int lines_number = 0;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
 
+float brushSize = 2.0;
+float eraserSize = 2.0;
+
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
 sf::Color bg_col = sf::Color::White; //temporary. untill prompting user for input
@@ -64,7 +67,7 @@ int main()
 			if (brushSelected)
 			{
 				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
-				brush_action(artBoard, evnt);
+				brush_action(artBoard, evnt, brushSize);
 			}
 
 			if (eraserSelected)
@@ -72,13 +75,12 @@ int main()
 				sf::Color prev_col = curr_col;
 				curr_col = bg_col;
 				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
-				brush_action(artBoard, evnt);
+				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
 			}
-
-			canvas_draw(artBoard);
-			artBoard.display();
 		}
+		canvas_draw(artBoard);
+		artBoard.display();
 	}
 
 	return 0;

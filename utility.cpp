@@ -32,25 +32,22 @@ void mouseToggle(sf::Event& evnt)
 	}
 }
 
-void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, int radius)
+void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius)
 {
-	float m, mult;
+	float curr_slope, mult;
 
-	if (newPos.y != lastPos.y) {
-		m = -(float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
-		mult = sqrt((radius * radius) / (m * m + 1));
+	if (newPos.y != lastPos.y)
+	{
+		curr_slope = -(float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
+		mult = sqrt((radius * radius) / (curr_slope * curr_slope + 1));
+		vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x - mult, newPos.y - curr_slope * mult), curr_col));
+		vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + mult, newPos.y + curr_slope * mult), curr_col));
 	}
 
-	else {
-		m = 1; // m = 1/0
-		mult = (float)radius;
+	else
+	{
+		curr_slope = 1; // m = 1/0
+		vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + radius, newPos.y - radius), curr_col));
+		vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + radius, newPos.y + radius), curr_col));
 	}
-
-	std::cout << "Old pos: " << lastPos.x << " " << lastPos.y << '\n';
-	std::cout << "New pos: " << newPos.x << " " << newPos.y << '\n';
-	std::cout << newPos.x - mult << " " << lastPos.y - m * mult << '\n';
-	std::cout << newPos.x + mult << " " << lastPos.y + m * mult << '\n';
-
-	vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x - mult, newPos.y - m * mult), curr_col));
-	vertices[lines_number].append(sf::Vertex(sf::Vector2f(newPos.x + mult, newPos.y + m * mult), curr_col));
 }

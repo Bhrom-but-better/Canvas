@@ -1,9 +1,7 @@
 #include "global.hpp"
 
-void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 {
-	int radius = 5;
-
 	mouseToggle(evnt);
 
 	if (mousePressedDown)
@@ -61,6 +59,13 @@ void colorPick_action(sf::Vector2i mouse_pos)
 		x = sf::Mouse::getPosition(colorPalette).x;
 		y = sf::Mouse::getPosition(colorPalette).y;
 
+		if (x < 0 || y < 0 || x > 80 || y > 40)
+		{
+			colorPickSelected = false;
+			colorPalette.close();
+			break;
+		}
+
 		while (colorPalette.pollEvent(evnt))
 		{
 			if (evnt.type == sf::Event::MouseButtonPressed)
@@ -108,4 +113,59 @@ void colorPick_action(sf::Vector2i mouse_pos)
 		colorPalette.draw(spt_colorPalette);
 		colorPalette.display();
 	}
+}
+
+float brushSize_action(sf::Vector2i mouse_pos, float current)
+{
+	int x, y;
+	float size = current;
+
+	sf::RenderWindow sizePicker(sf::VideoMode(80, 30), "", sf::Style::None);
+	sf::Texture tex_sizePicker;
+	sf::Sprite spt_sizePicker;
+	sf::Event evnt;
+
+	tex_sizePicker.loadFromFile("size_icons.png");
+	spt_sizePicker.setTexture(tex_sizePicker);
+
+	sizePicker.setPosition(mouse_pos);
+
+	while (sizePicker.isOpen())
+	{
+		x = sf::Mouse::getPosition(sizePicker).x;
+		y = sf::Mouse::getPosition(sizePicker).y;
+
+		if (x < 0 || y < 0 || x > 80 || y > 30)
+		{
+			sizePicker.close();
+			break;
+		}
+
+		while (sizePicker.pollEvent(evnt))
+		{
+			if (evnt.type == sf::Event::MouseButtonPressed)
+			{
+				if (evnt.mouseButton.button == sf::Mouse::Left)
+				{
+					if (x >= 0 && x < 26 && y >= 0 && y < 30)
+					{
+						size = 4.0;
+					}
+					else if (x >= 26 && x < 53 && y >= 0 && y < 30)
+					{
+						size = 8.0;
+					}
+					else if (x >= 53 && x < 80 && y >= 0 && y < 30)
+					{
+						size = 10.5;
+					}
+					sizePicker.close();
+				}
+			}
+		}
+		sizePicker.clear(sf::Color(50, 50, 50));
+		sizePicker.draw(spt_sizePicker);
+		sizePicker.display();
+	}
+	return size;
 }
