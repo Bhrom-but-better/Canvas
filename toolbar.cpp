@@ -20,11 +20,11 @@ sf::RectangleShape btn_bg_polygonTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
-sf::RenderWindow toolbar(sf::VideoMode(120, 160),"To", sf::Style::None);
+sf::RenderWindow toolbar(sf::VideoMode(120, 160),"Toolbar", sf::Style::None);
 
 void init_toolbar(sf::Vector2i artBoardPos)
 {
-	toolbar.setPosition({ 0, 90 }); //temporary. untill prompting user for size
+	toolbar.setPosition({ artBoardPos.x - 123, artBoardPos.y }); //temporary. untill prompting user for size
 
 	icon_tools.loadFromFile("tool_icons.png");
 

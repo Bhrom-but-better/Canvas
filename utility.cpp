@@ -18,7 +18,6 @@ void mouseToggle(sf::Event& evnt)
 	{
 		if (undo_count > 0) {
 			while (undo_count){
-				printf("Popping %d\n", vertices.size());
 				vertices.pop_back();
 				--lines_number;
 				--undo_count;
@@ -33,7 +32,8 @@ void mouseToggle(sf::Event& evnt)
 				lines_number = -1;
 				last_cleared = false;
 			}
-			if(penSelected || brushSelected){
+
+			if(penSelected || brushSelected || eraserSelected){
 				vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 				lines_number++;
 			}

@@ -6,6 +6,7 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 
 	if (mousePressedDown)
 	{
+		vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
 			sf::Vector2i new_Mouse_pos = sf::Mouse::getPosition(artBoard);
@@ -27,6 +28,7 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 	if (mousePressedDown)
 	{
+		vertices[lines_number].setPrimitiveType(sf::LineStrip);
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
 			vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), curr_col));

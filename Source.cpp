@@ -20,7 +20,7 @@ sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
 {
-	artBoard.setPosition({ 120, 90 }); //temporary. untill prompting user for size
+	//artBoard.setPosition({ 120, 90 }); //temporary. untill prompting user for size
 
 	vertices.push_back(sf::VertexArray());
 	vertices[0].setPrimitiveType(sf::LineStrip);
@@ -39,7 +39,7 @@ int main()
 		sf::Event evnt;
 		while (artBoard.pollEvent(evnt))
 		{
-			printf("Current undo_count %d Current vertices size %d\n", undo_count, vertices.size());
+			//printf("Current lines number %d Current undo_count %d Current vertices size %d\n", lines_number, undo_count, vertices.size());
 			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
 			{
 				save(artBoard);
@@ -76,13 +76,11 @@ int main()
 
 			if (penSelected)
 			{
-				vertices[lines_number].setPrimitiveType(sf::LineStrip);
 				pen_action(artBoard, evnt);
 			}
 
 			if (brushSelected)
 			{
-				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
 				brush_action(artBoard, evnt, brushSize);
 			}
 
@@ -90,7 +88,6 @@ int main()
 			{
 				sf::Color prev_col = curr_col;
 				curr_col = bg_col;
-				vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
 				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
 			}	
