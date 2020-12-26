@@ -10,6 +10,7 @@ extern bool circleSelected;
 extern bool polygonSelected;
 extern bool colorPickSelected;
 extern bool lineSelected;
+extern bool rectangleSelected;
 
 extern bool mousePressedDown;
 extern bool last_cleared;
@@ -32,6 +33,7 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius);
 void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void colorPick_action(sf::Vector2i mouse_pos);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
+void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius);
 

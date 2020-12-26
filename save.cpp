@@ -6,13 +6,12 @@
 #define ESCAPE_KEY 27
 
 int save(sf::RenderWindow& artBoard) {
-
 	brushSelected = false;
 	penSelected = false;
 	eraserSelected = false;
 	fillSelected = false;
 	circleSelected = false;
-	polygonSelected = false;
+	rectangleSelected = false;
 	lineSelected = false;
 
 	int x, y;
@@ -50,7 +49,6 @@ int save(sf::RenderWindow& artBoard) {
 
 	while (save_prompt.isOpen())
 	{
-
 		x = sf::Mouse::getPosition(save_prompt).x;
 		y = sf::Mouse::getPosition(save_prompt).y;
 
@@ -137,7 +135,8 @@ int save(sf::RenderWindow& artBoard) {
 			sf::Texture texture;
 			texture.create(artBoard.getSize().x, artBoard.getSize().y);
 			texture.update(artBoard);
-			if (texture.copyToImage().saveToFile(text.str() + ".png"))
+			std::string save_location = "./art/" + text.str() + ".png";
+			if (texture.copyToImage().saveToFile(save_location))
 			{
 				std::cout << "Art saved to " << text.str() + ".png" << std::endl;
 				save_prompt.close();

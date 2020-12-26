@@ -31,7 +31,12 @@ int main()
 	artBoard.setFramerateLimit(60);
 	artBoard.setVerticalSyncEnabled(false);
 
+	sf::Image icon;
+	icon.loadFromFile("canvasIcon.png");
+	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
 	artBoard.clear(bg_col);
+	float lastTime = 0;
 
 	while (artBoard.isOpen())
 	{
@@ -98,6 +103,11 @@ int main()
 			if (lineSelected)
 			{
 				line_action(artBoard, evnt);
+			}
+
+			if (rectangleSelected)
+			{
+				rectangle_action(artBoard, evnt);
 			}
 		}
 		canvas_draw(artBoard);

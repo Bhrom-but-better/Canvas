@@ -66,7 +66,7 @@ void colorPick_action(sf::Vector2i mouse_pos)
 			colorPalette.close();
 			break;
 		}
-			
+
 		while (colorPalette.pollEvent(evnt))
 		{
 			if (evnt.type == sf::Event::MouseButtonPressed)
@@ -140,7 +140,6 @@ void line_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 				lines_number = -1;
 				last_cleared = false;
 			}
-
 
 			vertices.push_back(sf::VertexArray(sf::LineStrip, 2));
 			lines_number++;
@@ -228,4 +227,69 @@ float brushSize_action(sf::Vector2i mouse_pos, float current)
 		sizePicker.display();
 	}
 	return size;
+}
+
+void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+{
+	sf::Color guide_col = curr_col;
+	guide_col.a = curr_col.a / 2;
+
+	if (evnt.type == sf::Event::MouseButtonPressed)
+	{
+		if (undo_count > 0) {
+			while (undo_count) {
+				vertices.pop_back();
+				--lines_number;
+				--undo_count;
+			}
+		}
+
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			undo_count = 0;
+			if (last_cleared) {
+				vertices.clear();
+				lines_number = -1;
+				last_cleared = false;
+			}
+
+			vertices.push_back(sf::VertexArray(sf::LineStrip, 5));
+			lines_number++;
+			printf("Current line number %d vector size %d\n", lines_number, vertices.size());
+			vertices[lines_number][0] = sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), guide_col);
+			mousePressedDown = true;
+		}
+	}
+
+	if (evnt.type == sf::Event::MouseButtonReleased)
+	{
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			mousePressedDown = false;
+			last_Mouse_pos.x = 0;
+			last_Mouse_pos.y = 0;
+		}
+	}
+
+	if (mousePressedDown)
+	{
+		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
+		{
+			sf::Vector2f first_position = vertices[lines_number][0].position;
+			vertices[lines_number][1] = sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard).x, first_position.y), guide_col);
+			vertices[lines_number][2] = sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), guide_col);
+			vertices[lines_number][3] = sf::Vertex(sf::Vector2f(first_position.x, sf::Mouse::getPosition(artBoard).y), guide_col);
+			vertices[lines_number][4] = vertices[lines_number][0];
+			last_Mouse_pos = sf::Mouse::getPosition();
+		}
+	}
+	if (evnt.type == sf::Event::MouseButtonReleased)
+	{
+		sf::Vector2f first_position = vertices[lines_number][0].position;
+		vertices[lines_number][0].color.a = curr_col.a;
+		vertices[lines_number][1] = sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard).x, first_position.y), curr_col);
+		vertices[lines_number][2] = sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), guide_col);
+		vertices[lines_number][3] = sf::Vertex(sf::Vector2f(first_position.x, sf::Mouse::getPosition(artBoard).y), curr_col);
+		vertices[lines_number][4] = vertices[lines_number][0];
+	}
 }
