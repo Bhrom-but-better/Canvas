@@ -90,12 +90,16 @@ int main()
 				curr_col = bg_col;
 				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
-			}	
+			}
 
-			canvas_draw(artBoard);
-			artBoard.display();
-			
+			if (fillSelected) {
+				line_action(artBoard, evnt);
+			}
 		}
+
+	canvas_draw(artBoard);
+	artBoard.display();
+
 	}
 
 	return 0;
