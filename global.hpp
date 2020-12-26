@@ -10,8 +10,6 @@ extern bool circleSelected;
 extern bool polygonSelected;
 extern bool colorPickSelected;
 
-
-
 extern bool mousePressedDown;
 extern bool last_cleared;
 extern int lines_number;

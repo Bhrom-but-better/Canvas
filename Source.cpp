@@ -14,8 +14,8 @@ float brushSize = 2.0;
 float eraserSize = 2.0;
 
 std::vector<sf::VertexArray> vertices;
-sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
-sf::Color bg_col = sf::Color::White; //temporary. untill prompting user for input
+sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
+sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
 sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
@@ -42,15 +42,17 @@ int main()
 			//printf("Current lines number %d Current undo_count %d Current vertices size %d\n", lines_number, undo_count, vertices.size());
 			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
 			{
-				save(artBoard);
+				if (save(artBoard) == -1) //if cancel is clicked
+					continue;
 				artBoard.close();
 			}
 
-			if (evnt.type == sf::Event::KeyPressed) // Handling the closure of the artBoard
+			if (evnt.type == sf::Event::KeyPressed)
 			{
 				if (evnt.key.code == sf::Keyboard::Key::Q)
 				{
-					save(artBoard);
+					if (save(artBoard) == -1) //if cancel is clicked
+						continue;
 					artBoard.close();
 				}
 				if (evnt.key.code == sf::Keyboard::Key::C)
@@ -63,15 +65,13 @@ int main()
 						last_cleared = false;
 					}
 
-					else if(undo_count < (int)vertices.size())
+					else if (undo_count < (int)vertices.size())
 						++undo_count;
-
 				}
 				if (evnt.key.code == sf::Keyboard::Key::X) {
-					if(undo_count > 0)
+					if (undo_count > 0)
 						--undo_count;
 				}
-
 			}
 
 			if (penSelected)
@@ -91,15 +91,9 @@ int main()
 				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
 			}
-
-			if (fillSelected) {
-				line_action(artBoard, evnt);
-			}
 		}
-
-	canvas_draw(artBoard);
-	artBoard.display();
-
+		canvas_draw(artBoard);
+		artBoard.display();
 	}
 
 	return 0;
