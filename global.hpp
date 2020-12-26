@@ -9,6 +9,7 @@ extern bool fillSelected;
 extern bool circleSelected;
 extern bool polygonSelected;
 extern bool colorPickSelected;
+extern bool lineSelected;
 
 extern bool mousePressedDown;
 extern bool last_cleared;

@@ -1,5 +1,6 @@
 ﻿#include "SFML/Graphics.hpp"
 #include "global.hpp"
+#include <Windows.h>
 #include <iostream>
 #include <vector>
 
@@ -42,8 +43,10 @@ int main()
 			//printf("Current lines number %d Current undo_count %d Current vertices size %d\n", lines_number, undo_count, vertices.size());
 			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
 			{
-				if (save(artBoard) == -1) //if cancel is clicked
+				if (save(artBoard) == -1)  //if cancel is clicked
+				{
 					continue;
+				}
 				artBoard.close();
 			}
 
@@ -90,6 +93,11 @@ int main()
 				curr_col = bg_col;
 				brush_action(artBoard, evnt, eraserSize);
 				curr_col = prev_col;
+			}
+
+			if (lineSelected)
+			{
+				line_action(artBoard, evnt);
 			}
 		}
 		canvas_draw(artBoard);

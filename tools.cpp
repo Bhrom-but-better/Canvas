@@ -120,7 +120,7 @@ void line_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
 	//if((int)vertices[lines_number].getVertexCount() > 1)
 	sf::Color guide_col = curr_col;
-	guide_col.a = curr_col.a / 5;
+	guide_col.a = curr_col.a / 2;
 
 	if (evnt.type == sf::Event::MouseButtonPressed)
 	{

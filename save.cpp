@@ -6,6 +6,15 @@
 #define ESCAPE_KEY 27
 
 int save(sf::RenderWindow& artBoard) {
+
+	brushSelected = false;
+	penSelected = false;
+	eraserSelected = false;
+	fillSelected = false;
+	circleSelected = false;
+	polygonSelected = false;
+	lineSelected = false;
+
 	int x, y;
 	bool save = false;
 
@@ -41,6 +50,7 @@ int save(sf::RenderWindow& artBoard) {
 
 	while (save_prompt.isOpen())
 	{
+
 		x = sf::Mouse::getPosition(save_prompt).x;
 		y = sf::Mouse::getPosition(save_prompt).y;
 

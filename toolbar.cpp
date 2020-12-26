@@ -7,6 +7,7 @@ bool fillSelected = false;
 bool circleSelected = false;
 bool polygonSelected = false;
 bool colorPickSelected = false;
+bool lineSelected = false;
 
 int toolbarMouseX, toolbarMouseY;
 
@@ -65,6 +66,7 @@ void toolbar_action()
 					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 				}
 				//brushtool selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -75,6 +77,7 @@ void toolbar_action()
 					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 				}
 				//erasertool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -85,14 +88,16 @@ void toolbar_action()
 					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 				}
-				//filltool selection
+				//linetool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 				{
-					fillSelected = fillSelected ? 0 : 1;
+					lineSelected = lineSelected ? 0 : 1;
 					penSelected = false;
 					brushSelected = false;
 					eraserSelected = false;
+					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
 				}
@@ -105,6 +110,7 @@ void toolbar_action()
 					eraserSelected = false;
 					fillSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 				}
 				//polygontool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -115,6 +121,7 @@ void toolbar_action()
 					eraserSelected = false;
 					fillSelected = false;
 					circleSelected = false;
+					lineSelected = false;
 				}
 				//colorPickTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
@@ -135,6 +142,7 @@ void toolbar_action()
 					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 
 					//changing size
 					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
@@ -150,6 +158,7 @@ void toolbar_action()
 					fillSelected = false;
 					circleSelected = false;
 					polygonSelected = false;
+					lineSelected = false;
 
 					//changing size
 					eraserSize = brushSize_action(sf::Mouse::getPosition(), eraserSize);
@@ -199,11 +208,11 @@ void toolbar_action()
 		btn_bg_eraserTool.setFillColor(sf::Color(70, 70, 70));
 	}
 	//bg handling for fillTool
-	if (fillSelected)
+	if (lineSelected)
 	{
 		btn_bg_fillTool.setFillColor(sf::Color(46, 46, 46));
 	}
-	else if (!fillSelected && toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
+	else if (!lineSelected && toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 	{
 		btn_bg_fillTool.setFillColor(sf::Color(60, 60, 60));
 	}
