@@ -4,7 +4,10 @@
 #include <iostream>
 #include <vector>
 
-sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
+int artBoardWidth = 1280; //temporary. untill prompting user for size
+int artBoardHight = 720; //temporary. untill prompting user for size
+
+sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 sf::View vw(sf::Vector2f(640.f, 360.f), sf::Vector2f(1280.f, 720.f));
 int lines_number = 0;
 int undo_count = 0;
@@ -14,6 +17,8 @@ bool mousePressedDown = false; // When a mouse button is pressed this will chang
 float brushSize = 2.0;
 float eraserSize = 2.0;
 
+float zoomCordX, zoomCordY;
+
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
 sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
@@ -21,8 +26,6 @@ sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
 {
-	//artBoard.setPosition({ 120, 90 }); //temporary. untill prompting user for size
-
 	vertices.push_back(sf::VertexArray());
 	vertices[0].setPrimitiveType(sf::LineStrip);
 
@@ -63,14 +66,14 @@ int main()
 						continue;
 					artBoard.close();
 				}
-				
+
 				if (evnt.key.code == sf::Keyboard::Key::C)
 				{
 					last_cleared = true;
 				}
 
-				if (evnt.key.code == sf::Keyboard::Key::Z) {
-					
+				if (evnt.key.code == sf::Keyboard::Key::Z)
+				{
 					if (last_cleared) {
 						last_cleared = false;
 					}
@@ -78,9 +81,9 @@ int main()
 					else if (undo_count < (int)vertices.size())
 						++undo_count;
 				}
-				
-				if (evnt.key.code == sf::Keyboard::Key::X) {
-					
+
+				if (evnt.key.code == sf::Keyboard::Key::X)
+				{
 					if (undo_count > 0)
 						--undo_count;
 				}
@@ -88,8 +91,13 @@ int main()
 				if (evnt.key.code == sf::Keyboard::Key::Period)
 				{
 					zoomSelected = true;
+					zoomCordX = sf::Mouse::getPosition(artBoard).x;
+					zoomCordY = sf::Mouse::getPosition(artBoard).y;
 				}
-
+				else if (evnt.key.code == sf::Keyboard::Comma)
+				{
+					zoomSelected = false;
+				}
 			}
 
 			if (penSelected)
@@ -122,7 +130,13 @@ int main()
 
 			if (zoomSelected)
 			{
-				zoom_action(artBoard, vw, evnt);
+				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
+				vw.setSize(sf::Vector2f(artBoard.getSize().x / 3, artBoard.getSize().y / 3));
+			}
+			else
+			{
+				vw.setCenter(sf::Vector2f(640.f, 360.f));
+				vw.setSize(sf::Vector2f(1280.f, 720.f));
 			}
 		}
 		artBoard.setView(vw);
