@@ -293,3 +293,61 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		vertices[lines_number][4] = vertices[lines_number][0];
 	}
 }
+
+void zoom_action(sf::RenderWindow& artBoard, sf::View& vw, sf::Event& evnt)
+{
+	float zoomCordX, zoomCordY;
+
+	if (evnt.type == sf::Event::KeyPressed)
+	{
+		if (evnt.key.code == sf::Keyboard::Key::Period)
+		{
+			zoomSelected = true;
+			zoomCordX = sf::Mouse::getPosition(artBoard).x;
+			zoomCordY = sf::Mouse::getPosition(artBoard).y;
+
+		}
+		else if (evnt.key.code == sf::Keyboard::Comma)
+		{
+			zoomSelected = false;
+		}
+	}
+
+	if (mousePressedDown)
+	{
+		vertices[lines_number].setPrimitiveType(sf::LineStrip);
+
+		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
+		{
+			if (zoomSelected)
+			{
+				float newX = (sf::Mouse::getPosition(artBoard).x / 3) +  zoomCordX - artBoard.getSize().x / 6;
+				float newY = (sf::Mouse::getPosition(artBoard).y / 3) + zoomCordY - artBoard.getSize().y / 6;
+				
+				vertices[lines_number].append(sf::Vertex(sf::Vector2f(newX, newY), curr_col));
+				last_Mouse_pos = sf::Mouse::getPosition();
+			
+			}
+			
+			else
+			{
+				vertices[lines_number].append(sf::Vertex(sf::Vector2f(sf::Mouse::getPosition(artBoard)), curr_col));
+				last_Mouse_pos = sf::Mouse::getPosition();
+
+			}
+
+		}
+	
+	}
+
+	if (zoomSelected)
+	{
+		vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
+		vw.setSize(sf::Vector2f(artBoard.getSize().x / 3, artBoard.getSize().y / 3));
+	}
+	else
+	{
+		vw.setCenter(sf::Vector2f(640.f, 360.f));
+		vw.setSize(sf::Vector2f(1280.f, 720.f));
+	}
+}

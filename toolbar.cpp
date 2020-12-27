@@ -8,7 +8,7 @@ bool circleSelected = false;
 bool rectangleSelected = false;
 bool colorPickSelected = false;
 bool lineSelected = false;
-
+bool zoomSelected = false;
 int toolbarMouseX, toolbarMouseY;
 
 sf::Sprite sprt_icon_toolbar;
@@ -128,6 +128,12 @@ void toolbar_action()
 				{
 					colorPickSelected = true;
 				}
+				//zoom selection
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					zoomSelected = true;
+				}
+
 			}
 
 			if (evnt.mouseButton.button == sf::Mouse::Right)

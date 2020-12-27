@@ -11,6 +11,7 @@ extern bool polygonSelected;
 extern bool colorPickSelected;
 extern bool lineSelected;
 extern bool rectangleSelected;
+extern bool zoomSelected;
 
 extern bool mousePressedDown;
 extern bool last_cleared;
@@ -41,3 +42,5 @@ void canvas_draw(sf::RenderWindow& artBoard);
 void mouseToggle(sf::Event& evnt);
 
 int save(sf::RenderWindow& artBoard);
+
+void zoom_action(sf::RenderWindow& artBoard, sf::View& vw, sf::Event& evnt);

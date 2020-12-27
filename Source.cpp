@@ -5,7 +5,7 @@
 #include <vector>
 
 sf::RenderWindow artBoard(sf::VideoMode(1280, 720), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
-
+sf::View vw(sf::Vector2f(640.f, 360.f), sf::Vector2f(1280.f, 720.f));
 int lines_number = 0;
 int undo_count = 0;
 bool last_cleared = false;
@@ -63,12 +63,14 @@ int main()
 						continue;
 					artBoard.close();
 				}
+				
 				if (evnt.key.code == sf::Keyboard::Key::C)
 				{
 					last_cleared = true;
 				}
 
 				if (evnt.key.code == sf::Keyboard::Key::Z) {
+					
 					if (last_cleared) {
 						last_cleared = false;
 					}
@@ -76,10 +78,18 @@ int main()
 					else if (undo_count < (int)vertices.size())
 						++undo_count;
 				}
+				
 				if (evnt.key.code == sf::Keyboard::Key::X) {
+					
 					if (undo_count > 0)
 						--undo_count;
 				}
+
+				if (evnt.key.code == sf::Keyboard::Key::Period)
+				{
+					zoomSelected = true;
+				}
+
 			}
 
 			if (penSelected)
@@ -109,7 +119,13 @@ int main()
 			{
 				rectangle_action(artBoard, evnt);
 			}
+
+			if (zoomSelected)
+			{
+				zoom_action(artBoard, vw, evnt);
+			}
 		}
+		artBoard.setView(vw);
 		canvas_draw(artBoard);
 		artBoard.display();
 	}
