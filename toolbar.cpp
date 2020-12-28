@@ -133,7 +133,6 @@ void toolbar_action()
 				{
 					zoomSelected = true;
 				}
-
 			}
 
 			if (evnt.mouseButton.button == sf::Mouse::Right)

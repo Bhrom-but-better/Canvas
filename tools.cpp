@@ -1,5 +1,7 @@
 #include "global.hpp"
 
+sf::Vector2f first_position;
+
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 {
 	mouseToggle(evnt);
@@ -255,7 +257,7 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 			vertices.push_back(sf::VertexArray(sf::LineStrip, 5));
 			lines_number++;
-			printf("Current line number %d vector size %d\n", lines_number, vertices.size());
+			first_position = sf::Vector2f(sf::Mouse::getPosition(artBoard));
 			vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), guide_col);
 			mousePressedDown = true;
 		}
@@ -275,17 +277,16 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 	{
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
-			sf::Vector2f first_position = vertices[lines_number][0].position;
-			vertices[lines_number][1] = sf::Vertex(getCoordinates({ (float)sf::Mouse::getPosition(artBoard).x, first_position.y }), guide_col);
+			vertices[lines_number][1] = sf::Vertex(getCoordinates({ (float)sf::Mouse::getPosition(artBoard).x, (float)first_position.y }), guide_col);
 			vertices[lines_number][2] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), guide_col);
-			vertices[lines_number][3] = sf::Vertex(getCoordinates({ first_position.x, (float)sf::Mouse::getPosition(artBoard).y }), guide_col);
-			vertices[lines_number][4] = vertices[lines_number][0].position;
+			vertices[lines_number][3] = sf::Vertex(getCoordinates({ (float)first_position.x, (float)sf::Mouse::getPosition(artBoard).y }), guide_col);
+			vertices[lines_number][4] = vertices[lines_number][0];
+
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
 	}
 	if (evnt.type == sf::Event::MouseButtonReleased)
 	{
-		sf::Vector2f first_position = vertices[lines_number][0].position;
 		vertices[lines_number][0].color.a = curr_col.a;
 		vertices[lines_number][1] = sf::Vertex(getCoordinates({ (float)sf::Mouse::getPosition(artBoard).x, first_position.y }), curr_col);
 		vertices[lines_number][2] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col);
