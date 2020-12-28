@@ -4,10 +4,10 @@
 #include <iostream>
 #include <vector>
 
-int artBoardWidth = 1280; //temporary. untill prompting user for size
-int artBoardHight = 720; //temporary. untill prompting user for size
+int artBoardWidth = 100; //temporary. untill prompting user for size
+int artBoardHeight = 100; //temporary. untill prompting user for size
 
-sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
+sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 sf::View vw(sf::Vector2f(640.f, 360.f), sf::Vector2f(1280.f, 720.f));
 int lines_number = 0;
 int undo_count = 0;
@@ -21,8 +21,8 @@ float eraserSize = 2.0;
 float zoomCordX, zoomCordY;
 
 std::vector<sf::VertexArray> vertices;
-sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
-sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
+sf::Color curr_col = sf::Color::Black; //temporary. untill prompting user for input
+sf::Color bg_col = sf::Color::White; //temporary. untill prompting user for input
 sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
@@ -159,12 +159,16 @@ int main()
 			if (zoomedIn)
 			{
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
-				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHight / 3.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
 			}
 			else
 			{
-				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHight / 2.0));
-				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHight));
+				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+			}
+
+			if (fillSelected) {
+				fill_action(artBoard, evnt);
 			}
 		}
 		artBoard.setView(vw);

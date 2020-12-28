@@ -12,6 +12,7 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
 			sf::Vector2i new_Mouse_pos = sf::Mouse::getPosition(artBoard);
+			std::cout << new_Mouse_pos.x << " " << new_Mouse_pos.y << std::endl;
 			if (last_Mouse_pos.x != 0 && last_Mouse_pos.y != 0)
 				brushConnect(new_Mouse_pos, last_Mouse_pos, radius);
 			last_Mouse_pos = new_Mouse_pos;
@@ -292,5 +293,29 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		vertices[lines_number][2] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col);
 		vertices[lines_number][3] = sf::Vertex(getCoordinates({ first_position.x, (float)sf::Mouse::getPosition(artBoard).y }), curr_col);
 		vertices[lines_number][4] = vertices[lines_number][0];
+	}
+}
+
+void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+{
+	if (evnt.type == sf::Event::MouseButtonPressed) {
+		if (evnt.mouseButton.button == sf::Mouse::Left) {
+			zoomedIn = false;
+			lines_number++;
+			vertices.push_back(sf::VertexArray(sf::TriangleFan));
+			std::cout << lines_number << std::endl;
+			sf::Texture curr_texture;
+			curr_texture.create(artBoard.getSize().x, artBoard.getSize().y);
+			curr_texture.update(artBoard);
+			sf::Image curr_state = curr_texture.copyToImage();
+			curr_state.saveToFile("fillTest.png");
+			//const sf::Uint8* pByteBuffer = curr_state.getPixelsPtr();
+			sf::Vector2i start = sf::Mouse::getPosition(artBoard);
+			sf::Color prevCol = curr_state.getPixel(start.x, start.y);
+			std::cout << "Position " << start.x << " " << start.y << std::endl;
+			std::cout << (unsigned)prevCol.r << " " << (unsigned)prevCol.g << " " << (unsigned)prevCol.b << " " << std::endl;
+			std::map <std::pair<int, int>, bool> mp;
+			check(start, curr_state, prevCol, mp, artBoard);
+		}
 	}
 }

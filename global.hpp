@@ -19,7 +19,7 @@ extern bool last_cleared;
 extern int lines_number;
 extern int undo_count;
 extern int artBoardWidth;
-extern int artBoardHight;
+extern int artBoardHeight;
 
 extern sf::Color curr_col;
 extern sf::Color bg_col;
@@ -41,12 +41,14 @@ void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void colorPick_action(sf::Vector2i mouse_pos);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
-void zoom_action(sf::RenderWindow& artBoard, sf::Event& evnt, sf::View& vw);
+void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius);
+void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, std::map<std::pair<int, int>, bool>& mp);
 sf::Vector2f getCoordinates(sf::Vector2f oldCord);
 
 void canvas_draw(sf::RenderWindow& artBoard);
 void mouseToggle(sf::Event& evnt);
+void check(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, std::map<std::pair<int, int>, bool>& mp, sf::RenderWindow& artBoard);
 
 int save(sf::RenderWindow& artBoard);

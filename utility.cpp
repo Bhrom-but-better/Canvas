@@ -82,11 +82,77 @@ sf::Vector2f getCoordinates(sf::Vector2f oldCord)
 	if (zoomSelected)
 	{
 		newCord.x = (oldCord.x / 3) + zoomCordX - artBoardWidth / 6;
-		newCord.y = (oldCord.y / 3) + zoomCordY - artBoardHight / 6;
+		newCord.y = (oldCord.y / 3) + zoomCordY - artBoardHeight / 6;
 	}
 	else
 	{
 		newCord = oldCord;
 	}
 	return newCord;
+}
+
+void check(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, std::map<std::pair<int, int>, bool>& mp, sf::RenderWindow& artBoard)
+{
+	std::cout << vertices[lines_number].getVertexCount() << std::endl;
+	int x = start.x; int y = start.y;
+
+	std::cout << "Map size " << mp.size() << std::endl;
+
+	//sf::CircleShape circle;
+	//circle.setRadius(1);
+	//circle.setPosition(x, y);
+	//circle.setFillColor(sf::Color::Red);
+
+	std::cout << x << " " << y << std::endl;
+
+	if (x < 0 || x >= artBoardWidth || y < 0 || y >= artBoardHeight)
+		return;
+
+	if (curr_state.getPixel(x, y) != prevCol) {
+		std::cout << "not sem" << std::endl;
+		return;
+	}
+
+	if (mp[{x, y}] == 1) {
+		std::cout << "also not sem" << std::endl;
+		return;
+	}
+
+	mp[{x, y}] = 1;
+
+	//artBoard.draw(circle);
+	//artBoard.display();
+
+	check(sf::Vector2i{ x + 1, y }, curr_state, prevCol, mp, artBoard);
+	check(sf::Vector2i{ x , y + 1 }, curr_state, prevCol, mp, artBoard);
+	check(sf::Vector2i{ x , y - 1 }, curr_state, prevCol, mp, artBoard);
+	check(sf::Vector2i{ x - 1, y }, curr_state, prevCol, mp, artBoard);
+}
+
+void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, std::map<std::pair<int, int>, bool>& mp)
+{
+	int x = start.x; int y = start.y;
+
+	if (x < 0 || x >= artBoardWidth || y < 0 || y >= artBoardHeight)
+		return;
+
+	if (curr_state.getPixel(x, y) != prevCol)
+		return;
+	if (curr_state.getPixel(x, y) == curr_col || mp[{x, y}] == 1)
+		return;
+
+	std::cout << "Current position: " << x << " " << y << " " << (unsigned)curr_state.getPixel(x, y).r << " " << (unsigned)curr_state.getPixel(x, y).g << " " << (unsigned)curr_state.getPixel(x, y).b << std::endl;
+	std::cout << "prevCol: " << (unsigned)prevCol.r << " " << (unsigned)prevCol.g << " " << (unsigned)prevCol.b << std::endl;
+
+	mp[{x, y}] = 1;
+	vertices[lines_number].append(sf::Vertex((sf::Vector2f)start, curr_col));
+
+	floodfill(sf::Vector2i{ x + 1, y }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x + 1, y - 1 }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x + 1, y + 1 }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x , y + 1 }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x , y - 1 }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x - 1, y }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x - 1, y + 1 }, curr_state, prevCol, mp);
+	floodfill(sf::Vector2i{ x - 1, y - 1 }, curr_state, prevCol, mp);
 }
