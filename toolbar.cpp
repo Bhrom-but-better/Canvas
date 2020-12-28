@@ -15,9 +15,11 @@ sf::Sprite sprt_icon_toolbar;
 sf::RectangleShape btn_bg_penTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_brushTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_eraserTool(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape btn_bg_lineTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_fillTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_circleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_rectangleTool(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape btn_bg_zoomTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
@@ -34,9 +36,11 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	btn_bg_penTool.setPosition(0.0f, 0.0f);
 	btn_bg_brushTool.setPosition(40.0f, 0.0f);
 	btn_bg_eraserTool.setPosition(80.0f, 0.0f);
-	btn_bg_fillTool.setPosition(0.0f, 40.0f);
+	btn_bg_lineTool.setPosition(0.0f, 40.0f);
+	btn_bg_fillTool.setPosition(80.0f, 80.0f);
 	btn_bg_circleTool.setPosition(40.0f, 40.0f);
 	btn_bg_rectangleTool.setPosition(80.0f, 40.0f);
+	btn_bg_zoomTool.setPosition(40.0f, 80.0f);
 	btn_bg_colorPickTool.setPosition(0.0f, 80.0f);
 
 	sprt_icon_toolbar.setTexture(icon_tools);
@@ -44,7 +48,7 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	sprt_icon_toolbar.setScale(0.2f, 0.2f);
 }
 
-void toolbar_action()
+void toolbar_action(sf::RenderWindow& artBoard)
 {
 	sf::Event evnt;
 
@@ -123,15 +127,38 @@ void toolbar_action()
 					circleSelected = false;
 					lineSelected = false;
 				}
+				//zoom selection
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					zoomSelected = zoomSelected ? 0 : 1;
+					if (zoomedIn)
+						zoomedIn = false;
+					else
+					{
+						penSelected = false;
+						brushSelected = false;
+						eraserSelected = false;
+						fillSelected = false;
+						circleSelected = false;
+						lineSelected = false;
+						rectangleSelected = false;
+					}
+				}
+				//filltool selection
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					fillSelected = fillSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					rectangleSelected = false;
+					circleSelected = false;
+					lineSelected = false;
+				}
 				//colorPickTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
 				{
 					colorPickSelected = true;
-				}
-				//zoom selection
-				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
-				{
-					zoomSelected = true;
 				}
 			}
 
@@ -212,18 +239,18 @@ void toolbar_action()
 	{
 		btn_bg_eraserTool.setFillColor(sf::Color(70, 70, 70));
 	}
-	//bg handling for fillTool
+	//bg handling for lineTool
 	if (lineSelected)
 	{
-		btn_bg_fillTool.setFillColor(sf::Color(46, 46, 46));
+		btn_bg_lineTool.setFillColor(sf::Color(46, 46, 46));
 	}
 	else if (!lineSelected && toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 	{
-		btn_bg_fillTool.setFillColor(sf::Color(60, 60, 60));
+		btn_bg_lineTool.setFillColor(sf::Color(60, 60, 60));
 	}
 	else
 	{
-		btn_bg_fillTool.setFillColor(sf::Color(70, 70, 70));
+		btn_bg_lineTool.setFillColor(sf::Color(70, 70, 70));
 	}
 	//bg handling for circleTool
 	if (circleSelected)
@@ -251,6 +278,32 @@ void toolbar_action()
 	{
 		btn_bg_rectangleTool.setFillColor(sf::Color(70, 70, 70));
 	}
+	//bg handling for zoomTool
+	if (zoomSelected)
+	{
+		btn_bg_zoomTool.setFillColor(sf::Color(46, 46, 46));
+	}
+	else if (!zoomSelected && toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+	{
+		btn_bg_zoomTool.setFillColor(sf::Color(60, 60, 60));
+	}
+	else
+	{
+		btn_bg_zoomTool.setFillColor(sf::Color(70, 70, 70));
+	}
+	//bg handling for fillTool
+	if (fillSelected)
+	{
+		btn_bg_fillTool.setFillColor(sf::Color(46, 46, 46));
+	}
+	else if (!zoomSelected && toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+	{
+		btn_bg_fillTool.setFillColor(sf::Color(60, 60, 60));
+	}
+	else
+	{
+		btn_bg_fillTool.setFillColor(sf::Color(70, 70, 70));
+	}
 	//handling colorPickTool
 	btn_bg_colorPickTool.setFillColor(curr_col);
 	if (colorPickSelected)
@@ -263,9 +316,11 @@ void toolbar_action()
 	toolbar.draw(btn_bg_penTool);
 	toolbar.draw(btn_bg_brushTool);
 	toolbar.draw(btn_bg_eraserTool);
+	toolbar.draw(btn_bg_lineTool);
 	toolbar.draw(btn_bg_fillTool);
 	toolbar.draw(btn_bg_circleTool);
 	toolbar.draw(btn_bg_rectangleTool);
+	toolbar.draw(btn_bg_zoomTool);
 	toolbar.draw(btn_bg_colorPickTool);
 
 	toolbar.draw(sprt_icon_toolbar);

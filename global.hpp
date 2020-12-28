@@ -12,6 +12,7 @@ extern bool colorPickSelected;
 extern bool lineSelected;
 extern bool rectangleSelected;
 extern bool zoomSelected;
+extern bool zoomedIn;
 
 extern bool mousePressedDown;
 extern bool last_cleared;
@@ -32,7 +33,7 @@ extern float zoomCordX;
 extern float zoomCordY;
 
 void init_toolbar(sf::Vector2i artBoardPos);
-void toolbar_action();
+void toolbar_action(sf::RenderWindow& artBoard);
 
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius);
@@ -40,6 +41,7 @@ void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void colorPick_action(sf::Vector2i mouse_pos);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void zoom_action(sf::RenderWindow& artBoard, sf::Event& evnt, sf::View& vw);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius);
 sf::Vector2f getCoordinates(sf::Vector2f oldCord);

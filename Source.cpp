@@ -13,6 +13,7 @@ int lines_number = 0;
 int undo_count = 0;
 bool last_cleared = false;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
+bool zoomedIn = false;
 
 float brushSize = 2.0;
 float eraserSize = 2.0;
@@ -43,7 +44,7 @@ int main()
 
 	while (artBoard.isOpen())
 	{
-		toolbar_action();
+		toolbar_action(artBoard);
 
 		sf::Event evnt;
 		while (artBoard.pollEvent(evnt))
@@ -56,6 +57,29 @@ int main()
 					continue;
 				}
 				artBoard.close();
+			}
+
+			if (evnt.type == sf::Event::MouseButtonPressed)
+			{
+				if (evnt.mouseButton.button == sf::Mouse::Left)
+				{
+					if (zoomSelected && !zoomedIn)
+					{
+						zoomCordX = sf::Mouse::getPosition(artBoard).x;
+						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+						zoomedIn = true;
+					}
+				}
+				else if (evnt.mouseButton.button == sf::Mouse::Right)
+				{
+					if (zoomSelected && zoomedIn)
+					{
+						lineSelected = false;
+						rectangleSelected = false;
+						zoomSelected = false;
+						zoomedIn = false;
+					}
+				}
 			}
 
 			if (evnt.type == sf::Event::KeyPressed)
@@ -87,16 +111,20 @@ int main()
 					if (undo_count > 0)
 						--undo_count;
 				}
-
-				if (evnt.key.code == sf::Keyboard::Key::Period)
+				if (evnt.type == sf::Event::KeyPressed)
 				{
-					zoomSelected = true;
-					zoomCordX = sf::Mouse::getPosition(artBoard).x;
-					zoomCordY = sf::Mouse::getPosition(artBoard).y;
-				}
-				else if (evnt.key.code == sf::Keyboard::Comma)
-				{
-					zoomSelected = false;
+					if (evnt.key.code == sf::Keyboard::Key::Period)
+					{
+						zoomCordX = sf::Mouse::getPosition(artBoard).x;
+						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+						zoomSelected = true;
+						zoomedIn = true;
+					}
+					else if (evnt.key.code == sf::Keyboard::Comma)
+					{
+						zoomSelected = false;
+						zoomedIn = false;
+					}
 				}
 			}
 
@@ -128,15 +156,15 @@ int main()
 				rectangle_action(artBoard, evnt);
 			}
 
-			if (zoomSelected)
+			if (zoomedIn)
 			{
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
-				vw.setSize(sf::Vector2f(artBoard.getSize().x / 3, artBoard.getSize().y / 3));
+				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHight / 3.0));
 			}
 			else
 			{
-				vw.setCenter(sf::Vector2f(640.f, 360.f));
-				vw.setSize(sf::Vector2f(1280.f, 720.f));
+				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHight / 2.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHight));
 			}
 		}
 		artBoard.setView(vw);
