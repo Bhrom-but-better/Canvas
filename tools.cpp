@@ -255,28 +255,28 @@ void colorMixer_action(sf::Vector2i mouse_pos)
 					int blueY = (int)crcl_blue.getPosition().y;
 					int alphaX = (int)crcl_alpha.getPosition().x;
 					int alphaY = (int)crcl_alpha.getPosition().y;
-					if (x >= redX && x <= redX + 16 && y >= redY && y <= redY + 16)
+					if ((x >= redX && x <= redX + 16 && y >= redY && y <= redY + 16) || (x >= 38 && x <= 293 && y >= 10 && y <= 27))
 					{
 						redSelected = true;
 						greenSelected = false;
 						blueSelected = false;
 						alphaSelected = false;
 					}
-					else if (x >= greenX && x <= greenX + 16 && y >= greenY && y <= greenY + 16)
+					else if ((x >= greenX && x <= greenX + 16 && y >= greenY && y <= greenY + 16) || (x >= 38 && x <= 293 && y >= 35 && y <= 52))
 					{
 						redSelected = false;
 						greenSelected = true;
 						blueSelected = false;
 						alphaSelected = false;
 					}
-					else if (x >= blueX && x <= blueX + 16 && y >= blueY && y <= blueY + 16)
+					else if ((x >= blueX && x <= blueX + 16 && y >= blueY && y <= blueY + 16) || (x >= 38 && x <= 293 && y >= 60 && y <= 77))
 					{
 						redSelected = false;
 						greenSelected = false;
 						blueSelected = true;
 						alphaSelected = false;
 					}
-					else if (x >= alphaX && x <= alphaX + 16 && y >= alphaY && y <= alphaY + 16)
+					else if ((x >= alphaX && x <= alphaX + 16 && y >= alphaY && y <= alphaY + 16) || (x >= 38 && x <= 293 && y >= 85 && y <= 102))
 					{
 						redSelected = false;
 						greenSelected = false;
