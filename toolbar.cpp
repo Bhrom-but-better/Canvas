@@ -6,7 +6,8 @@ bool eraserSelected = false;
 bool fillSelected = false;
 bool circleSelected = false;
 bool rectangleSelected = false;
-bool colorPickSelected = false;
+bool colorPalatteSelected = false;
+bool colorMixerSelected = false;
 bool lineSelected = false;
 bool zoomSelected = false;
 int toolbarMouseX, toolbarMouseY;
@@ -158,7 +159,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				//colorPickTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
 				{
-					colorPickSelected = true;
+					colorPalatteSelected = true;
 				}
 			}
 
@@ -195,6 +196,10 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					//changing size
 					eraserSize = brushSize_action(sf::Mouse::getPosition(), eraserSize);
 					std::cout << "eraser size: " << eraserSize * 2 << "\n";
+				}
+				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					colorMixerSelected = true;
 				}
 			}
 		}
@@ -306,9 +311,13 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	}
 	//handling colorPickTool
 	btn_bg_colorPickTool.setFillColor(curr_col);
-	if (colorPickSelected)
+	if (colorPalatteSelected)
 	{
-		colorPick_action(sf::Mouse::getPosition());
+		colorPalatte_action(sf::Mouse::getPosition());
+	}
+	if (colorMixerSelected)
+	{
+		colorMixer_action(sf::Mouse::getPosition());
 	}
 
 	toolbar.clear(sf::Color(70, 70, 70));

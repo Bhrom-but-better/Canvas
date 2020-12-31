@@ -82,7 +82,7 @@ sf::Vector2f getCoordinates(sf::Vector2f oldCord)
 	if (zoomSelected)
 	{
 		newCord.x = (oldCord.x / 3) + zoomCordX - artBoardWidth / 6;
-		newCord.y = (oldCord.y / 3) + zoomCordY - artBoardHight / 6;
+		newCord.y = (oldCord.y / 3) + zoomCordY - artBoardHeight / 6;
 	}
 	else
 	{

@@ -5,10 +5,10 @@
 #include <vector>
 
 int artBoardWidth = 1280; //temporary. untill prompting user for size
-int artBoardHight = 720; //temporary. untill prompting user for size
+int artBoardHeight = 720; //temporary. untill prompting user for size
 
-sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
-sf::View vw(sf::Vector2f(640.f, 360.f), sf::Vector2f(1280.f, 720.f));
+sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
+sf::View vw(sf::Vector2f(artBoardWidth / 2, artBoardHeight / 2), sf::Vector2f(artBoardWidth, artBoardHeight));
 int lines_number = 0;
 int undo_count = 0;
 bool last_cleared = false;
@@ -159,12 +159,12 @@ int main()
 			if (zoomedIn)
 			{
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
-				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHight / 3.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
 			}
 			else
 			{
-				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHight / 2.0));
-				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHight));
+				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 			}
 		}
 		artBoard.setView(vw);

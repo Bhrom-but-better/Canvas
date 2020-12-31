@@ -84,9 +84,9 @@ int save(sf::RenderWindow& artBoard) {
 			{
 				int ch = (char)evnt.text.unicode;
 				int len = text.str().length();
-				if (len < 12 && ch != BACKSPACE_KEY)
+				if (ch == ENTER_KEY)
 				{
-					text << (char)evnt.text.unicode;
+					save = true;
 				}
 				else if (ch == BACKSPACE_KEY)
 				{
@@ -97,6 +97,10 @@ int save(sf::RenderWindow& artBoard) {
 						text.str("");
 						text << temp;
 					}
+				}
+				else if (len < 12)
+				{
+					text << (char)evnt.text.unicode;
 				}
 				textbox.setString(text.str() + "_");
 			}
