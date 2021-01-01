@@ -2,6 +2,7 @@
 
 sf::Vector2f first_position;
 sf::Vector2f center;
+sf::Vector2f zoomedCenter;
 
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 {
@@ -588,6 +589,7 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			vertices.push_back(sf::VertexArray(sf::LineStrip));
 			lines_number++;
 			center = sf::Vector2f(sf::Mouse::getPosition(artBoard));
+			zoomedCenter = getCoordinates(center);
 			mousePressedDown = true;
 		}
 	}

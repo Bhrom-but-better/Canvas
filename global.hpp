@@ -43,8 +43,10 @@ void colorPalatte_action(sf::Vector2i mouse_pos);
 void colorMixer_action(sf::Vector2i mouse_pos);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius);
+void circleConnect(sf::Vector2f center, float radius, sf::Color col);
 sf::Vector2f getCoordinates(sf::Vector2f oldCord);
 
 void canvas_draw(sf::RenderWindow& artBoard);

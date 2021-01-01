@@ -1,9 +1,9 @@
 #include "global.hpp"
 
+float pi = acos(-1);
+
 void canvas_draw(sf::RenderWindow& artBoard)
 {
-	artBoard.clear(bg_col);
-
 	if (!last_cleared)
 		for (auto i = 0; i < (int)vertices.size() - undo_count; i++)
 		{
@@ -74,6 +74,24 @@ void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius)
 		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y - radius }), curr_col));
 		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y + radius }), curr_col));
 	}
+}
+
+void circleConnect(sf::Vector2f center, float radius, sf::Color col)
+{
+	int points = ceil(radius * 10);
+	float degInc = 2 * pi / points;
+	vertices[lines_number].clear();
+	for (float degree = 0; degree < 2 * pi; degree += degInc) {
+		float circle_x = radius * cos(degree);
+		float circle_y = radius * sin(degree);
+		sf::Vector2f point;
+		point.x = center.x + circle_x;
+		point.y = center.y + circle_y;
+
+		vertices[lines_number].append(sf::Vertex(getCoordinates(point), col));
+	}
+
+	vertices[lines_number].append(vertices[lines_number][0]);
 }
 
 sf::Vector2f getCoordinates(sf::Vector2f oldCord)

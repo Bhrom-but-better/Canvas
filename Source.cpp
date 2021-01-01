@@ -41,6 +41,13 @@ int main()
 
 	artBoard.clear(bg_col);
 	float lastTime = 0;
+	sf::RectangleShape background(sf::Vector2f(artBoard.getSize()));
+	background.setPosition(0.f, 0.f);
+	background.setFillColor(bg_col);
+	background.setOutlineColor(sf::Color::Yellow);
+	background.setOutlineThickness(2.f);
+
+	artBoard.draw(background);
 
 	while (artBoard.isOpen())
 	{
@@ -156,6 +163,11 @@ int main()
 				rectangle_action(artBoard, evnt);
 			}
 
+			if (circleSelected)
+			{
+				circle_action(artBoard, evnt);
+			}
+
 			if (zoomedIn)
 			{
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
@@ -168,6 +180,8 @@ int main()
 			}
 		}
 		artBoard.setView(vw);
+		artBoard.clear(sf::Color(60, 60, 60));
+		artBoard.draw(background);
 		canvas_draw(artBoard);
 		artBoard.display();
 	}
