@@ -2,6 +2,7 @@
 #include "global.hpp"
 #include <Windows.h>
 #include <iostream>
+#include "spline.hpp"
 
 int artBoardWidth = 1280; //temporary. untill prompting user for size
 int artBoardHeight = 720; //temporary. untill prompting user for size
@@ -20,172 +21,234 @@ float eraserSize = 2.0;
 float zoomCordX, zoomCordY;
 
 std::vector<sf::VertexArray> vertices;
+std::vector<sw::Spline> splines;
 sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
 sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
 sf::Vector2i last_Mouse_pos(0, 0);
 
+//int main()
+//{
+//	sw::Spline spline;
+//	splines.push_back(spline);
+//	//vertices[0].setPrimitiveType(sf::LineStrip);
+//
+//	init_toolbar(artBoard.getPosition());
+//
+//	artBoard.setFramerateLimit(60);
+//	artBoard.setVerticalSyncEnabled(false);
+//
+//	sf::Image icon;
+//	icon.loadFromFile("canvasIcon.png");
+//	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+//
+//	artBoard.clear(bg_col);
+//	float lastTime = 0;
+//	sf::RectangleShape background(sf::Vector2f(artBoard.getSize()));
+//	background.setPosition(0.f, 0.f);
+//	background.setFillColor(bg_col);
+//	background.setOutlineColor(sf::Color::Yellow);
+//	background.setOutlineThickness(2.f);
+//
+//	artBoard.draw(background);
+//
+//	while (artBoard.isOpen())
+//	{
+//		toolbar_action(artBoard);
+//
+//		sf::Event evnt;
+//		while (artBoard.pollEvent(evnt))
+//		{
+//			//printf("Current lines number %d Current undo_count %d Current vertices size %d\n", lines_number, undo_count, vertices.size());
+//			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
+//			{
+//				if (save(artBoard) == -1)  //if cancel is clicked
+//				{
+//					continue;
+//				}
+//				artBoard.close();
+//			}
+//
+//			if (evnt.type == sf::Event::MouseButtonPressed)
+//			{
+//				if (evnt.mouseButton.button == sf::Mouse::Left)
+//				{
+//					if (zoomSelected && !zoomedIn)
+//					{
+//						zoomCordX = sf::Mouse::getPosition(artBoard).x;
+//						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+//						zoomedIn = true;
+//					}
+//				}
+//				else if (evnt.mouseButton.button == sf::Mouse::Right)
+//				{
+//					if (zoomSelected && zoomedIn)
+//					{
+//						lineSelected = false;
+//						rectangleSelected = false;
+//						zoomSelected = false;
+//						zoomedIn = false;
+//					}
+//				}
+//			}
+//
+//			if (evnt.type == sf::Event::KeyPressed)
+//			{
+//				if (evnt.key.code == sf::Keyboard::Key::Q)
+//				{
+//					if (save(artBoard) == -1) //if cancel is clicked
+//						continue;
+//					artBoard.close();
+//				}
+//
+//				if (evnt.key.code == sf::Keyboard::Key::C)
+//				{
+//					last_cleared = true;
+//				}
+//
+//				if (evnt.key.code == sf::Keyboard::Key::Z)
+//				{
+//					if (last_cleared) {
+//						last_cleared = false;
+//					}
+//
+//					else if (undo_count < (int)vertices.size())
+//						++undo_count;
+//				}
+//
+//				if (evnt.key.code == sf::Keyboard::Key::X)
+//				{
+//					if (undo_count > 0)
+//						--undo_count;
+//				}
+//				if (evnt.type == sf::Event::KeyPressed)
+//				{
+//					if (evnt.key.code == sf::Keyboard::Key::Period)
+//					{
+//						zoomCordX = sf::Mouse::getPosition(artBoard).x;
+//						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+//						zoomSelected = true;
+//						zoomedIn = true;
+//					}
+//					else if (evnt.key.code == sf::Keyboard::Comma)
+//					{
+//						zoomSelected = false;
+//						zoomedIn = false;
+//					}
+//				}
+//			}
+//
+//			if (penSelected)
+//			{
+//				pen_action(artBoard, evnt);
+//			}
+//
+//			if (brushSelected)
+//			{
+//				brush_action(artBoard, evnt, brushSize);
+//			}
+//
+//			if (eraserSelected)
+//			{
+//				sf::Color prev_col = curr_col;
+//				curr_col = bg_col;
+//				brush_action(artBoard, evnt, eraserSize);
+//				curr_col = prev_col;
+//			}
+//
+//			if (lineSelected)
+//			{
+//				line_action(artBoard, evnt);
+//			}
+//
+//			if (rectangleSelected)
+//			{
+//				rectangle_action(artBoard, evnt);
+//			}
+//
+//			if (circleSelected)
+//			{
+//				circle_action(artBoard, evnt);
+//			}
+//
+//			if (zoomedIn)
+//			{
+//				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
+//				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
+//			}
+//			else
+//			{
+//				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
+//				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+//			}
+//		}
+//
+//		artBoard.setView(vw);
+//		artBoard.clear(sf::Color(60, 60, 60));
+//		artBoard.draw(background);
+//		canvas_draw(artBoard);
+//		artBoard.display();
+//		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
+//	}
+//
+//	return 0;
+//}
+
 int main()
 {
-	vertices.push_back(sf::VertexArray());
-	vertices[0].setPrimitiveType(sf::LineStrip);
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Spline Basics Tutorial");
+	sw::Spline spline;
 
-	init_toolbar(artBoard.getPosition());
+	//spline.addVertices({ { 700.f, 300.f }, { 400.f, 100.f } });
+	//spline.setThickness(0);
+	//spline.setPrimitiveType(sf::PrimitiveType::LineStrip);
+	//spline.setInterpolationSteps(50u);
+	//spline.setRandomNormalOffsetsActivated(true);
+	//spline.setRandomNormalOffsetRange(30.f);
 
-	artBoard.setFramerateLimit(60);
-	artBoard.setVerticalSyncEnabled(false);
+	/*sw::Spline spline2{ spline };
+	sw::Spline spline3{ spline };
 
-	sf::Image icon;
-	icon.loadFromFile("canvasIcon.png");
-	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	spline.setColor(sf::Color::Blue);
+	spline2.setColor(sf::Color::Cyan);
+	spline3.setColor(sf::Color::White);
 
-	artBoard.clear(bg_col);
-	float lastTime = 0;
-	sf::RectangleShape background(sf::Vector2f(artBoard.getSize()));
-	background.setPosition(0.f, 0.f);
-	background.setFillColor(bg_col);
-	background.setOutlineColor(sf::Color::Yellow);
-	background.setOutlineThickness(2.f);
+	spline.setThickness(20.f);
+	spline2.setThickness(10.f);
+	spline3.setThickness(5.f);
 
-	artBoard.draw(background);
+	spline.setClosed(true);
+	spline2.setClosed(true);
+	spline3.setClosed(true);
 
-	while (artBoard.isOpen())
+	spline.update();
+	spline2.update();
+	spline3.update();*/
+
+	spline.setThickness(10);
+	spline.update();
+
+	bool isPressed = false;
+
+	while (window.isOpen())
 	{
-		toolbar_action(artBoard);
-
-		sf::Event evnt;
-		while (artBoard.pollEvent(evnt))
+		sf::Event event;
+		while (window.pollEvent(event))
 		{
-			//printf("Current lines number %d Current undo_count %d Current vertices size %d\n", lines_number, undo_count, vertices.size());
-			if (evnt.type == sf::Event::Closed) // Handling the closure of the artBoard
+			switch (event.type)
 			{
-				if (save(artBoard) == -1)  //if cancel is clicked
-				{
-					continue;
-				}
-				artBoard.close();
+			case sf::Event::Closed:
+				window.close();
+				break;
 			}
-
-			if (evnt.type == sf::Event::MouseButtonPressed)
-			{
-				if (evnt.mouseButton.button == sf::Mouse::Left)
-				{
-					if (zoomSelected && !zoomedIn)
-					{
-						zoomCordX = sf::Mouse::getPosition(artBoard).x;
-						zoomCordY = sf::Mouse::getPosition(artBoard).y;
-						zoomedIn = true;
-					}
-				}
-				else if (evnt.mouseButton.button == sf::Mouse::Right)
-				{
-					if (zoomSelected && zoomedIn)
-					{
-						lineSelected = false;
-						rectangleSelected = false;
-						zoomSelected = false;
-						zoomedIn = false;
-					}
-				}
-			}
-
-			if (evnt.type == sf::Event::KeyPressed)
-			{
-				if (evnt.key.code == sf::Keyboard::Key::Q)
-				{
-					if (save(artBoard) == -1) //if cancel is clicked
-						continue;
-					artBoard.close();
-				}
-
-				if (evnt.key.code == sf::Keyboard::Key::C)
-				{
-					last_cleared = true;
-				}
-
-				if (evnt.key.code == sf::Keyboard::Key::Z)
-				{
-					if (last_cleared) {
-						last_cleared = false;
-					}
-
-					else if (undo_count < (int)vertices.size())
-						++undo_count;
-				}
-
-				if (evnt.key.code == sf::Keyboard::Key::X)
-				{
-					if (undo_count > 0)
-						--undo_count;
-				}
-				if (evnt.type == sf::Event::KeyPressed)
-				{
-					if (evnt.key.code == sf::Keyboard::Key::Period)
-					{
-						zoomCordX = sf::Mouse::getPosition(artBoard).x;
-						zoomCordY = sf::Mouse::getPosition(artBoard).y;
-						zoomSelected = true;
-						zoomedIn = true;
-					}
-					else if (evnt.key.code == sf::Keyboard::Comma)
-					{
-						zoomSelected = false;
-						zoomedIn = false;
-					}
-				}
-			}
-
-			if (penSelected)
-			{
-				pen_action(artBoard, evnt);
-			}
-
-			if (brushSelected)
-			{
-				brush_action(artBoard, evnt, brushSize);
-			}
-
-			if (eraserSelected)
-			{
-				sf::Color prev_col = curr_col;
-				curr_col = bg_col;
-				brush_action(artBoard, evnt, eraserSize);
-				curr_col = prev_col;
-			}
-
-			if (lineSelected)
-			{
-				line_action(artBoard, evnt);
-			}
-
-			if (rectangleSelected)
-			{
-				rectangle_action(artBoard, evnt);
-			}
-
-			if (circleSelected)
-			{
-				circle_action(artBoard, evnt);
-			}
-
-			if (zoomedIn)
-			{
-				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
-				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
-			}
-			else
-			{
-				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
-				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
-			}
+			spline.addVertex((sf::Vector2f)sf::Mouse::getPosition(window));
 		}
 
-		artBoard.setView(vw);
-		artBoard.clear(sf::Color(60, 60, 60));
-		artBoard.draw(background);
-		canvas_draw(artBoard);
-		artBoard.display();
-		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
+		window.clear();
+		spline.update();
+		window.draw(spline);
+		//window.draw(spline2);
+		//window.draw(spline3);
+		window.display();
 	}
-
-	return 0;
+	return EXIT_SUCCESS;
 }

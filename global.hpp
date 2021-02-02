@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include "SFML\Graphics.hpp"
+#include "Common.hpp"
+#include "Spline.hpp"
 
 extern bool penSelected;
 extern bool brushSelected;
@@ -26,6 +28,7 @@ extern sf::Color curr_col;
 extern sf::Color bg_col;
 extern sf::Vector2i last_Mouse_pos;
 extern std::vector<sf::VertexArray> vertices;
+extern std::vector<sw::Spline> splines;
 
 extern float brushSize;
 extern float eraserSize;

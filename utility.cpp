@@ -9,6 +9,7 @@ void canvas_draw(sf::RenderWindow& artBoard)
 	{
 		for (auto i = 0; i < (int)vertices.size() - undo_count; i++)
 		{
+			//std::cout << "Drawing " << i << " " << splines.size() << '\n';
 			artBoard.draw(vertices[i]);
 		}
 	}
@@ -40,8 +41,10 @@ void mouseToggle(sf::Event& evnt)
 
 			if (penSelected || brushSelected || eraserSelected)
 			{
-				vertices.push_back(sf::VertexArray(sf::TriangleStrip));
+				sw::Spline spline;
+				splines.push_back(spline);
 				lines_number++;
+				splines[lines_number].setInterpolationSteps(5u);
 			}
 
 			mousePressedDown = true;

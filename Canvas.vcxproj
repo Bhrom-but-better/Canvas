@@ -153,12 +153,15 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="save.cpp" />
+    <ClCompile Include="Spline.cpp" />
     <ClCompile Include="toolbar.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.hpp" />
     <ClInclude Include="global.hpp" />
+    <ClInclude Include="Spline.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

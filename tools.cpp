@@ -51,10 +51,17 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 	if (mousePressedDown)
 	{
-		vertices[lines_number].setPrimitiveType(sf::LineStrip);
+		std::cout << lines_number << " " << splines.size() << '\n';
+		splines[lines_number].setPrimitiveType(sf::TriangleStrip);
+		splines[lines_number].setThickness(10);
+		splines[lines_number].setColor(curr_col);
+		//splines[lines_number].smoothHandles();
+		printf("okk\n");
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
-			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col));
+			splines[lines_number].addVertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)));
+			splines[lines_number].update();
+			//splines[lines_number - 1].update();
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
 
