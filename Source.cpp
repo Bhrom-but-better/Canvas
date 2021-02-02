@@ -174,6 +174,16 @@ int main()
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
 				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
 			}
+
+			if (fillSelected) {
+				sf::Color col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255, 255);
+				for (float i = 0; i < artBoardHeight; ++i) {
+					for (float j = 0; j < artBoardWidth; ++j) {
+						vertices[lines_number].append(sf::Vertex(sf::Vector2f(j, i), col));
+					}
+				}
+				fillSelected = false;
+			}
 			else
 			{
 				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
