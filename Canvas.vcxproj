@@ -152,13 +152,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="save.cpp" />
-    <ClCompile Include="toolbar.cpp" />
-    <ClCompile Include="utility.cpp" />
-    <ClCompile Include="tools.cpp" />
+    <ClCompile Include="src\global.cpp" />
+    <ClCompile Include="src\open.cpp" />
+    <ClCompile Include="src\save.cpp" />
+    <ClCompile Include="src\toolbar.cpp" />
+    <ClCompile Include="src\tools.cpp" />
+    <ClCompile Include="src\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="global.hpp" />
+    <ClInclude Include="src\global.hpp" />
+    <ClInclude Include="src\Textbox.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

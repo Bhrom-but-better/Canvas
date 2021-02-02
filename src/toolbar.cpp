@@ -30,7 +30,7 @@ void init_toolbar(sf::Vector2i artBoardPos)
 {
 	toolbar.setPosition({ artBoardPos.x - 123, artBoardPos.y }); //temporary. untill prompting user for size
 
-	icon_tools.loadFromFile("tool_icons.png");
+	icon_tools.loadFromFile("./Resources/img/tool_icons.png");
 
 	sprt_icon_toolbar.setPosition(0.0f, 0.0f);
 

@@ -1,6 +1,6 @@
 #include "global.hpp"
 
-float pi = acos(-1);
+float pi = (float)acos(-1);
 
 void canvas_draw(sf::RenderWindow& artBoard)
 {
@@ -80,7 +80,7 @@ void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius)
 void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 {
 	//std::cout << center.x << " " << center.y << '\n';
-	int points = ceil(radius * 10);
+	int points = (int)ceil(radius * 10);
 	float degInc = 2 * pi / points;
 	vertices[lines_number].clear();
 	for (float degree = 0; degree < 2 * pi; degree += degInc) {

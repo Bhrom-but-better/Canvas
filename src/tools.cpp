@@ -1,8 +1,10 @@
 #include "global.hpp"
 
 sf::Vector2f first_position;
-sf::Vector2f center;
-sf::Vector2f zoomedCenter;
+sf::Vector2f firstPoint;
+
+bool brushTap = false;
+bool penTap = false;
 
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 {
@@ -10,10 +12,13 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 
 	if (mousePressedDown)
 	{
-		vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
-		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
+		brushTap = true;
+		sf::Vector2i curr_Mouse_pos = sf::Mouse::getPosition(artBoard);
+
+		if (last_Mouse_pos != curr_Mouse_pos)
 		{
-			sf::Vector2i new_Mouse_pos = sf::Mouse::getPosition(artBoard);
+			vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
+			sf::Vector2i new_Mouse_pos = curr_Mouse_pos;
 			if (last_Mouse_pos.x != 0 && last_Mouse_pos.y != 0)
 				brushConnect(new_Mouse_pos, last_Mouse_pos, radius);
 			last_Mouse_pos = new_Mouse_pos;
@@ -23,7 +28,16 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 		//curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);
 	}
 
-	//(*artBoard).display();
+	else if (!mousePressedDown && brushTap && vertices[lines_number].getVertexCount() == 0) {
+		vertices[lines_number] = fillSquare((sf::Vector2f)last_Mouse_pos, brushSize, curr_col);
+		brushTap = false;
+	}
+
+	else if (!mousePressedDown)
+	{
+		last_Mouse_pos.x = 0;
+		last_Mouse_pos.y = 0;
+	}
 }
 
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
@@ -32,6 +46,7 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 	if (mousePressedDown)
 	{
+		penTap = true;
 		vertices[lines_number].setPrimitiveType(sf::LineStrip);
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
@@ -40,6 +55,19 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		}
 
 		//curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);
+	}
+
+	else if (!mousePressedDown && penTap && vertices[lines_number].getVertexCount() <= 2)
+	{
+		vertices[lines_number].setPrimitiveType(sf::PrimitiveType::Points);
+		vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col);
+		penTap = false;
+	}
+
+	if (!mousePressedDown)
+	{
+		last_Mouse_pos.x = 0;
+		last_Mouse_pos.y = 0;
 	}
 
 	//(*artBoard).display();
@@ -54,7 +82,7 @@ void colorPalatte_action(sf::Vector2i mouse_pos)
 	sf::Sprite spt_colorPalette;
 	sf::Event evnt;
 
-	tex_colorPalette.loadFromFile("ColorPalette.png");
+	tex_colorPalette.loadFromFile("./Resources/img/ColorPalette.png");
 	spt_colorPalette.setTexture(tex_colorPalette);
 
 	colorPalette.setPosition(mouse_pos);
@@ -151,7 +179,7 @@ void colorMixer_action(sf::Vector2i mouse_pos)
 	colorMixer.setPosition(mouse_pos);
 
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("./Resources/fonts/arial.ttf"))
 	{
 		std::cout << "unable to load font\n";
 	}
@@ -417,7 +445,7 @@ void line_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 			vertices.push_back(sf::VertexArray(sf::LineStrip, 2));
 			lines_number++;
-			printf("Current line number %d vector size %d\n", lines_number, vertices.size());
+			//printf("Current line number %d vector size %d\n", lines_number, vertices.size());
 			vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), guide_col);
 			mousePressedDown = true;
 		}
@@ -458,7 +486,7 @@ float brushSize_action(sf::Vector2i mouse_pos, float current)
 	sf::Sprite spt_sizePicker;
 	sf::Event evnt;
 
-	tex_sizePicker.loadFromFile("size_icons.png");
+	tex_sizePicker.loadFromFile("./Resources/img/size_icons.png");
 	spt_sizePicker.setTexture(tex_sizePicker);
 
 	sizePicker.setPosition(mouse_pos);
@@ -588,8 +616,8 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 			vertices.push_back(sf::VertexArray(sf::LineStrip));
 			lines_number++;
-			center = sf::Vector2f(sf::Mouse::getPosition(artBoard));
-			zoomedCenter = getCoordinates(center);
+			firstPoint = sf::Vector2f(sf::Mouse::getPosition(artBoard));
+			//firstPoint = getCoordinates(firstPoint);
 			mousePressedDown = true;
 		}
 	}
@@ -599,10 +627,13 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
 			sf::Vector2f curr_pos = sf::Vector2f(sf::Mouse::getPosition(artBoard));
-			float radius = sqrt((curr_pos.x - center.x) * (curr_pos.x - center.x) + (curr_pos.y - center.y) * (curr_pos.y - center.y));
-			curr_pos = getCoordinates(curr_pos);
+			float radius = 0.5f * sqrt((curr_pos.x - firstPoint.x) * (curr_pos.x - firstPoint.x) + (curr_pos.y - firstPoint.y) * (curr_pos.y - firstPoint.y));
+			//curr_pos = getCoordinates(curr_pos);
+			sf::Vector2f center;
+			center.x = firstPoint.x + 0.5f * (curr_pos.x - firstPoint.x);
+			center.y = firstPoint.y + 0.5f * (curr_pos.y - firstPoint.y);
+			//center = getCoordinates(center);
 			circleConnect(center, radius, guide_col);
-
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
 	}
@@ -614,8 +645,12 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			last_Mouse_pos.y = 0;
 			mousePressedDown = false;
 			sf::Vector2f curr_pos = sf::Vector2f(sf::Mouse::getPosition(artBoard));
-			float radius = sqrt((curr_pos.x - center.x) * (curr_pos.x - center.x) + (curr_pos.y - center.y) * (curr_pos.y - center.y));
-			curr_pos = getCoordinates(curr_pos);
+			float radius = 0.5f * sqrt((curr_pos.x - firstPoint.x) * (curr_pos.x - firstPoint.x) + (curr_pos.y - firstPoint.y) * (curr_pos.y - firstPoint.y));
+			//curr_pos = getCoordinates(curr_pos);
+			sf::Vector2f center;
+			center.x = firstPoint.x + 0.5f * (curr_pos.x - firstPoint.x);
+			center.y = firstPoint.y + 0.5f * (curr_pos.y - firstPoint.y);
+			//center = getCoordinates(center);
 			circleConnect(center, radius, curr_col);
 		}
 	}

@@ -54,3 +54,4 @@ void canvas_draw(sf::RenderWindow& artBoard);
 void mouseToggle(sf::Event& evnt);
 
 int save(sf::RenderWindow& artBoard);
+bool open();

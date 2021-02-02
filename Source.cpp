@@ -1,15 +1,13 @@
 ﻿#include "SFML/Graphics.hpp"
-#include "global.hpp"
+#include "src/global.hpp"
 #include <Windows.h>
 #include <iostream>
-
-//zoom working commit
 
 int artBoardWidth = 1280; //temporary. untill prompting user for size
 int artBoardHeight = 720; //temporary. untill prompting user for size
 
 sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
-sf::View vw(sf::Vector2f(artBoardWidth / 2, artBoardHeight / 2), sf::Vector2f(artBoardWidth, artBoardHeight));
+sf::View vw(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f), sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 int lines_number = 0;
 int undo_count = 0;
 bool last_cleared = false;
@@ -37,7 +35,7 @@ int main()
 	artBoard.setVerticalSyncEnabled(false);
 
 	sf::Image icon;
-	icon.loadFromFile("canvasIcon.png");
+	icon.loadFromFile("./Resources/img/canvasIcon.png");
 	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	artBoard.clear(bg_col);
@@ -73,8 +71,8 @@ int main()
 				{
 					if (zoomSelected && !zoomedIn)
 					{
-						zoomCordX = sf::Mouse::getPosition(artBoard).x;
-						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+						zoomCordX = (float)sf::Mouse::getPosition(artBoard).x;
+						zoomCordY = (float)sf::Mouse::getPosition(artBoard).y;
 						zoomedIn = true;
 					}
 				}
@@ -92,6 +90,37 @@ int main()
 
 			if (evnt.type == sf::Event::KeyPressed)
 			{
+				if (evnt.key.code == sf::Keyboard::Key::O)
+				{
+					if (!open())
+					{
+						artBoard.setSize(sf::Vector2u(artBoardWidth, artBoardHeight));
+						vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
+						vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+						lines_number = 0;
+						undo_count = 0;
+						last_cleared = false;
+						mousePressedDown = false;
+						zoomedIn = false;
+						penSelected = false;
+						brushSelected = false;
+						eraserSelected = false;
+						fillSelected = false;
+						circleSelected = false;
+						rectangleSelected = false;
+						colorPalatteSelected = false;
+						colorMixerSelected = false;
+						lineSelected = false;
+						zoomSelected = false;
+						brushSize = 2.0;
+						eraserSize = 2.0;
+						vertices.clear();
+						vertices.push_back(sf::VertexArray());
+						vertices[0].setPrimitiveType(sf::LineStrip);
+						background.setSize(sf::Vector2f(artBoard.getSize()));
+						background.setFillColor(bg_col);
+					}
+				}
 				if (evnt.key.code == sf::Keyboard::Key::Q)
 				{
 					if (save(artBoard) == -1) //if cancel is clicked
@@ -123,8 +152,8 @@ int main()
 				{
 					if (evnt.key.code == sf::Keyboard::Key::Period)
 					{
-						zoomCordX = sf::Mouse::getPosition(artBoard).x;
-						zoomCordY = sf::Mouse::getPosition(artBoard).y;
+						zoomCordX = (float)sf::Mouse::getPosition(artBoard).x;
+						zoomCordY = (float)sf::Mouse::getPosition(artBoard).y;
 						zoomSelected = true;
 						zoomedIn = true;
 					}
@@ -172,11 +201,11 @@ int main()
 			if (zoomedIn)
 			{
 				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
-				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0f, (float)artBoardHeight / 3.0f));
 			}
 			else
 			{
-				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
+				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
 				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 			}
 

@@ -29,7 +29,7 @@ int save(sf::RenderWindow& artBoard) {
 	sf::RectangleShape btn_bg_cancel(sf::Vector2f(53.0f, 19.0f));
 	sf::RectangleShape bg_textField(sf::Vector2f(113.0f, 18.0f));
 
-	txtr_savePrompt.loadFromFile("save_prompt.png");
+	txtr_savePrompt.loadFromFile("./Resources/img/save_prompt.png");
 	sprt_savePrompt.setTexture(txtr_savePrompt);
 
 	btn_bg_save.setPosition(120.0f, 88.0f);
@@ -37,7 +37,7 @@ int save(sf::RenderWindow& artBoard) {
 	btn_bg_cancel.setPosition(217.0f, 88.0f);
 	bg_textField.setPosition(145.0f, 46.0f);
 
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("./Resources/fonts/arial.ttf"))
 	{
 		std::cout << "unable to load font\n";
 	}
