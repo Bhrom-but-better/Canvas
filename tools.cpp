@@ -29,7 +29,7 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 	}
 
 	else if (!mousePressedDown && brushTap && vertices[lines_number].getVertexCount() == 0) {
-		vertices[lines_number] = fillSquare((sf::Vector2f)last_Mouse_pos, brushSize);
+		vertices[lines_number] = fillSquare((sf::Vector2f)last_Mouse_pos, brushSize, curr_col);
 		brushTap = false;
 	}
 

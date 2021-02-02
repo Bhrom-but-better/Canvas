@@ -47,7 +47,7 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius);
 void circleConnect(sf::Vector2f center, float radius, sf::Color col);
-sf::VertexArray fillSquare(sf::Vector2f center, float radius);
+sf::VertexArray fillSquare(sf::Vector2f center, float radius, sf::Color col);
 sf::Vector2f getCoordinates(sf::Vector2f oldCord);
 
 void canvas_draw(sf::RenderWindow& artBoard);
