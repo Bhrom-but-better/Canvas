@@ -171,7 +171,9 @@ int main()
 
 			if (zoomedIn)
 			{
-				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
+				std::cout << "Zooming\n";
+				vw.setCenter(sf::Vector2f(
+					CordX, zoomCordY));
 				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
 			}
 
