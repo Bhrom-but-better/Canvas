@@ -4,6 +4,7 @@ sf::Vector2f first_position;
 sf::Vector2f firstPoint;
 
 bool brushTap = false;
+bool penTap = false;
 
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 {
@@ -48,9 +49,11 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
 	mouseToggle(evnt);
+	printf("%d %d %d\n", mousePressedDown, penTap, vertices[lines_number].getVertexCount());
 
 	if (mousePressedDown)
 	{
+		penTap = true;
 		vertices[lines_number].setPrimitiveType(sf::LineStrip);
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
@@ -60,6 +63,14 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 		//curr_col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255);
 	}
+
+	else if (!mousePressedDown && penTap && vertices[lines_number].getVertexCount() <= 2)
+	{
+		penTap = false;
+		vertices[lines_number].setPrimitiveType(sf::PrimitiveType::Points);
+		vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col);
+	}
+
 	else
 	{
 		last_Mouse_pos.x = 0;
