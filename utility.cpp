@@ -116,11 +116,11 @@ sf::VertexArray fillSquare(sf::Vector2f center, float radius, sf::Color col)
 	sf::VertexArray square;
 	square.setPrimitiveType(sf::TriangleFan);
 	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center)), col));
-	square.append(getCoordinates(sf::Vector2f(center.x - brushSize, center.y + brushSize)));
-	square.append(getCoordinates(sf::Vector2f(center.x + brushSize, center.y + brushSize)));
-	square.append(getCoordinates(sf::Vector2f(center.x + brushSize, center.y - brushSize)));
-	square.append(getCoordinates(sf::Vector2f(center.x - brushSize, center.y - brushSize)));
-	square.append(getCoordinates(sf::Vector2f(center.x - brushSize, center.y + brushSize)));
+	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x - brushSize, center.y + brushSize)), col));
+	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x + brushSize, center.y + brushSize)), col));
+	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x + brushSize, center.y - brushSize)), col));
+	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x - brushSize, center.y - brushSize)), col));
+	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x - brushSize, center.y + brushSize)), col));
 
 	return square;
 }
