@@ -171,10 +171,13 @@ int main()
 
 			if (zoomedIn)
 			{
-				std::cout << "Zooming\n";
-				vw.setCenter(sf::Vector2f(
-					CordX, zoomCordY));
+				vw.setCenter(sf::Vector2f(zoomCordX, zoomCordY));
 				vw.setSize(sf::Vector2f((float)artBoardWidth / 3.0, (float)artBoardHeight / 3.0));
+			}
+			else
+			{
+				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
+				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 			}
 
 			if (fillSelected) {
@@ -185,11 +188,6 @@ int main()
 					}
 				}
 				fillSelected = false;
-			}
-			else
-			{
-				vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0, (float)artBoardHeight / 2.0));
-				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 			}
 		}
 
