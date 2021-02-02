@@ -2,7 +2,8 @@
 #include "global.hpp"
 #include <Windows.h>
 #include <iostream>
-#include <vector>
+
+//zoom working commit
 
 int artBoardWidth = 1280; //temporary. untill prompting user for size
 int artBoardHeight = 720; //temporary. untill prompting user for size
@@ -179,11 +180,13 @@ int main()
 				vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
 			}
 		}
+
 		artBoard.setView(vw);
 		artBoard.clear(sf::Color(60, 60, 60));
 		artBoard.draw(background);
 		canvas_draw(artBoard);
 		artBoard.display();
+		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
 	}
 
 	return 0;
