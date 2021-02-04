@@ -20,7 +20,7 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 			vertices[lines_number].setPrimitiveType(sf::TriangleStrip);
 			sf::Vector2i new_Mouse_pos = curr_Mouse_pos;
 			if (last_Mouse_pos.x != 0 && last_Mouse_pos.y != 0)
-				brushConnect(new_Mouse_pos, last_Mouse_pos, radius);
+				brushConnect(new_Mouse_pos, last_Mouse_pos, radius, curr_col);
 			last_Mouse_pos = new_Mouse_pos;
 			//std::cout << "X Y : " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.x << " " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.y << std::endl;
 		}
@@ -30,18 +30,20 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 
 	else if (!mousePressedDown && brushTap && vertices[lines_number].getVertexCount() == 0) {
 		vertices[lines_number] = fillSquare((sf::Vector2f)last_Mouse_pos, brushSize, curr_col);
-		brushTap = false;
 	}
 
-	else if (!mousePressedDown)
+	if (!mousePressedDown)
 	{
 		last_Mouse_pos.x = 0;
 		last_Mouse_pos.y = 0;
+		brushTap = false;
 	}
 }
 
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
+	std::cout << "Currently " << lines_number << " " << vertices.size() << " " << mousePressedDown << '\n';
+
 	mouseToggle(evnt);
 
 	if (mousePressedDown)
@@ -61,13 +63,13 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 	{
 		vertices[lines_number].setPrimitiveType(sf::PrimitiveType::Points);
 		vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), curr_col);
-		penTap = false;
 	}
 
 	if (!mousePressedDown)
 	{
 		last_Mouse_pos.x = 0;
 		last_Mouse_pos.y = 0;
+		penTap = false;
 	}
 
 	//(*artBoard).display();
@@ -614,13 +616,15 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 				last_cleared = false;
 			}
 
-			vertices.push_back(sf::VertexArray(sf::LineStrip));
+			vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 			lines_number++;
 			firstPoint = sf::Vector2f(sf::Mouse::getPosition(artBoard));
 			//firstPoint = getCoordinates(firstPoint);
 			mousePressedDown = true;
 		}
 	}
+
+	//vertices[lines_number].setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 
 	if (mousePressedDown)
 	{

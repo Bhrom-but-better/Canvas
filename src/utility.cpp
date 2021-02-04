@@ -56,7 +56,7 @@ void mouseToggle(sf::Event& evnt)
 	}
 }
 
-void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius)
+void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius, sf::Color col)
 {
 	float curr_slope, mult;
 
@@ -65,20 +65,21 @@ void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius)
 		curr_slope = -(float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
 		mult = sqrt((radius * radius) / (curr_slope * curr_slope + 1));
 
-		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + mult, newPos.y + curr_slope * mult }), curr_col));
-		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x - mult, newPos.y - curr_slope * mult }), curr_col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + mult, newPos.y + curr_slope * mult }), col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x - mult, newPos.y - curr_slope * mult }), col));
 	}
 
 	else
 	{
 		curr_slope = 1; // m = 1/0
-		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y - radius }), curr_col));
-		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y + radius }), curr_col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y - radius }), col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + radius, newPos.y + radius }), col));
 	}
 }
 
 void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 {
+	sf::Vector2i newPos, oldPos, firstPos;
 	//std::cout << center.x << " " << center.y << '\n';
 	int points = (int)ceil(radius * 10);
 	float degInc = 2 * pi / points;
@@ -89,11 +90,15 @@ void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 		sf::Vector2f point;
 		point.x = center.x + circle_x;
 		point.y = center.y + circle_y;
-
-		vertices[lines_number].append(sf::Vertex(getCoordinates(point), col));
+		newPos = (sf::Vector2i)point;
+		if (degree == 0)
+			firstPos = newPos;
+		else
+			brushConnect(newPos, oldPos, brushSize, col);
+		oldPos = newPos;
 	}
 
-	vertices[lines_number].append(vertices[lines_number][0]);
+	brushConnect(oldPos, firstPos, brushSize, col);
 }
 
 sf::Vector2f getCoordinates(sf::Vector2f oldCord)
