@@ -65,8 +65,8 @@ void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius, sf::C
 		curr_slope = -(float)(newPos.x - lastPos.x) / (newPos.y - lastPos.y);
 		mult = sqrt((radius * radius) / (curr_slope * curr_slope + 1));
 
-		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + mult, newPos.y + curr_slope * mult }), col));
 		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x - mult, newPos.y - curr_slope * mult }), col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates({ newPos.x + mult, newPos.y + curr_slope * mult }), col));
 	}
 
 	else
@@ -114,10 +114,8 @@ void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 		newPos = (sf::Vector2i)point;
 		if (degree == 0)
 			firstPos = newPos;
-		else {
+		else
 			brushConnect(newPos, oldPos, brushSize, col);
-			brushConnect(oldPos, newPos, brushSize, col);
-		}
 		oldPos = newPos;
 	}
 
