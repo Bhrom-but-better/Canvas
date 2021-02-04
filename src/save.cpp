@@ -5,6 +5,8 @@
 #define ENTER_KEY 13
 #define ESCAPE_KEY 27
 
+std::string save_location;
+
 int save(sf::RenderWindow& artBoard) {
 	brushSelected = false;
 	penSelected = false;
@@ -139,7 +141,7 @@ int save(sf::RenderWindow& artBoard) {
 			sf::Texture texture;
 			texture.create(artBoard.getSize().x, artBoard.getSize().y);
 			texture.update(artBoard);
-			std::string save_location = "./art/" + text.str() + ".png";
+			save_location = "./art/" + text.str() + ".png";
 			if (texture.copyToImage().saveToFile(save_location))
 			{
 				std::cout << "Art saved to " << text.str() + ".png" << std::endl;
@@ -163,4 +165,15 @@ int save(sf::RenderWindow& artBoard) {
 		save_prompt.display();
 	}
 	return 0;
+}
+
+int normal_save(sf::RenderWindow& artBoard)
+{
+	sf::Texture texture;
+	texture.create(artBoard.getSize().x, artBoard.getSize().y);
+	texture.update(artBoard);
+	if (texture.copyToImage().saveToFile(save_location))
+		return 1;
+	else
+		return 0;
 }

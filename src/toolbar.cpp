@@ -317,7 +317,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	}
 	if (colorMixerSelected)
 	{
-		colorMixer_action(sf::Mouse::getPosition());
+		colorMixer_action(sf::Mouse::getPosition(), true);
 	}
 
 	toolbar.clear(sf::Color(70, 70, 70));

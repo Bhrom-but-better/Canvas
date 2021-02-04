@@ -2,6 +2,8 @@
 #include <iostream>
 #include "SFML\Graphics.hpp"
 
+extern bool saved;
+
 extern bool penSelected;
 extern bool brushSelected;
 extern bool eraserSelected;
@@ -40,7 +42,7 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius);
 void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void colorPalatte_action(sf::Vector2i mouse_pos);
-void colorMixer_action(sf::Vector2i mouse_pos);
+void colorMixer_action(sf::Vector2i mouse_pos, bool pick);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
@@ -55,4 +57,8 @@ void canvas_draw(sf::RenderWindow& artBoard);
 void mouseToggle(sf::Event& evnt);
 
 int save(sf::RenderWindow& artBoard);
+int normal_save(sf::RenderWindow& artBoard);
 bool open();
+
+void init_menu(sf::RenderWindow& artBoard);
+void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt);

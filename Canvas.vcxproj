@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="src\global.cpp" />
     <ClCompile Include="src\open.cpp" />
     <ClCompile Include="src\save.cpp" />

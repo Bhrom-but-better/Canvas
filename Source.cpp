@@ -123,9 +123,10 @@ int main()
 				}
 				if (evnt.key.code == sf::Keyboard::Key::Q)
 				{
+					saved = true;
 					if (save(artBoard) == -1) //if cancel is clicked
 						continue;
-					artBoard.close();
+					//artBoard.close();
 				}
 
 				if (evnt.key.code == sf::Keyboard::Key::C)
@@ -224,6 +225,8 @@ int main()
 		artBoard.clear(sf::Color(60, 60, 60));
 		artBoard.draw(background);
 		canvas_draw(artBoard);
+		init_menu(artBoard);
+		menu_action(artBoard, evnt);
 		artBoard.display();
 		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
 	}
