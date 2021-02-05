@@ -10,6 +10,9 @@ bool colorPalatteSelected = false;
 bool colorMixerSelected = false;
 bool lineSelected = false;
 bool zoomSelected = false;
+bool gradientSelected = false;
+bool sizeSliderSelected = false;
+
 int toolbarMouseX, toolbarMouseY;
 
 sf::Sprite sprt_icon_toolbar;
@@ -22,15 +25,30 @@ sf::RectangleShape btn_bg_circleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_rectangleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_zoomTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape btn_bg_gradient(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
-sf::RenderWindow toolbar(sf::VideoMode(120, 160), "Toolbar", sf::Style::None);
+sf::RectangleShape bar_sizeSlider(sf::Vector2f(80.0f, 3.0f));
+sf::CircleShape crcl_sizeSlider(8.0f);
+sf::Vector2f pos_crcl_sizeSlider;
+sf::Font font_arial;
+sf::Text txt_sizeSlider(std::to_string((int)brushSize), font_arial, 16);
+
+sf::ContextSettings settings;
+sf::RenderWindow toolbar(sf::VideoMode(120, 200), "Toolbar", sf::Style::None);
 
 void init_toolbar(sf::Vector2i artBoardPos)
 {
+	settings.antialiasingLevel = 8;
+
 	toolbar.setPosition({ artBoardPos.x - 123, artBoardPos.y }); //temporary. untill prompting user for size
 
-	icon_tools.loadFromFile("./Resources/img/tool_icons.png");
+	if (!font_arial.loadFromFile("./Resources/fonts/arial.ttf"))
+	{
+		std::cout << "unable to load font\n";
+	}
+
+	icon_tools.loadFromFile("./Resources/img/tool_icons.png"); //NEED TO ERROR CHECK
 
 	sprt_icon_toolbar.setPosition(0.0f, 0.0f);
 
@@ -43,6 +61,19 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	btn_bg_rectangleTool.setPosition(80.0f, 40.0f);
 	btn_bg_zoomTool.setPosition(40.0f, 80.0f);
 	btn_bg_colorPickTool.setPosition(0.0f, 80.0f);
+	btn_bg_gradient.setPosition(0.0f, 120.0f);
+
+	bar_sizeSlider.setPosition({ 6.0f, 179.0f });
+	bar_sizeSlider.setFillColor(sf::Color(100, 100, 100));
+
+	pos_crcl_sizeSlider = { bar_sizeSlider.getPosition().x, bar_sizeSlider.getPosition().y - crcl_sizeSlider.getRadius() + 1.5f };
+	crcl_sizeSlider.setPosition(pos_crcl_sizeSlider);
+	crcl_sizeSlider.setFillColor(sf::Color(90, 90, 90));
+	crcl_sizeSlider.setOutlineThickness(1.5f);
+	crcl_sizeSlider.setOutlineColor(sf::Color::White);
+
+	txt_sizeSlider.setPosition({ 94.0f, 170.0f });
+	txt_sizeSlider.setFillColor(sf::Color::White);
 
 	sprt_icon_toolbar.setTexture(icon_tools);
 
@@ -161,6 +192,16 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				{
 					colorPalatteSelected = true;
 				}
+				//gradientTool selection
+				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)
+				{
+					gradientSelected = true;
+				}
+				//size slider selection
+				else if (toolbarMouseX >= pos_crcl_sizeSlider.x && toolbarMouseX < pos_crcl_sizeSlider.x + crcl_sizeSlider.getRadius() * 2 && toolbarMouseY >= pos_crcl_sizeSlider.y && toolbarMouseY < pos_crcl_sizeSlider.y + crcl_sizeSlider.getRadius() * 2)
+				{
+					sizeSliderSelected = true;
+				}
 			}
 
 			if (evnt.mouseButton.button == sf::Mouse::Right)
@@ -203,6 +244,27 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				}
 			}
 		}
+		else if (evnt.type == sf::Event::MouseButtonReleased)
+		{
+			if (evnt.mouseButton.button == sf::Mouse::Left)
+			{
+				sizeSliderSelected = false;
+			}
+		}
+	}
+
+	if (sizeSliderSelected)
+	{
+		float x = sf::Mouse::getPosition(toolbar).x - crcl_sizeSlider.getRadius() / 2;
+		float sliderPos = (float)x - 5.0f;
+		if (x >= 6.0 && x < 86.0)
+		{
+			pos_crcl_sizeSlider.x = x;
+
+			brushSize = (int)sliderPos % 80;
+			txt_sizeSlider.setString(std::to_string((int)brushSize));
+		}
+		crcl_sizeSlider.setPosition(pos_crcl_sizeSlider);
 	}
 
 	//bg handling for penTool
@@ -309,6 +371,22 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	{
 		btn_bg_fillTool.setFillColor(sf::Color(70, 70, 70));
 	}
+	//bg handling for gradients
+	if (gradientSelected)
+	{
+		btn_bg_gradient.setFillColor(sf::Color(46, 46, 46));
+		//impelement gradient fool here
+
+		gradientSelected = false;
+	}
+	else if (!zoomSelected && toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)
+	{
+		btn_bg_gradient.setFillColor(sf::Color(60, 60, 60));
+	}
+	else
+	{
+		btn_bg_gradient.setFillColor(sf::Color(70, 70, 70));
+	}
 	//handling colorPickTool
 	btn_bg_colorPickTool.setFillColor(curr_col);
 	if (colorPalatteSelected)
@@ -331,6 +409,10 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	toolbar.draw(btn_bg_rectangleTool);
 	toolbar.draw(btn_bg_zoomTool);
 	toolbar.draw(btn_bg_colorPickTool);
+	toolbar.draw(btn_bg_gradient);
+	toolbar.draw(bar_sizeSlider);
+	toolbar.draw(crcl_sizeSlider);
+	toolbar.draw(txt_sizeSlider);
 
 	toolbar.draw(sprt_icon_toolbar);
 	toolbar.display();

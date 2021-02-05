@@ -13,6 +13,8 @@ int undo_count = 0;
 bool last_cleared = false;
 bool mousePressedDown = false; // When a mouse button is pressed this will change to true until a mouse button is released again
 bool zoomedIn = false;
+bool bgImported = false;
+std::string fileLocation = "";
 
 float brushSize = 2.0;
 float eraserSize = 2.0;
@@ -37,6 +39,9 @@ int main()
 	sf::Image icon;
 	icon.loadFromFile("./Resources/img/canvasIcon.png");
 	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+	sf::Texture txtr_importedBackground;
+	sf::Sprite sprt_importedBackground;
 
 	artBoard.clear(bg_col);
 	float lastTime = 0;
@@ -94,6 +99,16 @@ int main()
 				{
 					if (!open())
 					{
+						if (fileLocation != "")
+						{
+							if (txtr_importedBackground.loadFromFile(fileLocation))
+							{
+								bgImported = true;
+							}
+							sprt_importedBackground.setTexture(txtr_importedBackground);
+							artBoardWidth = txtr_importedBackground.getSize().x;
+							artBoardHeight = txtr_importedBackground.getSize().y;
+						}
 						artBoard.setSize(sf::Vector2u(artBoardWidth, artBoardHeight));
 						vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
 						vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
@@ -112,8 +127,10 @@ int main()
 						colorMixerSelected = false;
 						lineSelected = false;
 						zoomSelected = false;
-						brushSize = 2.0;
-						eraserSize = 2.0;
+						gradientSelected = false;
+						fileLocation = "";
+						brushSize = 3.0;
+						eraserSize = 5.0;
 						vertices.clear();
 						vertices.push_back(sf::VertexArray());
 						vertices[0].setPrimitiveType(sf::LineStrip);
@@ -224,6 +241,10 @@ int main()
 		artBoard.setView(vw);
 		artBoard.clear(sf::Color(60, 60, 60));
 		artBoard.draw(background);
+		if (bgImported)
+		{
+			artBoard.draw(sprt_importedBackground);
+		}
 		canvas_draw(artBoard);
 		init_menu(artBoard);
 		menu_action(artBoard, evnt);

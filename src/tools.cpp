@@ -164,7 +164,7 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 	settings.antialiasingLevel = 8;
 
 	sf::RenderWindow colorMixer(sf::VideoMode(438, 110), "testSFML", sf::Style::None, settings);
-	
+
 	sf::Color new_col = curr_col;
 	sf::Color new_bg = bg_col;
 
@@ -182,54 +182,48 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 
 	colorMixer.setPosition(mouse_pos);
 
-	sf::Font font;
-	if (!font.loadFromFile("./Resources/fonts/arial.ttf"))
-	{
-		std::cout << "unable to load font\n";
-	}
-
-	sf::Text tb_r("R", font, 16);
+	sf::Text tb_r("R", font_arial, 16);
 	tb_r.setPosition({ 8, 8 });
 	tb_r.setFillColor(sf::Color(180, 180, 180));
-	sf::Text tb_rVal; 
-	
+	sf::Text tb_rVal;
+
 	if (pick)
 		tb_rVal.setString(std::to_string((int)curr_col.r));
-	else 
+	else
 		tb_rVal.setString(std::to_string((int)bg_col.r));
-	tb_rVal.setFont(font);
+	tb_rVal.setFont(font_arial);
 	tb_rVal.setCharacterSize(16);
 	tb_rVal.setPosition({ 310, 8 });
 	tb_rVal.setFillColor(sf::Color(180, 180, 180));
-	
-	sf::Text tb_g("G", font, 16);
+
+	sf::Text tb_g("G", font_arial, 16);
 	tb_g.setPosition({ 8, 33 });
 	tb_g.setFillColor(sf::Color(180, 180, 180));
 	sf::Text tb_gVal;
-	
+
 	if (pick)
 		tb_gVal.setString(std::to_string((int)curr_col.g));
 	else
 		tb_gVal.setString(std::to_string((int)bg_col.g));
-	tb_gVal.setFont(font);
+	tb_gVal.setFont(font_arial);
 	tb_gVal.setCharacterSize(16);
-	tb_gVal.setPosition({ 310, 8 });
+	tb_gVal.setPosition({ 310, 33 });
 	tb_gVal.setFillColor(sf::Color(180, 180, 180));
 
-	sf::Text tb_b("B", font, 16);
+	sf::Text tb_b("B", font_arial, 16);
 	tb_b.setPosition({ 8, 58 });
 	tb_b.setFillColor(sf::Color(180, 180, 180));
-	sf::Text tb_bVal; 
+	sf::Text tb_bVal;
 	if (pick)
 		tb_bVal.setString(std::to_string((int)curr_col.b));
 	else
 		tb_bVal.setString(std::to_string((int)bg_col.b));
-	tb_bVal.setFont(font);
+	tb_bVal.setFont(font_arial);
 	tb_bVal.setCharacterSize(16);
-	tb_bVal.setPosition({ 310, 8 });
+	tb_bVal.setPosition({ 310, 58 });
 	tb_bVal.setFillColor(sf::Color(180, 180, 180));
 
-	sf::Text tb_a("A", font, 16);
+	sf::Text tb_a("A", font_arial, 16);
 	tb_a.setPosition({ 8, 83 });
 	tb_a.setFillColor(sf::Color(180, 180, 180));
 	sf::Text tb_aVal;
@@ -237,9 +231,9 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 		tb_aVal.setString(std::to_string((int)curr_col.a));
 	else
 		tb_aVal.setString(std::to_string((int)bg_col.a));
-	tb_aVal.setFont(font);
+	tb_aVal.setFont(font_arial);
 	tb_aVal.setCharacterSize(16);
-	tb_aVal.setPosition({ 310, 8 });
+	tb_aVal.setPosition({ 310, 83 });
 	tb_aVal.setFillColor(sf::Color(180, 180, 180));
 
 	if (pick)
@@ -267,7 +261,7 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 	}
 	crcl_green.setOutlineThickness(2);
 	crcl_green.setOutlineColor(sf::Color(200, 200, 200));
-	
+
 	if (pick)
 	{
 		crcl_blue.setPosition((float)curr_col.b + 30.0f, 60.0f);
@@ -280,7 +274,7 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 	}
 	crcl_blue.setOutlineThickness(2);
 	crcl_blue.setOutlineColor(sf::Color(200, 200, 200));
-	
+
 	if (pick)
 	{
 		crcl_alpha.setPosition((float)curr_col.a + 30.0f, 85.0f);
@@ -299,13 +293,13 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 		rect_newCol.setFillColor(new_col);
 	else
 		rect_newCol.setFillColor(new_bg);
-	
+
 	rect_currCol.setPosition(350.0, 55.0);
 	if (pick)
 		rect_currCol.setFillColor(curr_col);
 	else
 		rect_currCol.setFillColor(bg_col);
-	
+
 	bar_r.setPosition(38.0, 17.0);
 	bar_r.setFillColor(sf::Color::Red);
 
@@ -430,7 +424,7 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 				{
 					new_col.r = (int)sliderPos % 256;
 					tb_rVal.setString(std::to_string((int)new_col.r));
-				}	
+				}
 				else
 				{
 					new_bg.r = (int)sliderPos % 256;
@@ -503,7 +497,6 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick)
 			rect_newCol.setFillColor(new_col);
 		else
 			rect_newCol.setFillColor(new_bg);
-
 
 		colorMixer.clear(sf::Color(60, 60, 60));
 

@@ -21,11 +21,6 @@ bool open()
 	{
 		std::cout << "unable to load font\n";
 	}
-	sf::Font font2;
-	if (!font2.loadFromFile("./Resources/fonts/arial.ttf"))
-	{
-		std::cout << "unable to load font\n";
-	}
 
 	sf::Sprite sprt_startMenu;
 	sf::Texture tex_startMenu;
@@ -69,17 +64,17 @@ bool open()
 	txt_imagination.setPosition({ 58.0f, 18.0f });
 	txt_imagination.setFillColor(sf::Color::White);
 
-	sf::Text txt_create("Create New", font2, 15);
+	sf::Text txt_create("Create New", font_arial, 15);
 	txt_create.setPosition({ 486.0f, 372.0f });
 	txt_create.setFillColor(sf::Color::White);
 
-	sf::Text txt_import("Import from existing", font2, 15);
+	sf::Text txt_import("Import from existing", font_arial, 15);
 	txt_import.setPosition({ 481.0f, 429.0f });
 	txt_import.setFillColor(sf::Color::White);
 
-	Textbox txt_height(font2, { btn_height.getPosition().x + 8.0f, btn_height.getPosition().y + 6.0f }, 14, sf::Color::White, false);
+	Textbox txt_height(font_arial, { btn_height.getPosition().x + 8.0f, btn_height.getPosition().y + 6.0f }, 14, sf::Color::White, 4, false);
 	txt_height.setText(std::to_string(artBoardHeight));
-	Textbox txt_width(font2, { btn_width.getPosition().x + 8.0f, btn_width.getPosition().y + 6.0f }, 14, sf::Color::White, false);
+	Textbox txt_width(font_arial, { btn_width.getPosition().x + 8.0f, btn_width.getPosition().y + 6.0f }, 14, sf::Color::White, 4, false);
 	txt_width.setText(std::to_string(artBoardWidth));
 
 	sf::Vector2f pos_height = btn_height.getPosition();
@@ -145,13 +140,15 @@ bool open()
 						//create new
 						artBoardHeight = std::stoi(txt_height.getText());
 						artBoardWidth = std::stoi(txt_width.getText());
+						bgImported = false;
 						open_prompt.close();
 						return closed;
 					}
 					else if (x >= pos_import.x && x <= pos_import.x + sizeX_import && y >= pos_import.y && y <= pos_import.y + sizeY_import)
 					{
 						//import using windows
-
+						fileLocation = import();
+						fileLocation = "./art/" + fileLocation + ".png";
 						open_prompt.close();
 						return closed;
 					}
@@ -187,6 +184,7 @@ bool open()
 			}
 		}
 
+		//bg handling
 		if (heightSelected)
 		{
 			btn_height.setOutlineThickness(1.0);
@@ -282,4 +280,157 @@ bool open()
 		open_prompt.display();
 	}
 	return closed;
+}
+
+std::string import()
+{
+	bool locationSelected = false;
+
+	sf::RenderWindow import_prompt(sf::VideoMode(280, 110), "Importing File...", sf::Style::Close);
+	import_prompt.setVerticalSyncEnabled(true);
+
+	sf::RectangleShape btn_location(sf::Vector2f(260.0f, 30.0f));
+	sf::RectangleShape btn_cancel(sf::Vector2f(60.0f, 20.0f));
+	sf::RectangleShape btn_import(sf::Vector2f(60.0f, 20.0f));
+
+	btn_location.setPosition(10.0f, 40.0f);
+	btn_cancel.setPosition(200.0f, 80.0f);
+	btn_import.setPosition(120.0f, 80.10f);
+
+	btn_location.setFillColor(sf::Color(42, 42, 42));
+	btn_cancel.setFillColor(sf::Color(42, 42, 42));
+	btn_import.setFillColor(sf::Color(42, 42, 42));
+
+	btn_cancel.setOutlineThickness(1.5);
+	btn_cancel.setOutlineColor(sf::Color::Cyan);
+	btn_import.setOutlineThickness(1.5);
+	btn_import.setOutlineColor(sf::Color::Cyan);
+
+	sf::Text txt_enter("Enter file name with location: ", font_arial, 15);
+	txt_enter.setPosition({ 10.0f, 10.0f });
+	txt_enter.setFillColor(sf::Color::White);
+
+	sf::Text txt_cancel("Cancel", font_arial, 15);
+	txt_cancel.setPosition({ btn_cancel.getPosition().x + 7.0f, btn_cancel.getPosition().y });
+	txt_cancel.setFillColor(sf::Color::White);
+
+	sf::Text txt_import("Import", font_arial, 15);
+	txt_import.setPosition({ btn_import.getPosition().x + 8.0f, btn_import.getPosition().y });
+	txt_import.setFillColor(sf::Color::White);
+
+	Textbox txt_location(font_arial, { btn_location.getPosition().x + 8.0f, btn_location.getPosition().y + 6.0f }, 14, sf::Color::White, 20, true);
+	//txt_height.setText(std::to_string(artBoardHeight));
+
+	sf::Vector2f pos_location = btn_location.getPosition();
+	float sizeX_location = btn_location.getSize().x;
+	float sizeY_location = btn_location.getSize().y;
+	sf::Vector2f pos_cancel = btn_cancel.getPosition();
+	float sizeX_cancel = btn_cancel.getSize().x;
+	float sizeY_cancel = btn_cancel.getSize().y;
+	sf::Vector2f pos_import = btn_import.getPosition();
+	float sizeX_import = btn_import.getSize().x;
+	float sizeY_import = btn_import.getSize().y;
+
+	while (import_prompt.isOpen())
+	{
+		int x = sf::Mouse::getPosition(import_prompt).x;
+		int y = sf::Mouse::getPosition(import_prompt).y;
+
+		sf::Event evnt;
+		while (import_prompt.pollEvent(evnt))
+		{
+			if (evnt.type == sf::Event::Closed)
+			{
+				import_prompt.close();
+				return "";
+			}
+			else if (evnt.type == sf::Event::MouseButtonPressed)
+			{
+				if (evnt.mouseButton.button == sf::Mouse::Left)
+				{
+					if (x >= pos_location.x && x <= pos_location.x + sizeX_location && y >= pos_location.y && y <= pos_location.y + sizeY_location)
+					{
+						locationSelected = true;
+					}
+					else if (x >= pos_cancel.x && x <= pos_cancel.x + sizeX_cancel && y >= pos_cancel.y && y <= pos_cancel.y + sizeY_cancel)
+					{
+						txt_location.selected(false);
+						locationSelected = false;
+						import_prompt.close();
+						return "";
+					}
+					else if (x >= pos_import.x && x <= pos_import.x + sizeX_import && y >= pos_import.y && y <= pos_import.y + sizeY_import)
+					{
+						txt_location.selected(false);
+						locationSelected = false;
+						import_prompt.close();
+						return txt_location.getText();
+					}
+					else
+					{
+						txt_location.selected(false);
+						locationSelected = false;
+					}
+				}
+			}
+			else if (evnt.type == sf::Event::KeyPressed)
+			{
+				if (evnt.key.code == sf::Keyboard::Key::Return)
+				{
+					txt_location.selected(false);
+					locationSelected = false;
+					import_prompt.close();
+					return txt_location.getText();
+				}
+			}
+			else if (evnt.type == sf::Event::TextEntered)
+			{
+				txt_location.typedOn(evnt);
+			}
+		}
+
+		if (locationSelected)
+		{
+			btn_location.setOutlineThickness(1.0);
+			btn_location.setOutlineColor(sf::Color::Cyan);
+			txt_location.selected(true);
+		}
+		else if (!locationSelected && x >= pos_location.x && x <= pos_location.x + sizeX_location && y >= pos_location.y && y <= pos_location.y + sizeY_location)
+		{
+			btn_location.setOutlineThickness(1.0);
+			btn_location.setOutlineColor(sf::Color(0, 255, 255, 150));
+		}
+		else
+		{
+			btn_location.setOutlineThickness(0.0);
+			btn_location.setOutlineColor(sf::Color::Cyan);
+		}
+		if (x >= pos_cancel.x && x <= pos_cancel.x + sizeX_cancel && y >= pos_cancel.y && y <= pos_cancel.y + sizeY_cancel)
+		{
+			btn_cancel.setFillColor(sf::Color(50, 50, 50));
+		}
+		else
+		{
+			btn_cancel.setFillColor(sf::Color(70, 70, 70));
+		}
+		if (x >= pos_import.x && x <= pos_import.x + sizeX_import && y >= pos_import.y && y <= pos_import.y + sizeY_import)
+		{
+			btn_import.setFillColor(sf::Color(50, 50, 50));
+		}
+		else
+		{
+			btn_import.setFillColor(sf::Color(70, 70, 70));
+		}
+
+		import_prompt.clear(sf::Color(70, 70, 70));
+		import_prompt.draw(btn_location);
+		import_prompt.draw(btn_cancel);
+		import_prompt.draw(btn_import);
+		import_prompt.draw(txt_enter);
+		txt_location.drawTo(import_prompt);
+		import_prompt.draw(txt_import);
+		import_prompt.draw(txt_cancel);
+		import_prompt.display();
+	}
+	return "";
 }

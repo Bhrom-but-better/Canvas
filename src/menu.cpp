@@ -1,4 +1,4 @@
-#include "src/global.hpp"
+#include "global.hpp"
 
 sf::RectangleShape bar;
 sf::Text t_open, t_new, t_save, t_saveas, t_changebg, t_exit;
@@ -13,30 +13,23 @@ int menuMouseX, menuMouseY;
 
 bool saved = false;
 
-
-
 void init_menu(sf::RenderWindow& artBoard)
 {
 	bar.setSize(sf::Vector2f((float)artBoardWidth, 30.f));
 	bar.setPosition(0.f, 0.f);
 	bar.setFillColor(sf::Color(105, 105, 105));
 	artBoard.draw(bar);
-	sf::Font font;
-	if (!font.loadFromFile("./Resources/fonts/arial.ttf"))
-	{
-		std::cout << "Couldn't load font\n";
-	}
 
 	int fsize = 17;
 
 	sf::Text t_open, t_new, t_save, t_saveas, t_changebg, t_exit;
 
-	t_open.setFont(font); t_open.setFillColor(sf::Color::White); t_open.setString("Open");
-	t_new.setFont(font); t_new.setFillColor(sf::Color::White); t_new.setString("Create New");
-	t_changebg.setFont(font); t_changebg.setFillColor(sf::Color::White); t_changebg.setString("Change Background");
-	t_save.setFont(font); t_save.setFillColor(sf::Color::White); t_save.setString("Save");
-	t_saveas.setFont(font); t_saveas.setFillColor(sf::Color::White); t_saveas.setString("Save as");
-	t_exit.setFont(font); t_exit.setFillColor(sf::Color::White); t_exit.setString("Exit");
+	t_open.setFont(font_arial); t_open.setFillColor(sf::Color::White); t_open.setString("Open");
+	t_new.setFont(font_arial); t_new.setFillColor(sf::Color::White); t_new.setString("Create New");
+	t_changebg.setFont(font_arial); t_changebg.setFillColor(sf::Color::White); t_changebg.setString("Change Background");
+	t_save.setFont(font_arial); t_save.setFillColor(sf::Color::White); t_save.setString("Save");
+	t_saveas.setFont(font_arial); t_saveas.setFillColor(sf::Color::White); t_saveas.setString("Save as");
+	t_exit.setFont(font_arial); t_exit.setFillColor(sf::Color::White); t_exit.setString("Exit");
 	t_new.setCharacterSize(fsize);
 	t_open.setCharacterSize(fsize);
 	t_save.setCharacterSize(fsize);
@@ -97,7 +90,6 @@ void init_menu(sf::RenderWindow& artBoard)
 	artBoard.draw(t_saveas);
 	artBoard.draw(t_changebg);
 	artBoard.draw(t_exit);
-
 }
 
 void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
@@ -122,7 +114,7 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			{
 				//Save
 				if (!saved)
-				{ 
+				{
 					save(artBoard);
 				}
 				else
@@ -151,5 +143,4 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			}
 		}
 	}
-
 }

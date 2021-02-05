@@ -20,7 +20,6 @@ int save(sf::RenderWindow& artBoard) {
 	bool save = false;
 
 	std::ostringstream text;
-	sf::Font font;
 	sf::Text textbox;
 
 	sf::RenderWindow save_prompt(sf::VideoMode(280, 120), "Save?", sf::Style::Titlebar);
@@ -39,11 +38,7 @@ int save(sf::RenderWindow& artBoard) {
 	btn_bg_cancel.setPosition(217.0f, 88.0f);
 	bg_textField.setPosition(145.0f, 46.0f);
 
-	if (!font.loadFromFile("./Resources/fonts/arial.ttf"))
-	{
-		std::cout << "unable to load font\n";
-	}
-	textbox.setFont(font);
+	textbox.setFont(font_arial);
 	textbox.setString(text.str() + "_");
 	textbox.setCharacterSize(14);
 	textbox.setPosition({ 148, 46 });

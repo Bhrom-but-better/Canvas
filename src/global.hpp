@@ -16,6 +16,8 @@ extern bool lineSelected;
 extern bool rectangleSelected;
 extern bool zoomSelected;
 extern bool zoomedIn;
+extern bool gradientSelected;
+extern bool bgImported;
 
 extern bool mousePressedDown;
 extern bool last_cleared;
@@ -28,6 +30,10 @@ extern sf::Color curr_col;
 extern sf::Color bg_col;
 extern sf::Vector2i last_Mouse_pos;
 extern std::vector<sf::VertexArray> vertices;
+
+extern sf::Font font_arial;
+
+extern std::string fileLocation;
 
 extern float brushSize;
 extern float eraserSize;
@@ -59,6 +65,7 @@ void mouseToggle(sf::Event& evnt);
 int save(sf::RenderWindow& artBoard);
 int normal_save(sf::RenderWindow& artBoard);
 bool open();
+std::string import();
 
 void init_menu(sf::RenderWindow& artBoard);
 void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt);

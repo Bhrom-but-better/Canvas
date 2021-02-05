@@ -11,13 +11,14 @@ class Textbox {
 public:
 	Textbox() { }
 
-	Textbox(sf::Font& font, sf::Vector2f pos, int size, sf::Color color, bool sel)
+	Textbox(sf::Font& font, sf::Vector2f pos, int size, sf::Color color, int lim, bool sel)
 	{
 		textbox.setFont(font);
 		textbox.setPosition(pos);
 		textbox.setCharacterSize(size);
 		textbox.setFillColor(color);
 		isSelected = sel;
+		limit = lim;
 		if (sel)
 		{
 			textbox.setString("_");
@@ -63,7 +64,7 @@ public:
 			int ch = input.text.unicode;
 			if (ch < 123)
 			{
-				if (text.str().length() < 4) // maxsize 9999
+				if (text.str().length() < (size_t)limit)
 				{
 					typeText(ch);
 				}
@@ -79,6 +80,7 @@ private:
 	sf::Text textbox;
 	std::ostringstream text;
 	bool isSelected = false;
+	int limit;
 
 	void typeText(int ch)
 	{
@@ -96,7 +98,7 @@ private:
 		//else if (ch == ESCAPE_KEY)
 		//{
 		//}
-		else if (ch > 47 && ch < 58)
+		else if (ch < 123)
 		{
 			text << (char)ch;
 		}
