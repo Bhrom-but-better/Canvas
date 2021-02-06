@@ -12,6 +12,7 @@ bool lineSelected = false;
 bool zoomSelected = false;
 bool gradientSelected = false;
 bool sizeSliderSelected = false;
+bool eyedropperSelected = false;
 
 int toolbarMouseX, toolbarMouseY;
 
@@ -26,6 +27,7 @@ sf::RectangleShape btn_bg_rectangleTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_zoomTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_gradient(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape btn_bg_eyedropper(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
 sf::RectangleShape bar_sizeSlider(sf::Vector2f(70.0f, 3.0f));
@@ -62,6 +64,7 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	btn_bg_zoomTool.setPosition(40.0f, 80.0f);
 	btn_bg_colorPickTool.setPosition(0.0f, 80.0f);
 	btn_bg_gradient.setPosition(0.0f, 120.0f);
+	btn_bg_eyedropper.setPosition(40.0f, 120.0f);
 
 	bar_sizeSlider.setPosition({ 16.0f, 179.0f });
 	bar_sizeSlider.setFillColor(sf::Color(100, 100, 100));
@@ -109,6 +112,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//brushtool selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -121,6 +125,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//erasertool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -133,6 +138,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//linetool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -145,6 +151,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//circletool selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -157,6 +164,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//rectangletool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -169,6 +177,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//zoom selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
@@ -186,6 +195,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 						lineSelected = false;
 						rectangleSelected = false;
 						gradientSelected = false;
+						eyedropperSelected = false;
 					}
 				}
 				//filltool selection
@@ -199,6 +209,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 				//colorPickTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
@@ -216,6 +227,20 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					circleSelected = false;
 					lineSelected = false;
+					eyedropperSelected = false;
+				}
+				//eyedropper selection
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 120 && toolbarMouseY < 160)
+				{
+					eyedropperSelected = eyedropperSelected ? 0 : 1;
+					fillSelected = false;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					rectangleSelected = false;
+					circleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
 				}
 				//size slider selection
 				else if (toolbarMouseX >= pos_crcl_sizeSlider.x && toolbarMouseX < pos_crcl_sizeSlider.x + crcl_sizeSlider.getRadius() * 2 && toolbarMouseY >= pos_crcl_sizeSlider.y && toolbarMouseY < pos_crcl_sizeSlider.y + crcl_sizeSlider.getRadius() * 2)
@@ -257,8 +282,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					gradientSelected = false;
 
 					//changing size
-					eraserSize = brushSize_action(sf::Mouse::getPosition(), eraserSize);
-					std::cout << "eraser size: " << eraserSize * 2 << "\n";
+					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
 				}
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
 				{
@@ -407,6 +431,19 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	{
 		btn_bg_gradient.setFillColor(sf::Color(70, 70, 70));
 	}
+	//bg handling for eyedropper
+	if (eyedropperSelected)
+	{
+		btn_bg_eyedropper.setFillColor(sf::Color(46, 46, 46));
+	}
+	else if (!zoomSelected && toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 120 && toolbarMouseY < 160)
+	{
+		btn_bg_eyedropper.setFillColor(sf::Color(60, 60, 60));
+	}
+	else
+	{
+		btn_bg_eyedropper.setFillColor(sf::Color(70, 70, 70));
+	}
 	//handling colorPickTool
 	btn_bg_colorPickTool.setFillColor(curr_col);
 	if (colorPalatteSelected)
@@ -433,6 +470,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	toolbar.draw(btn_bg_zoomTool);
 	toolbar.draw(btn_bg_colorPickTool);
 	toolbar.draw(btn_bg_gradient);
+	toolbar.draw(btn_bg_eyedropper);
 	toolbar.draw(bar_sizeSlider);
 	toolbar.draw(crcl_sizeSlider);
 	toolbar.draw(txt_sizeSlider);

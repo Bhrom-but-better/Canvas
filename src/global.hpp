@@ -14,6 +14,7 @@ extern bool colorPalatteSelected;
 extern bool colorMixerSelected;
 extern bool lineSelected;
 extern bool rectangleSelected;
+extern bool eyedropperSelected;
 extern bool zoomSelected;
 extern bool zoomedIn;
 extern bool gradientSelected;
@@ -40,7 +41,6 @@ extern std::string fileLocation;
 
 extern sf::Vector2f pos_crcl_sizeSlider;
 extern float brushSize;
-extern float eraserSize;
 
 extern float zoomCordX;
 extern float zoomCordY;
@@ -77,3 +77,5 @@ std::string import();
 void init_artBoard(sf::RenderWindow& artBoard, sf::View& vw, sf::RectangleShape& background, sf::Sprite& sprt_importedBackground);
 void init_menu(sf::RenderWindow& artBoard);
 void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+
+int map(int x, int in_min, int in_max, int out_min, int out_max);

@@ -20,7 +20,6 @@ bool bgImported = false;
 std::string fileLocation = "";
 
 float brushSize = 2.0;
-float eraserSize = 2.0;
 
 float zoomCordX, zoomCordY;
 
@@ -130,9 +129,9 @@ int main()
 						lineSelected = false;
 						zoomSelected = false;
 						gradientSelected = false;
+						eyedropperSelected = false;
 						fileLocation = "";
 						brushSize = 3.0;
-						eraserSize = 5.0;
 						vertices.clear();
 						vertices.push_back(sf::VertexArray());
 						vertices[0].setPrimitiveType(sf::LineStrip);
@@ -192,16 +191,16 @@ int main()
 				{
 					if (brushSize > 1)
 					{
-						--pos_crcl_sizeSlider.x;
 						--brushSize;
+						pos_crcl_sizeSlider.x = (float)map(brushSize, 1, 30, 16, 70);
 					}
 				}
 				else if (evnt.key.code == sf::Keyboard::RBracket)
 				{
 					if (brushSize <= 30)
 					{
-						++pos_crcl_sizeSlider.x;
 						++brushSize;
+						pos_crcl_sizeSlider.x = (float)map(brushSize, 1, 30, 16, 70);
 					}
 				}
 			}
@@ -220,7 +219,7 @@ int main()
 			{
 				sf::Color prev_col = curr_col;
 				curr_col = bg_col;
-				brush_action(artBoard, evnt, eraserSize);
+				brush_action(artBoard, evnt, brushSize);
 				curr_col = prev_col;
 			}
 
@@ -263,7 +262,6 @@ int main()
 		artBoard.clear(sf::Color(60, 60, 60));
 		background.setFillColor(bg_col);
 		artBoard.draw(background);
-
 
 		if (bgImported)
 		{
