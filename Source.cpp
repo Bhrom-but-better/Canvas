@@ -228,26 +228,32 @@ int main()
 			}
 
 			if (fillSelected) {
-				sf::Color col = sf::Color::Color(rand() % 255, rand() % 255, rand() % 255, 255);
-				for (float i = 0; i < artBoardHeight; ++i) {
-					for (float j = 0; j < artBoardWidth; ++j) {
-						vertices[lines_number].append(sf::Vertex(sf::Vector2f(j, i), col));
-					}
-				}
-				fillSelected = false;
+				fill_action(artBoard, evnt);
+			}
+
+			if (gradientSelected)
+			{
+				gradient_action(artBoard, evnt);
 			}
 		}
 
-		artBoard.setView(vw);
 		artBoard.clear(sf::Color(60, 60, 60));
+		background.setFillColor(bg_col);
 		artBoard.draw(background);
+
+		menu_action(artBoard, evnt);
+
 		if (bgImported)
 		{
 			artBoard.draw(sprt_importedBackground);
 		}
+
 		canvas_draw(artBoard);
-		init_menu(artBoard);
-		menu_action(artBoard, evnt);
+
+		if (!zoomedIn)
+			init_menu(artBoard);
+
+		artBoard.setView(vw);
 		artBoard.display();
 		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
 	}

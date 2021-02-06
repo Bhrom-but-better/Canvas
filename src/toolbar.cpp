@@ -103,6 +103,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//brushtool selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -114,6 +115,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//erasertool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -125,6 +127,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//linetool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -136,6 +139,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					fillSelected = false;
 					circleSelected = false;
 					rectangleSelected = false;
+					gradientSelected = false;
 				}
 				//circletool selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -147,6 +151,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					fillSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//rectangletool selection
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
@@ -158,6 +163,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					fillSelected = false;
 					circleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//zoom selection
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 80 && toolbarMouseY < 120)
@@ -174,6 +180,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 						circleSelected = false;
 						lineSelected = false;
 						rectangleSelected = false;
+						gradientSelected = false;
 					}
 				}
 				//filltool selection
@@ -186,6 +193,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					circleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 				}
 				//colorPickTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
@@ -195,7 +203,14 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				//gradientTool selection
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)
 				{
-					gradientSelected = true;
+					gradientSelected = gradientSelected ? 0 : 1;
+					fillSelected = false;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					rectangleSelected = false;
+					circleSelected = false;
+					lineSelected = false;
 				}
 				//size slider selection
 				else if (toolbarMouseX >= pos_crcl_sizeSlider.x && toolbarMouseX < pos_crcl_sizeSlider.x + crcl_sizeSlider.getRadius() * 2 && toolbarMouseY >= pos_crcl_sizeSlider.y && toolbarMouseY < pos_crcl_sizeSlider.y + crcl_sizeSlider.getRadius() * 2)
@@ -217,6 +232,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 
 					//changing size
 					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
@@ -233,6 +249,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					circleSelected = false;
 					rectangleSelected = false;
 					lineSelected = false;
+					gradientSelected = false;
 
 					//changing size
 					eraserSize = brushSize_action(sf::Mouse::getPosition(), eraserSize);
@@ -375,9 +392,6 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	if (gradientSelected)
 	{
 		btn_bg_gradient.setFillColor(sf::Color(46, 46, 46));
-		//impelement gradient fool here
-
-		gradientSelected = false;
 	}
 	else if (!zoomSelected && toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)
 	{

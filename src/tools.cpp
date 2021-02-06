@@ -2,6 +2,7 @@
 
 sf::Vector2f first_position;
 sf::Vector2f firstPoint;
+sf::Vector2i last_last_Mouse_pos;
 
 bool brushTap = false;
 bool penTap = false;
@@ -21,9 +22,15 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 			sf::Vector2i new_Mouse_pos = curr_Mouse_pos;
 			if (last_Mouse_pos.x != 0 && last_Mouse_pos.y != 0) {
 				brushConnect(last_Mouse_pos, new_Mouse_pos, radius, curr_col);
-				//brushConnect(new_Mouse_pos, last_Mouse_pos, radius, curr_col);
+				brushConnect(new_Mouse_pos, last_Mouse_pos, radius, curr_col);
 			}
+			if (last_last_Mouse_pos.x != 0 && last_last_Mouse_pos.y != 0) {
+				brushConnect(last_last_Mouse_pos, new_Mouse_pos, radius, curr_col);
+				brushConnect(new_Mouse_pos, last_last_Mouse_pos, radius, curr_col);
+			}
+
 			last_Mouse_pos = new_Mouse_pos;
+			last_last_Mouse_pos = last_Mouse_pos;
 			//std::cout << "X Y : " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.x << " " << vertices[lines_number][vertices[lines_number].getVertexCount() - 1].position.y << std::endl;
 		}
 
@@ -38,6 +45,8 @@ void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius)
 	{
 		last_Mouse_pos.x = 0;
 		last_Mouse_pos.y = 0;
+		last_last_Mouse_pos.x = 0;
+		last_last_Mouse_pos.y = 0;
 		brushTap = false;
 	}
 }
@@ -794,6 +803,101 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			center.y = firstPoint.y + 0.5f * (curr_pos.y - firstPoint.y);
 			//center = getCoordinates(center);
 			circleConnect(center, radius, curr_col);
+		}
+	}
+}
+
+void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+{
+	sf::Color guide_col = curr_col;
+	guide_col.a = curr_col.a / 2;
+
+	if (evnt.type == sf::Event::MouseButtonPressed)
+	{
+		if (undo_count > 0) {
+			while (undo_count) {
+				vertices.pop_back();
+				--lines_number;
+				--undo_count;
+			}
+		}
+
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			undo_count = 0;
+			if (last_cleared) {
+				vertices.clear();
+				lines_number = -1;
+				last_cleared = false;
+			}
+
+			vertices.push_back(sf::VertexArray(sf::TriangleStrip, 4));
+			lines_number++;
+			//printf("Current line number %d vector size %d\n", lines_number, vertices.size());
+			first_position = (sf::Vector2f)sf::Mouse::getPosition(artBoard);
+			mousePressedDown = true;
+		}
+	}
+
+	if (evnt.type == sf::Event::MouseButtonReleased)
+	{
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			mousePressedDown = false;
+			last_Mouse_pos.x = 0;
+			last_Mouse_pos.y = 0;
+		}
+	}
+
+	if (mousePressedDown)
+	{
+		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
+		{
+			rectangleConnect((sf::Vector2f)sf::Mouse::getPosition(artBoard), first_position, brushSize, guide_col, 0);
+			rectangleConnect(first_position, (sf::Vector2f)sf::Mouse::getPosition(artBoard), brushSize, guide_col, 1);
+			last_Mouse_pos = sf::Mouse::getPosition();
+		}
+	}
+	if (evnt.type == sf::Event::MouseButtonReleased)
+	{
+		vertices[lines_number].clear();
+		vertices[lines_number].setPrimitiveType(sf::Quads);
+	}
+}
+
+void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+{
+	if (evnt.type == sf::Event::MouseButtonPressed)
+	{
+		if (undo_count > 0) {
+			while (undo_count) {
+				vertices.pop_back();
+				--lines_number;
+				--undo_count;
+			}
+		}
+
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			undo_count = 0;
+			if (last_cleared) {
+				vertices.clear();
+				lines_number = -1;
+				last_cleared = false;
+			}
+
+			vertices.push_back(sf::VertexArray(sf::TriangleStrip));
+			lines_number++;
+			sf::Texture curr_texture;
+			curr_texture.create(artBoard.getSize().x, artBoard.getSize().y);
+			curr_texture.update(artBoard);
+			sf::Image curr_state = curr_texture.copyToImage();
+			sf::Vector2i start = sf::Mouse::getPosition(artBoard);
+			sf::Color prevCol = curr_state.getPixel(start.x, start.y);
+
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
+			floodfill(start, curr_state, prevCol, artBoard);
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
 		}
 	}
 }

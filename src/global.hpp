@@ -52,7 +52,10 @@ void colorMixer_action(sf::Vector2i mouse_pos, bool pick);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
+void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, sf::RenderWindow& artBoard);
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius, sf::Color col);
 void rectangleConnect(sf::Vector2f newPos, sf::Vector2f lastPos, float radius, sf::Color col, int pos);
 void circleConnect(sf::Vector2f center, float radius, sf::Color col);

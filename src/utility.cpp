@@ -1,4 +1,5 @@
 #include "global.hpp"
+#include <queue>
 
 float pi = (float)acos(-1);
 
@@ -151,4 +152,47 @@ sf::VertexArray fillSquare(sf::Vector2f center, float radius, sf::Color col)
 	square.append(sf::Vertex(getCoordinates(sf::Vector2f(center.x - brushSize, center.y + brushSize)), col));
 
 	return square;
+}
+
+void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, sf::RenderWindow& artBoard)
+{
+	int x, y;
+	sf::Vector2i cur;
+
+	std::queue<sf::Vector2i> q;
+	std::map <std::pair<int, int>, bool> mp;
+
+	q.push(start);
+
+	while (!q.empty())
+	{
+		cur = q.front();
+		x = cur.x, y = cur.y;
+		q.pop();
+		//std::cout << x << " " << y << '\n';
+
+		if (mp.size() > 9e4 + 10)
+		{
+			bg_col = curr_col;
+			vertices[lines_number].clear();
+			break;
+		}
+
+		if (mp[{x, y}] == 1) {
+			continue;
+		}
+
+		mp[{x, y}] = 1;
+
+		if (x < 0 || x >= artBoardWidth || y < 0 || y >= artBoardHeight || curr_state.getPixel(x, y) != prevCol) {
+			vertices[lines_number].append(sf::Vertex(getCoordinates({ (float)x, (float)y }), curr_col));
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
+			continue;
+		}
+
+		q.push(sf::Vector2i{ x + 1,y });
+		q.push(sf::Vector2i{ x ,y + 1 });
+		q.push(sf::Vector2i{ x ,y - 1 });
+		q.push(sf::Vector2i{ x - 1,y });
+	}
 }
