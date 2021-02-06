@@ -116,6 +116,7 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 				if (!saved)
 				{
 					save(artBoard);
+					saved = true;
 				}
 				else
 				{

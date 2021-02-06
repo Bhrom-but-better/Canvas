@@ -130,9 +130,25 @@ int save(sf::RenderWindow& artBoard) {
 		}
 		bg_textField.setFillColor(sf::Color(200, 200, 200));
 
+
+
 		//handling saving
 		if (save)
 		{
+			artBoard.clear(sf::Color(60, 60, 60));
+			background.setFillColor(bg_col);
+			artBoard.draw(background);
+
+
+			if (bgImported)
+			{
+				artBoard.draw(sprt_importedBackground);
+			}
+
+			canvas_draw(artBoard);
+			artBoard.setView(vw);
+			artBoard.display();
+
 			sf::Texture texture;
 			texture.create(artBoard.getSize().x, artBoard.getSize().y);
 			texture.update(artBoard);

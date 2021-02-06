@@ -18,6 +18,9 @@ extern bool zoomSelected;
 extern bool zoomedIn;
 extern bool gradientSelected;
 extern bool bgImported;
+extern sf::RectangleShape background;
+extern sf::Sprite sprt_importedBackground;
+extern sf::View vw;
 
 extern bool mousePressedDown;
 extern bool last_cleared;

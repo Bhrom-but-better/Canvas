@@ -8,6 +8,9 @@ int artBoardHeight = 720; //temporary. untill prompting user for size
 
 sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 sf::View vw(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f), sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+sf::Sprite sprt_importedBackground;
+sf::RectangleShape background;
+
 int lines_number = 0;
 int undo_count = 0;
 bool last_cleared = false;
@@ -41,11 +44,10 @@ int main()
 	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	sf::Texture txtr_importedBackground;
-	sf::Sprite sprt_importedBackground;
 
 	artBoard.clear(bg_col);
 	float lastTime = 0;
-	sf::RectangleShape background(sf::Vector2f(artBoard.getSize()));
+	background.setSize(sf::Vector2f(artBoard.getSize()));
 	background.setPosition(0.f, 0.f);
 	background.setFillColor(bg_col);
 	background.setOutlineColor(sf::Color::Yellow);
@@ -143,7 +145,14 @@ int main()
 					saved = true;
 					if (save(artBoard) == -1) //if cancel is clicked
 						continue;
-					//artBoard.close();
+					artBoard.close();
+				}
+
+				if (evnt.key.code == sf::Keyboard::Key::S)
+				{
+					saved = true;
+					if (save(artBoard) == -1) //if cancel is clicked
+						continue;
 				}
 
 				if (evnt.key.code == sf::Keyboard::Key::C)
@@ -255,7 +264,6 @@ int main()
 		background.setFillColor(bg_col);
 		artBoard.draw(background);
 
-		menu_action(artBoard, evnt);
 
 		if (bgImported)
 		{
@@ -266,6 +274,8 @@ int main()
 
 		if (!zoomedIn)
 			init_menu(artBoard);
+
+		menu_action(artBoard, evnt);
 
 		artBoard.setView(vw);
 		artBoard.display();
