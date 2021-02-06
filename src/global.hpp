@@ -35,6 +35,7 @@ extern sf::Font font_arial;
 
 extern std::string fileLocation;
 
+extern sf::Vector2f pos_crcl_sizeSlider;
 extern float brushSize;
 extern float eraserSize;
 
@@ -48,7 +49,7 @@ void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius);
 void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void colorPalatte_action(sf::Vector2i mouse_pos);
-void colorMixer_action(sf::Vector2i mouse_pos, bool pick);
+sf::Color colorMixer_action(sf::Vector2i mouse_pos, sf::Color old_col);
 float brushSize_action(sf::Vector2i mouse_pos, float currentSize);
 void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
@@ -70,5 +71,6 @@ int normal_save(sf::RenderWindow& artBoard);
 bool open();
 std::string import();
 
+void init_artBoard(sf::RenderWindow& artBoard, sf::View& vw, sf::RectangleShape& background, sf::Sprite& sprt_importedBackground);
 void init_menu(sf::RenderWindow& artBoard);
 void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt);

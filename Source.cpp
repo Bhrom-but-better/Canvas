@@ -166,19 +166,33 @@ int main()
 					if (undo_count > 0)
 						--undo_count;
 				}
-				if (evnt.type == sf::Event::KeyPressed)
+
+				if (evnt.key.code == sf::Keyboard::Key::Period)
 				{
-					if (evnt.key.code == sf::Keyboard::Key::Period)
+					zoomCordX = (float)sf::Mouse::getPosition(artBoard).x;
+					zoomCordY = (float)sf::Mouse::getPosition(artBoard).y;
+					zoomSelected = true;
+					zoomedIn = true;
+				}
+				else if (evnt.key.code == sf::Keyboard::Comma)
+				{
+					zoomSelected = false;
+					zoomedIn = false;
+				}
+				if (evnt.key.code == sf::Keyboard::Key::LBracket)
+				{
+					if (brushSize > 1)
 					{
-						zoomCordX = (float)sf::Mouse::getPosition(artBoard).x;
-						zoomCordY = (float)sf::Mouse::getPosition(artBoard).y;
-						zoomSelected = true;
-						zoomedIn = true;
+						--pos_crcl_sizeSlider.x;
+						--brushSize;
 					}
-					else if (evnt.key.code == sf::Keyboard::Comma)
+				}
+				else if (evnt.key.code == sf::Keyboard::RBracket)
+				{
+					if (brushSize <= 30)
 					{
-						zoomSelected = false;
-						zoomedIn = false;
+						++pos_crcl_sizeSlider.x;
+						++brushSize;
 					}
 				}
 			}

@@ -28,7 +28,7 @@ sf::RectangleShape btn_bg_colorPickTool(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape btn_bg_gradient(sf::Vector2f(40.0f, 40.0f));
 sf::Texture icon_tools;
 
-sf::RectangleShape bar_sizeSlider(sf::Vector2f(80.0f, 3.0f));
+sf::RectangleShape bar_sizeSlider(sf::Vector2f(70.0f, 3.0f));
 sf::CircleShape crcl_sizeSlider(8.0f);
 sf::Vector2f pos_crcl_sizeSlider;
 sf::Font font_arial;
@@ -63,7 +63,7 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	btn_bg_colorPickTool.setPosition(0.0f, 80.0f);
 	btn_bg_gradient.setPosition(0.0f, 120.0f);
 
-	bar_sizeSlider.setPosition({ 6.0f, 179.0f });
+	bar_sizeSlider.setPosition({ 16.0f, 179.0f });
 	bar_sizeSlider.setFillColor(sf::Color(100, 100, 100));
 
 	pos_crcl_sizeSlider = { bar_sizeSlider.getPosition().x, bar_sizeSlider.getPosition().y - crcl_sizeSlider.getRadius() + 1.5f };
@@ -78,6 +78,11 @@ void init_toolbar(sf::Vector2i artBoardPos)
 	sprt_icon_toolbar.setTexture(icon_tools);
 
 	sprt_icon_toolbar.setScale(0.2f, 0.2f);
+}
+
+int map(int x, int in_min, int in_max, int out_min, int out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 void toolbar_action(sf::RenderWindow& artBoard)
@@ -272,13 +277,14 @@ void toolbar_action(sf::RenderWindow& artBoard)
 
 	if (sizeSliderSelected)
 	{
-		float x = sf::Mouse::getPosition(toolbar).x - crcl_sizeSlider.getRadius() / 2;
-		float sliderPos = (float)x - 5.0f;
-		if (x >= 6.0 && x < 86.0)
+		//float x = sf::Mouse::getPosition(toolbar).x - crcl_sizeSlider.getRadius();
+		float x = sf::Mouse::getPosition(toolbar).x;
+		float sliderPos = x - bar_sizeSlider.getPosition().x + 1.0f;
+		if (x >= bar_sizeSlider.getPosition().x && x < bar_sizeSlider.getPosition().x + bar_sizeSlider.getSize().x)
 		{
-			pos_crcl_sizeSlider.x = x;
-
-			brushSize = (int)sliderPos % 80;
+			pos_crcl_sizeSlider.x = x - 8.0f;
+			brushSize = map(sliderPos, 0, bar_sizeSlider.getSize().x, 1, 30);
+			//pos_crcl_sizeSlider.x = 6.0f + brushSize;
 			txt_sizeSlider.setString(std::to_string((int)brushSize));
 		}
 		crcl_sizeSlider.setPosition(pos_crcl_sizeSlider);
@@ -409,8 +415,11 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	}
 	if (colorMixerSelected)
 	{
-		colorMixer_action(sf::Mouse::getPosition(), true);
+		curr_col = colorMixer_action(sf::Mouse::getPosition(), curr_col);
 	}
+
+	crcl_sizeSlider.setPosition(pos_crcl_sizeSlider);
+	txt_sizeSlider.setString(std::to_string((int)brushSize));
 
 	toolbar.clear(sf::Color(70, 70, 70));
 

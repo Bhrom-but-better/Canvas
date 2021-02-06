@@ -16,7 +16,7 @@ bool saved = false;
 void init_menu(sf::RenderWindow& artBoard)
 {
 	bar.setSize(sf::Vector2f((float)artBoardWidth, 30.f));
-	bar.setPosition(0.f, 0.f);
+	bar.setPosition(0.0f, 0.0f);
 	bar.setFillColor(sf::Color(105, 105, 105));
 	artBoard.draw(bar);
 
@@ -134,7 +134,8 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			else if (menuMouseX >= 325 && menuMouseX < 504 && menuMouseY >= 0 && menuMouseY < 30)
 			{
 				//Change Background
-				colorMixer_action(sf::Mouse::getPosition(), false);
+				mousePressedDown = false;
+				bg_col = colorMixer_action(sf::Mouse::getPosition(), bg_col);
 			}
 			else if (menuMouseX >= 504 && menuMouseX < 555 && menuMouseY >= 0 && menuMouseY < 30)
 			{

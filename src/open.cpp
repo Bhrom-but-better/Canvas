@@ -148,8 +148,14 @@ bool open()
 					{
 						//import using windows
 						fileLocation = import();
-						fileLocation = "./art/" + fileLocation + ".png";
 						open_prompt.close();
+						if (fileLocation != "")
+						{
+							fileLocation = "./art/" + fileLocation + ".png";
+							closed = false;
+						}
+						else
+							closed = true;
 						return closed;
 					}
 					else
@@ -319,7 +325,6 @@ std::string import()
 	txt_import.setFillColor(sf::Color::White);
 
 	Textbox txt_location(font_arial, { btn_location.getPosition().x + 8.0f, btn_location.getPosition().y + 6.0f }, 14, sf::Color::White, 20, true);
-	//txt_height.setText(std::to_string(artBoardHeight));
 
 	sf::Vector2f pos_location = btn_location.getPosition();
 	float sizeX_location = btn_location.getSize().x;
