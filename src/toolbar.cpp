@@ -265,6 +265,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 
 					//changing size
 					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
@@ -282,6 +283,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					rectangleSelected = false;
 					lineSelected = false;
 					gradientSelected = false;
+					eyedropperSelected = false;
 
 					//changing size
 					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
@@ -290,13 +292,34 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				{
 					colorMixerSelected = true;
 				}
+
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 				{
-					//filledCircle = fillingOptions(sf::Mouse::getPosition());
+					circleSelected = circleSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					rectangleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+
+					filledCircle = fillingOptions(sf::Mouse::getPosition());
 				}
-				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 				{
-					//filledRectangle = fillingOptions(sf::Mouse::getPosition());
+					rectangleSelected = true;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+
+					filledRectangle = fillingOptions(sf::Mouse::getPosition());
 				}
 			}
 		}

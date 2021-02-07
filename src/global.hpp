@@ -60,7 +60,7 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt);
-//bool fillingOptions(sf::Vector2i mouse_pos);
+bool fillingOptions(sf::Vector2i mouse_pos);
 
 void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, sf::RenderWindow& artBoard);
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius, sf::Color col);

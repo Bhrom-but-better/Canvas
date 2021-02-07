@@ -273,6 +273,7 @@ sf::Color colorMixer_action(sf::Vector2i mouse_pos, sf::Color old_col)
 			if (evnt.type == sf::Event::Closed)
 			{
 				colorMixer.close();
+				return old_col;
 			}
 			else if (evnt.type == sf::Event::MouseButtonPressed)
 			{
@@ -419,6 +420,7 @@ sf::Color colorMixer_action(sf::Vector2i mouse_pos, sf::Color old_col)
 		colorMixer.draw(rect_currCol);
 		colorMixer.display();
 	}
+	return new_col;
 }
 
 void line_action(sf::RenderWindow& artBoard, sf::Event& evnt)
@@ -792,4 +794,76 @@ void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
 		}
 	}
+}
+bool fillingOptions(sf::Vector2i mouse_pos)
+{
+	int x, y;
+	bool fillStatus = false;
+
+	sf::RenderWindow win_shapeFillOption(sf::VideoMode(60, 40), "", sf::Style::None);
+	win_shapeFillOption.setPosition(mouse_pos);
+	sf::Event evnt;
+
+	sf::RectangleShape btn_bg_fill(sf::Vector2f(60.0f, 20.0f));
+	btn_bg_fill.setPosition(0.0f, 0.0f);
+	btn_bg_fill.setFillColor(sf::Color(70, 70, 70));
+	sf::RectangleShape btn_bg_noFill(sf::Vector2f(60.0f, 20.0f));
+	btn_bg_noFill.setPosition(0.0f, 20.0f);
+	btn_bg_noFill.setFillColor(sf::Color(70, 70, 70));
+
+	sf::Text txt_fill("Fill ", font_arial, 13);
+	txt_fill.setPosition({ btn_bg_fill.getPosition().x + 20.0f, btn_bg_fill.getPosition().y + 2.0f });
+	sf::Text txt_noFill("No Fill ", font_arial, 13);
+	txt_noFill.setPosition({ btn_bg_noFill.getPosition().x + 11.0f, btn_bg_noFill.getPosition().y + 2.0f });
+
+	while (win_shapeFillOption.isOpen())
+	{
+		x = sf::Mouse::getPosition(win_shapeFillOption).x;
+		y = sf::Mouse::getPosition(win_shapeFillOption).y;
+
+		if (x < 0 || y < 0 || x > 60 || y > 40)
+		{
+			win_shapeFillOption.close();
+			break;
+		}
+
+		while (win_shapeFillOption.pollEvent(evnt))
+		{
+			if (evnt.type == sf::Event::MouseButtonPressed)
+			{
+				if (evnt.mouseButton.button == sf::Mouse::Left)
+				{
+					if (x >= 0 && x < 60 && y >= 0 && y < 20)
+					{
+						fillStatus = true;
+					}
+					else if (x >= 0 && x < 60 && y >= 20 && y < 40)
+					{
+						fillStatus = false;
+					}
+					win_shapeFillOption.close();
+					return fillStatus;
+				}
+			}
+		}
+
+		if (x >= 0 && x < 60 && y >= 0 && y < 20)
+		{
+			btn_bg_fill.setFillColor(sf::Color(46, 46, 46));
+			btn_bg_noFill.setFillColor(sf::Color(70, 70, 70));
+		}
+		else if (x >= 0 && x < 60 && y >= 20 && y < 40)
+		{
+			btn_bg_fill.setFillColor(sf::Color(70, 70, 70));
+			btn_bg_noFill.setFillColor(sf::Color(46, 46, 46));
+		}
+
+		win_shapeFillOption.clear(sf::Color(50, 50, 50));
+		win_shapeFillOption.draw(btn_bg_fill);
+		win_shapeFillOption.draw(btn_bg_noFill);
+		win_shapeFillOption.draw(txt_fill);
+		win_shapeFillOption.draw(txt_noFill);
+		win_shapeFillOption.display();
+	}
+	return fillStatus;
 }
