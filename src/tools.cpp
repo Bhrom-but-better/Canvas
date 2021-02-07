@@ -420,6 +420,7 @@ sf::Color colorMixer_action(sf::Vector2i mouse_pos, sf::Color old_col)
 		colorMixer.draw(rect_currCol);
 		colorMixer.display();
 	}
+
 	return new_col;
 }
 
@@ -701,7 +702,14 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
-	sf::Color guide_col = curr_col;
+	sf::Color guide_col;
+	if (bg_col != sf::Color::White)
+	{
+		guide_col = sf::Color::White;
+	}
+	else
+		guide_col = sf::Color::Black;
+
 	guide_col.a = curr_col.a / 2;
 
 	if (evnt.type == sf::Event::MouseButtonPressed)
@@ -752,8 +760,17 @@ void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 	}
 	if (evnt.type == sf::Event::MouseButtonReleased)
 	{
+		sf::Vector2f pos0, pos1, pos2, pos3;
+		pos0 = first_position;
+		pos2 = (sf::Vector2f)sf::Mouse::getPosition(artBoard);
+		pos1.x = pos2.x; pos1.y = pos0.y;
+		pos3.x = pos0.x; pos3.y = pos2.y;
 		vertices[lines_number].clear();
 		vertices[lines_number].setPrimitiveType(sf::Quads);
+		vertices[lines_number].append(sf::Vertex(getCoordinates(pos0), curr_col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates(pos1), grad_col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates(pos2), grad_col));
+		vertices[lines_number].append(sf::Vertex(getCoordinates(pos3), curr_col));
 	}
 }
 
@@ -866,4 +883,20 @@ bool fillingOptions(sf::Vector2i mouse_pos)
 		win_shapeFillOption.display();
 	}
 	return fillStatus;
+}
+
+void eyedropper_action(sf::RenderWindow& artBoard, sf::Event& evnt)
+{
+	if (evnt.type == sf::Event::MouseButtonPressed)
+	{
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
+			sf::Texture curr_texture;
+			curr_texture.create(artBoard.getSize().x, artBoard.getSize().y);
+			curr_texture.update(artBoard);
+			sf::Image curr_state = curr_texture.copyToImage();
+			sf::Vector2i currPos = sf::Mouse::getPosition(artBoard);
+			curr_col = curr_state.getPixel(currPos.x, currPos.y);
+		}
+	}
 }

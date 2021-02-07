@@ -34,6 +34,7 @@ extern int artBoardWidth;
 extern int artBoardHeight;
 
 extern sf::Color curr_col;
+extern sf::Color grad_col;
 extern sf::Color bg_col;
 extern sf::Vector2i last_Mouse_pos;
 extern std::vector<sf::VertexArray> vertices;
@@ -63,6 +64,7 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt);
+void eyedropper_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 bool fillingOptions(sf::Vector2i mouse_pos);
 
 void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, sf::RenderWindow& artBoard);

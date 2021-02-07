@@ -321,6 +321,11 @@ void toolbar_action(sf::RenderWindow& artBoard)
 
 					filledRectangle = fillingOptions(sf::Mouse::getPosition());
 				}
+
+				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)
+				{
+					grad_col = colorMixer_action(sf::Mouse::getPosition(), grad_col);
+				}
 			}
 		}
 		else if (evnt.type == sf::Event::MouseButtonReleased)

@@ -26,6 +26,7 @@ float zoomCordX, zoomCordY;
 
 std::vector<sf::VertexArray> vertices;
 sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
+sf::Color grad_col = sf::Color::Black;
 sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
 sf::Vector2i last_Mouse_pos(0, 0);
 
@@ -220,6 +221,11 @@ int main()
 			{
 				gradient_action(artBoard, evnt);
 			}
+
+			if (eyedropperSelected)
+			{
+				eyedropper_action(artBoard, evnt);
+			}
 		}
 
 		artBoard.clear(sf::Color(60, 60, 60));
@@ -241,7 +247,6 @@ int main()
 
 		artBoard.setView(vw);
 		artBoard.display();
-		//std::cout << vertices.size() << " " << vertices[vertices.size() - 1].getVertexCount() << '\n';
 	}
 
 	return 0;
