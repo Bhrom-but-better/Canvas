@@ -566,6 +566,10 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 			vertices.push_back(sf::VertexArray(sf::TriangleStrip, 16));
 			lines_number++;
+			if (filledRectangle)
+			{
+				vertices[lines_number].setPrimitiveType(sf::Quads);
+			}
 			first_position = sf::Vector2f(sf::Mouse::getPosition(artBoard));
 			//vertices[lines_number][0] = sf::Vertex(getCoordinates((sf::Vector2f)sf::Mouse::getPosition(artBoard)), guide_col);
 			mousePressedDown = true;
@@ -581,29 +585,43 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			pos1.x = pos2.x; pos1.y = pos0.y;
 			pos3.x = pos0.x; pos3.y = pos2.y;
 
-			apos0.x = pos0.x - 2 * brushSize; apos0.y = pos0.y;
-			apos1.x = pos1.x; apos1.y = pos1.y + brushSize;
-			apos2.x = pos2.x; apos2.y = pos2.y + brushSize;
-			aapos2.x = pos2.x - 2 * brushSize, aapos2.y = pos2.y;
-			apos3.x = pos3.x - 2 * brushSize, apos3.y = pos3.y;
-			aapos3.x = pos3.x; aapos3.y = apos3.y - brushSize;
-			aapos0.x = pos0.x; aapos0.y = apos0.y + brushSize;
+			if (filledRectangle)
+			{
+				vertices[lines_number].clear();
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos0), guide_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos1), guide_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos2), guide_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos3), guide_col));
+			}
 
-			rectangleConnect(apos0, pos1, brushSize, guide_col, 0);
-			rectangleConnect(pos1, apos0, brushSize, guide_col, 1);
-			rectangleConnect(apos1, apos2, brushSize, guide_col, 2);
-			rectangleConnect(apos2, apos1, brushSize, guide_col, 3);
-			rectangleConnect(aapos2, apos3, brushSize, guide_col, 4);
-			rectangleConnect(apos3, aapos2, brushSize, guide_col, 5);
-			rectangleConnect(aapos3, aapos0, brushSize, guide_col, 6);
-			rectangleConnect(aapos0, aapos3, brushSize, guide_col, 7);
+			else if (!filledRectangle)
+			{
+				apos0.x = pos0.x - 2 * brushSize; apos0.y = pos0.y;
+				apos1.x = pos1.x; apos1.y = pos1.y + brushSize;
+				apos2.x = pos2.x; apos2.y = pos2.y + brushSize;
+				aapos2.x = pos2.x - 2 * brushSize, aapos2.y = pos2.y;
+				apos3.x = pos3.x - 2 * brushSize, apos3.y = pos3.y;
+				aapos3.x = pos3.x; aapos3.y = apos3.y - brushSize;
+				aapos0.x = pos0.x; aapos0.y = apos0.y + brushSize;
+
+				rectangleConnect(apos0, pos1, brushSize, guide_col, 0);
+				rectangleConnect(pos1, apos0, brushSize, guide_col, 1);
+				rectangleConnect(apos1, apos2, brushSize, guide_col, 2);
+				rectangleConnect(apos2, apos1, brushSize, guide_col, 3);
+				rectangleConnect(aapos2, apos3, brushSize, guide_col, 4);
+				rectangleConnect(apos3, aapos2, brushSize, guide_col, 5);
+				rectangleConnect(aapos3, aapos0, brushSize, guide_col, 6);
+				rectangleConnect(aapos0, aapos3, brushSize, guide_col, 7);
+			}
 
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
 	}
+
 	if (evnt.type == sf::Event::MouseButtonReleased)
 	{
-		if (evnt.mouseButton.button == sf::Mouse::Left) {
+		if (evnt.mouseButton.button == sf::Mouse::Left)
+		{
 			mousePressedDown = false;
 			last_Mouse_pos.x = 0;
 			last_Mouse_pos.y = 0;
@@ -612,22 +630,34 @@ void rectangle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			pos1.x = pos2.x; pos1.y = pos0.y;
 			pos3.x = pos0.x; pos3.y = pos2.y;
 
-			apos0.x = pos0.x - 2 * brushSize; apos0.y = pos0.y;
-			apos1.x = pos1.x; apos1.y = pos1.y + brushSize;
-			apos2.x = pos2.x; apos2.y = pos2.y + brushSize;
-			aapos2.x = pos2.x - 2 * brushSize, aapos2.y = pos2.y;
-			apos3.x = pos3.x - 2 * brushSize, apos3.y = pos3.y;
-			aapos3.x = pos3.x; aapos3.y = apos3.y - brushSize;
-			aapos0.x = pos0.x; aapos0.y = apos0.y + brushSize;
+			if (filledRectangle)
+			{
+				vertices[lines_number].clear();
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos0), curr_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos1), curr_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos2), curr_col));
+				vertices[lines_number].append(sf::Vertex(getCoordinates(pos3), curr_col));
+			}
 
-			rectangleConnect(apos0, pos1, brushSize, curr_col, 0);
-			rectangleConnect(pos1, apos0, brushSize, curr_col, 1);
-			rectangleConnect(apos1, apos2, brushSize, curr_col, 2);
-			rectangleConnect(apos2, apos1, brushSize, curr_col, 3);
-			rectangleConnect(aapos2, apos3, brushSize, curr_col, 4);
-			rectangleConnect(apos3, aapos2, brushSize, curr_col, 5);
-			rectangleConnect(aapos3, aapos0, brushSize, curr_col, 6);
-			rectangleConnect(aapos0, aapos3, brushSize, curr_col, 7);
+			else if (!filledRectangle)
+			{
+				apos0.x = pos0.x - 2 * brushSize; apos0.y = pos0.y;
+				apos1.x = pos1.x; apos1.y = pos1.y + brushSize;
+				apos2.x = pos2.x; apos2.y = pos2.y + brushSize;
+				aapos2.x = pos2.x - 2 * brushSize, aapos2.y = pos2.y;
+				apos3.x = pos3.x - 2 * brushSize, apos3.y = pos3.y;
+				aapos3.x = pos3.x; aapos3.y = apos3.y - brushSize;
+				aapos0.x = pos0.x; aapos0.y = apos0.y + brushSize;
+
+				rectangleConnect(apos0, pos1, brushSize, curr_col, 0);
+				rectangleConnect(pos1, apos0, brushSize, curr_col, 1);
+				rectangleConnect(apos1, apos2, brushSize, curr_col, 2);
+				rectangleConnect(apos2, apos1, brushSize, curr_col, 3);
+				rectangleConnect(aapos2, apos3, brushSize, curr_col, 4);
+				rectangleConnect(apos3, aapos2, brushSize, curr_col, 5);
+				rectangleConnect(aapos3, aapos0, brushSize, curr_col, 6);
+				rectangleConnect(aapos0, aapos3, brushSize, curr_col, 7);
+			}
 		}
 	}
 }
@@ -658,13 +688,17 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 
 			vertices.push_back(sf::VertexArray(sf::TriangleStrip));
 			lines_number++;
+
 			firstPoint = sf::Vector2f(sf::Mouse::getPosition(artBoard));
+
+			if (filledCircle)
+			{
+				vertices[lines_number].setPrimitiveType(sf::TrianglesFan);
+			}
 			//firstPoint = getCoordinates(firstPoint);
 			mousePressedDown = true;
 		}
 	}
-
-	vertices[lines_number].setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 
 	if (mousePressedDown)
 	{
@@ -677,6 +711,9 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			center.x = firstPoint.x + 0.5f * (curr_pos.x - firstPoint.x);
 			center.y = firstPoint.y + 0.5f * (curr_pos.y - firstPoint.y);
 			//center = getCoordinates(center);
+			vertices[lines_number].clear();
+			if (filledCircle)
+				vertices[lines_number].append(sf::Vertex(getCoordinates(center), guide_col));
 			circleConnect(center, radius, guide_col);
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
@@ -695,6 +732,9 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			center.x = firstPoint.x + 0.5f * (curr_pos.x - firstPoint.x);
 			center.y = firstPoint.y + 0.5f * (curr_pos.y - firstPoint.y);
 			//center = getCoordinates(center);
+			vertices[lines_number].clear();
+			if (filledCircle)
+				vertices[lines_number].append(sf::Vertex(getCoordinates(firstPoint), curr_col));
 			circleConnect(center, radius, curr_col);
 		}
 	}
@@ -703,6 +743,7 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 {
 	sf::Color guide_col;
+
 	if (bg_col != sf::Color::White)
 	{
 		guide_col = sf::Color::White;

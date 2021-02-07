@@ -105,7 +105,7 @@ void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 	//std::cout << center.x << " " << center.y << '\n';
 	int points = (int)ceil(radius * 10);
 	float degInc = 2 * pi / points;
-	vertices[lines_number].clear();
+
 	for (float degree = 0; degree < 2 * pi; degree += degInc) {
 		float circle_x = radius * cos(degree);
 		float circle_y = radius * sin(degree);
@@ -113,16 +113,34 @@ void circleConnect(sf::Vector2f center, float radius, sf::Color col)
 		point.x = center.x + circle_x;
 		point.y = center.y + circle_y;
 		newPos = (sf::Vector2i)point;
+
 		if (degree == 0)
 			firstPos = newPos;
-		else {
-			brushConnect(newPos, oldPos, brushSize, col);
-			brushConnect(oldPos, newPos, brushSize, col);
+
+		if (filledCircle)
+		{
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)newPos), col));
 		}
-		oldPos = newPos;
+
+		else
+		{
+			if (degree != 0) {
+				brushConnect(newPos, oldPos, brushSize, col);
+				brushConnect(oldPos, newPos, brushSize, col);
+			}
+			oldPos = newPos;
+		}
 	}
 
-	brushConnect(oldPos, firstPos, brushSize, col);
+	if (!filledCircle)
+	{
+		brushConnect(oldPos, firstPos, brushSize, col);
+	}
+
+	else
+	{
+		vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)firstPos), col));
+	}
 }
 
 sf::Vector2f getCoordinates(sf::Vector2f oldCord)

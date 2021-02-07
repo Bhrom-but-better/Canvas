@@ -295,7 +295,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 
 				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 				{
-					circleSelected = circleSelected ? 0 : 1;
+					circleSelected = true;
 					penSelected = false;
 					brushSelected = false;
 					eraserSelected = false;
