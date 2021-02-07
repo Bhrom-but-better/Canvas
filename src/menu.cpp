@@ -141,7 +141,10 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			else if (menuMouseX >= 504 && menuMouseX < 555 && menuMouseY >= 0 && menuMouseY < 30)
 			{
 				//Exit
-				artBoard.close();
+				if (save(artBoard) != -1)
+				{
+					artBoard.close();
+				}
 			}
 		}
 	}

@@ -13,6 +13,8 @@ bool zoomSelected = false;
 bool gradientSelected = false;
 bool sizeSliderSelected = false;
 bool eyedropperSelected = false;
+bool filledCircle = false;
+bool filledRectangle = false;
 
 int toolbarMouseX, toolbarMouseY;
 
@@ -266,7 +268,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 
 					//changing size
 					brushSize = brushSize_action(sf::Mouse::getPosition(), brushSize);
-					std::cout << "brush size: " << brushSize * 2 << "\n";
+					//std::cout << "brush size: " << brushSize * 2 << "\n";
 				}
 				//handle eraser aize
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 0 && toolbarMouseY < 40)
@@ -287,6 +289,14 @@ void toolbar_action(sf::RenderWindow& artBoard)
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 80 && toolbarMouseY < 120)
 				{
 					colorMixerSelected = true;
+				}
+				else if (toolbarMouseX >= 40 && toolbarMouseX < 80 && toolbarMouseY >= 40 && toolbarMouseY < 80)
+				{
+					//filledCircle = fillingOptions(sf::Mouse::getPosition());
+				}
+				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 80 && toolbarMouseY < 120)
+				{
+					//filledRectangle = fillingOptions(sf::Mouse::getPosition());
 				}
 			}
 		}

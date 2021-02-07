@@ -133,6 +133,11 @@ int save(sf::RenderWindow& artBoard) {
 		//handling saving
 		if (save)
 		{
+			zoomedIn = false;
+			zoomSelected = false;
+			vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
+			vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+
 			artBoard.clear(sf::Color(60, 60, 60));
 			background.setFillColor(bg_col);
 			artBoard.draw(background);
@@ -141,10 +146,8 @@ int save(sf::RenderWindow& artBoard) {
 			{
 				artBoard.draw(sprt_importedBackground);
 			}
-
-			canvas_draw(artBoard);
 			artBoard.setView(vw);
-			artBoard.display();
+			canvas_draw(artBoard);
 
 			sf::Texture texture;
 			texture.create(artBoard.getSize().x, artBoard.getSize().y);
@@ -152,7 +155,7 @@ int save(sf::RenderWindow& artBoard) {
 			save_location = "./art/" + text.str() + ".png";
 			if (texture.copyToImage().saveToFile(save_location))
 			{
-				std::cout << "Art saved to " << text.str() + ".png" << std::endl;
+				//std::cout << "Art saved to " << text.str() + ".png" << std::endl;
 				save_prompt.close();
 				return 0;
 			}
@@ -177,6 +180,21 @@ int save(sf::RenderWindow& artBoard) {
 
 int normal_save(sf::RenderWindow& artBoard)
 {
+	zoomedIn = false;
+	zoomSelected = false;
+	vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
+	vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+
+	artBoard.clear(sf::Color(60, 60, 60));
+	background.setFillColor(bg_col);
+	artBoard.draw(background);
+	if (bgImported)
+	{
+		artBoard.draw(sprt_importedBackground);
+	}
+	artBoard.setView(vw);
+	canvas_draw(artBoard);
+
 	sf::Texture texture;
 	texture.create(artBoard.getSize().x, artBoard.getSize().y);
 	texture.update(artBoard);

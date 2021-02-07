@@ -171,9 +171,9 @@ void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color&
 		q.pop();
 		//std::cout << x << " " << y << '\n';
 
-		if (mp.size() > 9e4 + 10)
+		if (mp.size() > 9e5 + 10)
 		{
-			bg_col = curr_col;
+			//bg_col = curr_col;
 			vertices[lines_number].clear();
 			break;
 		}
@@ -185,8 +185,8 @@ void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color&
 		mp[{x, y}] = 1;
 
 		if (x < 0 || x >= artBoardWidth || y < 0 || y >= artBoardHeight || curr_state.getPixel(x, y) != prevCol) {
-			vertices[lines_number].append(sf::Vertex(getCoordinates({ (float)x, (float)y }), curr_col));
 			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
+			vertices[lines_number].append(sf::Vertex(getCoordinates({ (float)x, (float)y }), curr_col));
 			continue;
 		}
 

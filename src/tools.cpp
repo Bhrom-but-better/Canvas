@@ -786,7 +786,9 @@ void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			sf::Color prevCol = curr_state.getPixel(start.x, start.y);
 
 			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
 			floodfill(start, curr_state, prevCol, artBoard);
+			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
 			vertices[lines_number].append(sf::Vertex(getCoordinates((sf::Vector2f)start), curr_col));
 		}
 	}
