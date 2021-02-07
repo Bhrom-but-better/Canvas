@@ -104,11 +104,22 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 			if (menuMouseX >= 0 && menuMouseX < 125 && menuMouseY >= 0 && menuMouseY < 30)
 			{
 				//Create New
-				open();
+				if (!open())
+				{
+					init_artBoard();
+				}
+				mousePressedDown = false;
 			}
 			else if (menuMouseX >= 125 && menuMouseX < 184 && menuMouseY >= 0 && menuMouseY < 30)
 			{
 				//Open
+				fileLocation = import();
+				if (fileLocation != "")
+				{
+					fileLocation = "./art/" + fileLocation + ".png";
+					init_artBoard();
+				}
+				mousePressedDown = false;
 			}
 			else if (menuMouseX >= 184 && menuMouseX < 245 && menuMouseY >= 0 && menuMouseY < 30)
 			{
@@ -125,12 +136,14 @@ void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 						std::cout << "Failed to save!\n";
 					}
 				}
+				mousePressedDown = false;
 			}
 			else if (menuMouseX >= 245 && menuMouseX < 325 && menuMouseY >= 0 && menuMouseY < 30)
 			{
 				//Save as
 				saved = true;
 				save(artBoard);
+				mousePressedDown = false;
 			}
 			else if (menuMouseX >= 325 && menuMouseX < 504 && menuMouseY >= 0 && menuMouseY < 30)
 			{

@@ -8,6 +8,7 @@ int artBoardHeight = 720; //temporary. untill prompting user for size
 
 sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 sf::View vw(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f), sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+sf::Texture txtr_importedBackground;
 sf::Sprite sprt_importedBackground;
 sf::RectangleShape background;
 
@@ -41,8 +42,6 @@ int main()
 	sf::Image icon;
 	icon.loadFromFile("./Resources/img/canvasIcon.png");
 	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-
-	sf::Texture txtr_importedBackground;
 
 	artBoard.clear(bg_col);
 	float lastTime = 0;
@@ -100,43 +99,7 @@ int main()
 				{
 					if (!open())
 					{
-						if (fileLocation != "")
-						{
-							if (txtr_importedBackground.loadFromFile(fileLocation))
-							{
-								bgImported = true;
-							}
-							sprt_importedBackground.setTexture(txtr_importedBackground);
-							artBoardWidth = txtr_importedBackground.getSize().x;
-							artBoardHeight = txtr_importedBackground.getSize().y;
-						}
-						artBoard.setSize(sf::Vector2u(artBoardWidth, artBoardHeight));
-						vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
-						vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
-						lines_number = 0;
-						undo_count = 0;
-						last_cleared = false;
-						mousePressedDown = false;
-						zoomedIn = false;
-						penSelected = false;
-						brushSelected = false;
-						eraserSelected = false;
-						fillSelected = false;
-						circleSelected = false;
-						rectangleSelected = false;
-						colorPalatteSelected = false;
-						colorMixerSelected = false;
-						lineSelected = false;
-						zoomSelected = false;
-						gradientSelected = false;
-						eyedropperSelected = false;
-						fileLocation = "";
-						brushSize = 3.0;
-						vertices.clear();
-						vertices.push_back(sf::VertexArray());
-						vertices[0].setPrimitiveType(sf::LineStrip);
-						background.setSize(sf::Vector2f(artBoard.getSize()));
-						background.setFillColor(bg_col);
+						init_artBoard();
 					}
 				}
 				if (evnt.key.code == sf::Keyboard::Key::Q)
@@ -192,7 +155,7 @@ int main()
 					if (brushSize > 1)
 					{
 						--brushSize;
-						pos_crcl_sizeSlider.x = (float)map(brushSize, 1, 30, 16, 70);
+						pos_crcl_sizeSlider.x = (float)map((int)brushSize, 1, 30, 16, 70);
 					}
 				}
 				else if (evnt.key.code == sf::Keyboard::RBracket)
@@ -200,7 +163,7 @@ int main()
 					if (brushSize <= 30)
 					{
 						++brushSize;
-						pos_crcl_sizeSlider.x = (float)map(brushSize, 1, 30, 16, 70);
+						pos_crcl_sizeSlider.x = (float)map((int)brushSize, 1, 30, 16, 70);
 					}
 				}
 			}
@@ -271,9 +234,10 @@ int main()
 		canvas_draw(artBoard);
 
 		if (!zoomedIn)
+		{
 			init_menu(artBoard);
-
-		menu_action(artBoard, evnt);
+			menu_action(artBoard, evnt);
+		}
 
 		artBoard.setView(vw);
 		artBoard.display();

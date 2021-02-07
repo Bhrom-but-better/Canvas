@@ -335,12 +335,12 @@ void toolbar_action(sf::RenderWindow& artBoard)
 	if (sizeSliderSelected)
 	{
 		//float x = sf::Mouse::getPosition(toolbar).x - crcl_sizeSlider.getRadius();
-		float x = sf::Mouse::getPosition(toolbar).x;
+		float x = (float)sf::Mouse::getPosition(toolbar).x;
 		float sliderPos = x - bar_sizeSlider.getPosition().x + 1.0f;
 		if (x >= bar_sizeSlider.getPosition().x && x < bar_sizeSlider.getPosition().x + bar_sizeSlider.getSize().x)
 		{
 			pos_crcl_sizeSlider.x = x - 8.0f;
-			brushSize = map(sliderPos, 0, bar_sizeSlider.getSize().x, 1, 30);
+			brushSize = (float)map((int)sliderPos, 0, (int)bar_sizeSlider.getSize().x, 1, 30);
 			//pos_crcl_sizeSlider.x = 6.0f + brushSize;
 			txt_sizeSlider.setString(std::to_string((int)brushSize));
 		}

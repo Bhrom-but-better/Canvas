@@ -196,3 +196,43 @@ void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color&
 		q.push(sf::Vector2i{ x - 1,y });
 	}
 }
+void init_artBoard()
+{
+	if (fileLocation != "")
+	{
+		if (txtr_importedBackground.loadFromFile(fileLocation))
+		{
+			bgImported = true;
+		}
+		sprt_importedBackground.setTexture(txtr_importedBackground);
+		artBoardWidth = txtr_importedBackground.getSize().x;
+		artBoardHeight = txtr_importedBackground.getSize().y;
+	}
+	artBoard.setSize(sf::Vector2u(artBoardWidth, artBoardHeight));
+	vw.setCenter(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f));
+	vw.setSize(sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
+	lines_number = 0;
+	undo_count = 0;
+	last_cleared = false;
+	mousePressedDown = false;
+	zoomedIn = false;
+	penSelected = false;
+	brushSelected = false;
+	eraserSelected = false;
+	fillSelected = false;
+	circleSelected = false;
+	rectangleSelected = false;
+	colorPalatteSelected = false;
+	colorMixerSelected = false;
+	lineSelected = false;
+	zoomSelected = false;
+	gradientSelected = false;
+	eyedropperSelected = false;
+	fileLocation = "";
+	brushSize = 3.0;
+	vertices.clear();
+	vertices.push_back(sf::VertexArray());
+	vertices[0].setPrimitiveType(sf::LineStrip);
+	background.setSize(sf::Vector2f(artBoard.getSize()));
+	background.setFillColor(bg_col);
+}

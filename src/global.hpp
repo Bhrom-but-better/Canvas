@@ -22,6 +22,7 @@ extern bool bgImported;
 extern bool filledCircle;
 extern bool filledRectangle;
 extern sf::RectangleShape background;
+extern sf::Texture txtr_importedBackground;
 extern sf::Sprite sprt_importedBackground;
 extern sf::View vw;
 
@@ -50,6 +51,8 @@ extern float zoomCordY;
 void init_toolbar(sf::Vector2i artBoardPos);
 void toolbar_action(sf::RenderWindow& artBoard);
 
+extern sf::RenderWindow artBoard;
+
 void pen_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void brush_action(sf::RenderWindow& artBoard, sf::Event& evnt, float radius);
 void line_action(sf::RenderWindow& artBoard, sf::Event& evnt);
@@ -77,7 +80,7 @@ int normal_save(sf::RenderWindow& artBoard);
 bool open();
 std::string import();
 
-void init_artBoard(sf::RenderWindow& artBoard, sf::View& vw, sf::RectangleShape& background, sf::Sprite& sprt_importedBackground);
+void init_artBoard();
 void init_menu(sf::RenderWindow& artBoard);
 void menu_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 
