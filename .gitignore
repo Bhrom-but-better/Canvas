@@ -317,6 +317,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+*.o
 
 # OpenCover UI analysis results
 OpenCover/
@@ -338,3 +339,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+Program
