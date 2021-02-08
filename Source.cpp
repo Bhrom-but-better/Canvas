@@ -1,6 +1,6 @@
 ﻿#include "SFML/Graphics.hpp"
 #include "src/global.hpp"
-#include <Windows.h>
+// #include <Windows.h>
 #include <iostream>
 
 int artBoardWidth = 1080;

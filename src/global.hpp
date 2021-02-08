@@ -1,6 +1,12 @@
 #pragma once
 #include <iostream>
+#ifdef __linux__
+#include <SFML/Graphics.hpp>
+#else
 #include "SFML\Graphics.hpp"
+#endif
+
+#include <cmath>
 
 extern bool saved;
 
