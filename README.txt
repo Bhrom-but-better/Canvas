@@ -7,6 +7,13 @@ S: Save
 C: Clear
 Z: Undo
 X: Redo
+P: Pen
+B: Brush
+E: Eraser
+L: Line
+C: Circle (Stroke or Fill)
+R: Rectangle
+Escape: De-select any selected tool
 Period( . ): Zoom in
 Comma( , ): Zoom out
 Left Bracket( [ ): brush size up 
