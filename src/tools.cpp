@@ -794,8 +794,8 @@ void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 	{
 		if (last_Mouse_pos != sf::Mouse::getPosition(artBoard))
 		{
-			rectangleConnect((sf::Vector2f)sf::Mouse::getPosition(artBoard), first_position, brushSize, guide_col, 0);
-			rectangleConnect(first_position, (sf::Vector2f)sf::Mouse::getPosition(artBoard), brushSize, guide_col, 1);
+			rectangleConnect((sf::Vector2f)sf::Mouse::getPosition(artBoard), first_position, 1.0f, guide_col, 0);
+			rectangleConnect(first_position, (sf::Vector2f)sf::Mouse::getPosition(artBoard), 1.0f, guide_col, 1);
 			last_Mouse_pos = sf::Mouse::getPosition();
 		}
 	}

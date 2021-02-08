@@ -3,8 +3,8 @@
 #include <Windows.h>
 #include <iostream>
 
-int artBoardWidth = 1280; //temporary. untill prompting user for size
-int artBoardHeight = 720; //temporary. untill prompting user for size
+int artBoardWidth = 1080;
+int artBoardHeight = 720;
 
 sf::RenderWindow artBoard(sf::VideoMode(artBoardWidth, artBoardHeight), "Canvas", sf::Style::Close, sf::ContextSettings(0, 0, 0));
 sf::View vw(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.0f), sf::Vector2f((float)artBoardWidth, (float)artBoardHeight));
@@ -25,9 +25,9 @@ float brushSize = 2.0;
 float zoomCordX, zoomCordY;
 
 std::vector<sf::VertexArray> vertices;
-sf::Color curr_col = sf::Color::White; //temporary. untill prompting user for input
+sf::Color curr_col = sf::Color::White;
 sf::Color grad_col = sf::Color::Black;
-sf::Color bg_col = sf::Color::Black; //temporary. untill prompting user for input
+sf::Color bg_col = sf::Color::Black;
 sf::Vector2i last_Mouse_pos(0, 0);
 
 int main()
@@ -137,6 +137,97 @@ int main()
 				{
 					if (undo_count > 0)
 						--undo_count;
+				}
+				//pentool selection
+				if (evnt.key.code == sf::Keyboard::Key::P)
+				{
+					penSelected = penSelected ? 0 : 1;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					rectangleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//brushtool selection
+				else if (evnt.key.code == sf::Keyboard::Key::B)
+				{
+					brushSelected = brushSelected ? 0 : 1;
+					penSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					rectangleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//erasertool selection
+				else if (evnt.key.code == sf::Keyboard::Key::E)
+				{
+					eraserSelected = eraserSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					rectangleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//linetool selection
+				else if (evnt.key.code == sf::Keyboard::Key::L)
+				{
+					lineSelected = lineSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					rectangleSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//circletool selection
+				else if (evnt.key.code == sf::Keyboard::Key::C)
+				{
+					circleSelected = circleSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					rectangleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//rectangletool selection
+				else if (evnt.key.code == sf::Keyboard::Key::R)
+				{
+					rectangleSelected = rectangleSelected ? 0 : 1;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
+				}
+				//de-select if any tool is selected
+				else if (evnt.key.code == sf::Keyboard::Key::Escape)
+				{
+					rectangleSelected = false;
+					penSelected = false;
+					brushSelected = false;
+					eraserSelected = false;
+					fillSelected = false;
+					circleSelected = false;
+					lineSelected = false;
+					gradientSelected = false;
+					eyedropperSelected = false;
 				}
 
 				if (evnt.key.code == sf::Keyboard::Key::Period)
