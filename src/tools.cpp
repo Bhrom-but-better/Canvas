@@ -853,10 +853,9 @@ void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt)
 		}
 	}
 }
-bool fillingOptions(sf::Vector2i mouse_pos)
+bool fillingOptions(sf::Vector2i mouse_pos, bool fillStatus)
 {
 	int x, y;
-	bool fillStatus = false;
 
 	sf::RenderWindow win_shapeFillOption(sf::VideoMode(60, 40), "", sf::Style::None);
 	win_shapeFillOption.setPosition(mouse_pos);
@@ -905,7 +904,7 @@ bool fillingOptions(sf::Vector2i mouse_pos)
 			}
 		}
 
-		if (x >= 0 && x < 60 && y >= 0 && y < 20)
+		/*if (x >= 0 && x < 60 && y >= 0 && y < 20)
 		{
 			btn_bg_fill.setFillColor(sf::Color(46, 46, 46));
 			btn_bg_noFill.setFillColor(sf::Color(70, 70, 70));
@@ -914,6 +913,32 @@ bool fillingOptions(sf::Vector2i mouse_pos)
 		{
 			btn_bg_fill.setFillColor(sf::Color(70, 70, 70));
 			btn_bg_noFill.setFillColor(sf::Color(46, 46, 46));
+		}*/
+
+		if (fillStatus)
+		{
+			btn_bg_fill.setFillColor(sf::Color(46, 46, 46));
+		}
+		else if (!fillStatus && x >= 0 && x < 60 && y >= 0 && y < 20)
+		{
+			btn_bg_fill.setFillColor(sf::Color(60, 60, 60));
+		}
+		else
+		{
+			btn_bg_fill.setFillColor(sf::Color(70, 70, 70));
+		}
+
+		if (!fillStatus)
+		{
+			btn_bg_noFill.setFillColor(sf::Color(46, 46, 46));
+		}
+		else if (fillStatus && x >= 0 && x < 60 && y >= 20 && y < 40)
+		{
+			btn_bg_noFill.setFillColor(sf::Color(60, 60, 60));
+		}
+		else
+		{
+			btn_bg_noFill.setFillColor(sf::Color(70, 70, 70));
 		}
 
 		win_shapeFillOption.clear(sf::Color(50, 50, 50));

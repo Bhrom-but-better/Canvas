@@ -31,6 +31,7 @@ extern sf::RectangleShape background;
 extern sf::Texture txtr_importedBackground;
 extern sf::Sprite sprt_importedBackground;
 extern sf::View vw;
+extern sf::Image icon;
 
 extern bool mousePressedDown;
 extern bool last_cleared;
@@ -71,7 +72,7 @@ void circle_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void gradient_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void fill_action(sf::RenderWindow& artBoard, sf::Event& evnt);
 void eyedropper_action(sf::RenderWindow& artBoard, sf::Event& evnt);
-bool fillingOptions(sf::Vector2i mouse_pos);
+bool fillingOptions(sf::Vector2i mouse_pos, bool fillStatus);
 
 void floodfill(sf::Vector2i start, const sf::Image& curr_state, const sf::Color& prevCol, sf::RenderWindow& artBoard);
 void brushConnect(sf::Vector2i newPos, sf::Vector2i lastPos, float radius, sf::Color col);

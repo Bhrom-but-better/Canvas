@@ -305,7 +305,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					gradientSelected = false;
 					eyedropperSelected = false;
 
-					filledCircle = fillingOptions(sf::Mouse::getPosition());
+					filledCircle = fillingOptions(sf::Mouse::getPosition(), filledCircle);
 				}
 				else if (toolbarMouseX >= 80 && toolbarMouseX < 120 && toolbarMouseY >= 40 && toolbarMouseY < 80)
 				{
@@ -319,7 +319,7 @@ void toolbar_action(sf::RenderWindow& artBoard)
 					gradientSelected = false;
 					eyedropperSelected = false;
 
-					filledRectangle = fillingOptions(sf::Mouse::getPosition());
+					filledRectangle = fillingOptions(sf::Mouse::getPosition(), filledRectangle);
 				}
 
 				else if (toolbarMouseX >= 0 && toolbarMouseX < 40 && toolbarMouseY >= 120 && toolbarMouseY < 160)

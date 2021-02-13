@@ -1,7 +1,4 @@
-﻿#include "SFML/Graphics.hpp"
-#include "src/global.hpp"
-// #include <Windows.h>
-#include <iostream>
+﻿#include "src/global.hpp"
 
 int artBoardWidth = 1080;
 int artBoardHeight = 720;
@@ -11,6 +8,7 @@ sf::View vw(sf::Vector2f((float)artBoardWidth / 2.0f, (float)artBoardHeight / 2.
 sf::Texture txtr_importedBackground;
 sf::Sprite sprt_importedBackground;
 sf::RectangleShape background;
+sf::Image icon;
 
 int lines_number = 0;
 int undo_count = 0;
@@ -40,7 +38,6 @@ int main()
 	artBoard.setFramerateLimit(60);
 	artBoard.setVerticalSyncEnabled(false);
 
-	sf::Image icon;
 	icon.loadFromFile("./Resources/img/canvasIcon.png");
 	artBoard.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
@@ -187,19 +184,6 @@ int main()
 					fillSelected = false;
 					circleSelected = false;
 					rectangleSelected = false;
-					gradientSelected = false;
-					eyedropperSelected = false;
-				}
-				//circletool selection
-				else if (evnt.key.code == sf::Keyboard::Key::C)
-				{
-					circleSelected = circleSelected ? 0 : 1;
-					penSelected = false;
-					brushSelected = false;
-					eraserSelected = false;
-					fillSelected = false;
-					rectangleSelected = false;
-					lineSelected = false;
 					gradientSelected = false;
 					eyedropperSelected = false;
 				}

@@ -12,8 +12,6 @@ bool open()
 	sf::RenderWindow open_prompt{ {720, 480}, "Welcome to Canvas" };
 	open_prompt.setVerticalSyncEnabled(true);
 
-	sf::Image icon;
-	icon.loadFromFile("./Resources/img/canvasIcon.png");
 	open_prompt.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	sf::Font font1;
