@@ -1,6 +1,6 @@
 # CANVAS - An Image Manipulation Program
 
-Built as our CSE-4202 project by
+Built as our project for CSE-4202 at Islamic University of Technology by,
 
 Alif Arshad Bakshi
 
@@ -10,8 +10,6 @@ Reaz Hassan Joarder
 
 
 
-
-Islamic University of Technology
 
 # KEYBOARD SHORTCUTS:
 
