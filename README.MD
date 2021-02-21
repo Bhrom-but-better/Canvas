@@ -1,6 +1,12 @@
 # CANVAS - An Image Manipulation Program
 
-Built as our project for CSE-4202 at Islamic University of Technology by,
+  Canvas is a drawing program written and developed using C++ and the SFML library. It was built in Visual Studio and runs on both Windows and Linux based operating systems. 
+
+
+  The program features a full suite of painting tools including Pen, Brush, Eraser, Line, Circle, Rectangle, Zoom, Bucket Fill, Eyedropper, Gradient etc. and is flexible in terms of color selection and stroke size. The program itself, the tools, and the UI was built to be simple, intuitive, and visually appealing to the artist.
+
+
+  Built as our project for CSE-4202 at Islamic University of Technology by,
 
 Alif Arshad Bakshi
 
