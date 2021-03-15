@@ -83,7 +83,7 @@ Color Mixer
 
 - For debian based sytem like ubuntu/mint
 
-`sudo apt isntall libsfml-dev`
+`sudo apt install libsfml-dev`
 
 - Running the build script
 
